@@ -2,7 +2,7 @@
 
 ## Source issues
 
-- **Feat**: Build - Homebrew support in search path
+- **Feat**: Build - Homebrew support in search path _(in progress)_
   - https://github.com/php-gnupg/php-gnupg/issues/42 - PHP 8.0 Mac Apple Silicon - configure: error: Please reinstall the gpgme distribution
   - https://github.com/php-gnupg/php-gnupg/pull/43 - Add /opt/homebrew to the configuration SEARCH_PATH (my pr)
 - **Feat**: CI - Add GitHub actions CI for running tests with multiple gpg and PHP versions
@@ -19,6 +19,8 @@
   - https://github.com/php-gnupg/php-gnupg/pull/12 - Adding messagekeys($enctext) method which returns recipient info
 - **Feat**: verify - look to some more descriptive status
   - https://github.com/php-gnupg/php-gnupg/issues/19 - Improve status on gnupg_verify function result
+- **Feat**: core - Replace resource with object
+- **Feat**: core - Use snake case for object method names
 - **Feat**: Build - static extension compilation
   - https://bugs.php.net/bug.php?id=73509 - static extension compilation problem
 - **Feat**: Build - Windows try to get gpg4win to work with PHP build (message to mailing list)
@@ -28,12 +30,25 @@
 
 - https://github.com/php-gnupg/php-gnupg/issues/39 - How can i install php-gnupg extension?
 - https://github.com/php-gnupg/php-gnupg/issues/31 - Can't get php-gnupg to work
+- https://github.com/php-gnupg/php-gnupg/issues/42 - PHP 8.0 Mac Apple Silicon - configure: error: Please reinstall the gpgme distribution
 
 ## Docs
 
-- init - update params docs
-  - https://github.com/php-gnupg/php-gnupg/issues/11 - gpg_import fails with "import failed"
-  - https://github.com/php-gnupg/php-gnupg/issues/18 - gnupg_verify does not verify clearsign messages
-- geterrorinfo - add docs
-- crypt - better docs for ways how to choose recipients in encrypt
+- **Docs**: Document `gnupg_deletekey`
+- **Docs**: Document `gnupg_gettrustlist`
+- **Docs**: Document `gnupg_listsignatures`
+- **Docs**: Crypt - better docs for ways how to choose recipients in encrypt
   - https://bugs.php.net/bug.php?id=58335 - Can't choose recipient in encrypt()
+- **Docs**: Add proper gnupg class documentation
+
+
+## Changes
+
+### 2022-01
+
+- **Docs** - Documented `gnupg_init` options
+  - https://github.com/php-gnupg/php-gnupg/issues/11 - gpg_import fails with "import failed" (closed)
+  - https://github.com/php-gnupg/php-gnupg/issues/18 - gnupg_verify does not verify clearsign messages (closed)
+- **Docs** - Documented `gnupg_geterrorinfo`
+- **Docs** - Documented `gnupg_getengineinfo`
+- **Docs** - Improve CS in examples
