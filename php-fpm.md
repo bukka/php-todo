@@ -4,12 +4,6 @@
 
 ### Monitoring, logging and tracing
 
-- **Bug**: scoreboard - fix locking of getting proc info
-  - https://bugs.php.net/bug.php?id=76109 - Unsafe access to fpm scoreboard
-  - https://bugs.php.net/bug.php?id=81275 - status page, contain bugus value in request duration sometimes
-  - https://github.com/php/php-src/pull/3188 - Implement fpm_scoreboard_copy and use it for fpm_handle_status_request
-  - https://github.com/php/php-src/pull/8049 - Implement fpm_scoreboard_copy (extended rebase of 3188)
-  - https://github.com/php/php-src/issues/7931 - PHP-FPM worker process stuck after slow log tracing
 - **Bug**: scoreboard - active processes above max_children (possibly related to lock issue above)
   - https://bugs.php.net/bug.php?id=76003 - FPM /status reports wrong number of active processes
 - **Bug**: syslog - fix syslog ident issues
@@ -278,3 +272,15 @@
   - https://bugs.php.net/bug.php?id=72316 - Missing access.* properties in documentation
 - extend access log documentation - better document %e options for example
   - https://bugs.php.net/bug.php?id=62828 - Need documentation for access.format tokens
+
+
+## Changes
+
+### 2022-02
+
+- **Bug**: scoreboard - fixed locking of getting proc info
+  - https://bugs.php.net/bug.php?id=76109 - Unsafe access to fpm scoreboard
+  - https://bugs.php.net/bug.php?id=81275 - status page, contain bugus value in request duration sometimes
+  - https://github.com/php/php-src/pull/3188 - Implement fpm_scoreboard_copy and use it for fpm_handle_status_request
+  - https://github.com/php/php-src/pull/8049 - Implement fpm_scoreboard_copy (extended rebase of 3188)
+  - https://github.com/php/php-src/issues/7931 - PHP-FPM worker process stuck after slow log tracing
