@@ -72,6 +72,10 @@
 
 - **Bug**: proc - look to the issue with dynamic mode leaving too many idle children
   - https://bugs.php.net/bug.php?id=77023 - PHP-FPM cannot shutdown processes
+- **Bug**: proc - do not try to restart in the loop but add some sort of exponential delay
+  - https://bugs.php.net/bug.php?id=61558 - Runaway spawning of children after pipe error
+  - https://bugs.php.net/bug.php?id=70185 - php-fpm restarts master process in a loop when exec() and using ssh multiplexing
+  - https://bugs.php.net/bug.php?id=73056 - shell_exec cause PHP FPM child processes exit and start very quickly forever
 - **Bug**: proc - ondemand race condition
   - https://github.com/php/php-src/pull/1308 - pm.ondemand forks fewer child workers than it should
   - https://bugs.php.net/bug.php?id=69724 - pm.ondemand forks fewer child workers than it should (bug for the above PR - contains extra patches)
@@ -96,19 +100,12 @@
   - https://bugs.php.net/bug.php?id=65503 - Timeout when max_children reached
 - **Feat**: proc and main - Bootstrapping mode
   - https://github.com/php/php-src/pull/6772 - Add FPM early bootstrapping mode
-- **Bug**: proc - do not try to restart in the loop but add some sort of exponential delay
-  - https://bugs.php.net/bug.php?id=61558 - Runaway spawning of children after pipe error
-  - https://bugs.php.net/bug.php?id=70185 - php-fpm restarts master process in a loop when exec() and using ssh multiplexing
-  - https://bugs.php.net/bug.php?id=73056 - shell_exec cause PHP FPM child processes exit and start very quickly forever
-  - https://bugs.php.net/bug.php?id=74709 - PHP-FPM process eating 100% CPU attempting to use kill_all_lockers
 - **Feat**: proc - add function to terminate child (this should be probably explicitly enabled in pool config)
   - https://bugs.php.net/bug.php?id=62948 - apache_child_terminate() for FPM
 - **Bug**: event - Check for the maximum file descriptors in devpoll
   - https://bugs.php.net/bug.php?id=65774 - no max file descriptor check for events.mechanism = /dev/poll
 - **Bug**: event - FreeBSD kqueue time outs
   - https://bugs.php.net/bug.php?id=76630 - php-fpm time outs unexpectedly
-- **Bug**: event - opcache_reset makes fpm_master dormant on FreeBSD
-  - https://bugs.php.net/bug.php?id=74778 - opcache_clear() puts php-fpm master in a cpu loop
 - **Bug**: proc - process_control_timeout wakes up script in sleep
   - https://bugs.php.net/bug.php?id=77603 - Unexpected behavior with reloading php-fpm and sleep method
 - **Feat**: event - make default timeout in event loop configurable (currently hard coded 1s)
@@ -151,6 +148,9 @@
   - https://bugs.php.net/bug.php?id=75440 - Fpm reload should be graceful, not killing running processes (possibly master could just re-read config and let proc mangers deal with it
   - https://bugs.php.net/bug.php?id=60961 - Graceful Restart (USR2) isn't very graceful (similar to above bug listing problems with graceful reload)
   - https://github.com/php/php-src/pull/3758 - php-fpm: graceful restart without blocking/losing requests (Mike's old PR with some useful discussion about reload)
+  - https://bugs.php.net/bug.php?id=74778 - opcache_clear() puts php-fpm master in a cpu loop
+  - https://bugs.php.net/bug.php?id=74709 - PHP-FPM process eating 100% CPU attempting to use kill_all_lockers (separating opache MINIT)
+  - https://github.com/php/php-src/issues/8072 - php-fpm trying to kill another user's pool results in an infinite loop and 99% cpu usage (separating opache MINIT)
 - **Feat**: pool - look to the alternative way of dynamically loading pool configuration and restarting it
   - https://bugs.php.net/bug.php?id=61595 - implement dynamic loading of pools config via file or SQL
   - https://bugs.php.net/bug.php?id=51973 - a way to restart single pools, enable/disable modules per pool
@@ -264,8 +264,6 @@
   - https://bugs.php.net/bug.php?id=81242 - Unclear documentation for process management directives
 - proc - clarify prod idle timeout behaviour
   - https://bugs.php.net/bug.php?id=77060 - PHP-FPM pm.process_idle_timeout behaviour
-- status - document status page
-  - https://bugs.php.net/bug.php?id=72105 - Missing Documentation: PHP-FPM status page
 - missing settings - review also as there are more missing
   - https://bugs.php.net/bug.php?id=67094 - Missing FPM settings in documentation
   - https://bugs.php.net/bug.php?id=63888 - Missing several PHP FPM ini entries in online documentation
@@ -284,3 +282,7 @@
   - https://github.com/php/php-src/pull/3188 - Implement fpm_scoreboard_copy and use it for fpm_handle_status_request
   - https://github.com/php/php-src/pull/8049 - Implement fpm_scoreboard_copy (extended rebase of 3188)
   - https://github.com/php/php-src/issues/7931 - PHP-FPM worker process stuck after slow log tracing
+- **Doc**: document status page
+  - https://bugs.php.net/bug.php?id=72105 - Missing Documentation: PHP-FPM status page
+  - https://github.com/php/doc-en/pull/738 - Documentation for the FPM status page and fpm_get_status()
+  - https://github.com/php/doc-en/pull/1420 - FPM Status Page
