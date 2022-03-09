@@ -32,6 +32,10 @@
   - https://bugs.php.net/bug.php?id=62951 - Log utime and stime (patch)
 - **Feat**: access log - fmt flag for path info or available env to use
   - https://bugs.php.net/bug.php?id=81670 - Access log contains wrong values for "%r" (request URI) format string
+- **Feat**: access log - filtering support (allow disabling ping and other requests)
+  - https://bugs.php.net/bug.php?id=80428 - PHP-FPM : Is there an option to suppress /ping from logs
+  - https://github.com/php/php-src/issues/8174 - PHP-FPM : Option to suppress "/ping" from logs -- patch file given
+  - https://github.com/php/php-src/pull/8184 - Feature "ping.dontlog" : See Issue #8174
 - **Feat**: access log - long lines support - using the same logic as zlog ideally
   - https://github.com/php/php-src/pull/5634 - PR to discussiong it and removing unused MAX_LINE_LENGTH
 - **Feat**: trace - slowlog - the SIGSTOP and SIGCONT stop script connection in stream (fsockopen) or mysql
@@ -89,11 +93,15 @@
   - https://github.com/php/php-src/pull/7561#issuecomment-980802605
 - **Test**: proc - skip ondemand tests on unsupported platforms
   - https://bugs.php.net/bug.php?id=81110 - https://bugs.php.net/bug.php?id=81110
+- **Feat**: proc - stage redefinition to consider children idle if in reading header stage
+  - https://bugs.php.net/bug.php?id=78405 - FPM with keepalive: Kills worker when no request is seen for $terminate_timeout
+  - https://github.com/php/php-src/pull/8163 - Fix #78405: FPM with keepalive kills workers after $terminate_timeout
 - **Feat**: proc - look to ondemand scheduling issues / improvements - using epoll (for all modes)
   - https://bugs.php.net/bug.php?id=77959 - Scheduling of PHP-FPM processes in "ondemand"
   - https://github.com/php/php-src/pull/4101 - epoll discussion
   - https://github.com/php/php-src/pull/4104 - correct computation of idle time
   - https://bugs.php.net/bug.php?id=68824 - php-rpm pm=static causes load peaks when pm.max_requests is reached (epoll should resolve this)
+  - https://bugs.php.net/bug.php?id=77060 - PHP-FPM pm.process_idle_timeout behaviour
 - **Feat**: proc - Redefine boundary of pm.start_servers and pm.min_spare_servers
   - https://bugs.php.net/bug.php?id=62630 - issues with starting FPM in conditions of high load
 - **Feat**: proc - consider defining timeout when no children available
@@ -256,20 +264,14 @@
 
 ## Docs
 
-- socket - documentation listen.allowed_clients empty value (`any` is not correct name)
-  - https://bugs.php.net/bug.php?id=80580 - listen.allowed_clients does not operate as expected with blank or "any" value
-- socket - clarify docs for listen backlog values
-  - https://bugs.php.net/bug.php?id=78611 - listen.backlog is not -1, and -1 does not mean 'unlimited'.
-- proc - improve docs for pm directives (mainly pm.min_spare_servers and other limits in relation to)
-  - https://bugs.php.net/bug.php?id=81242 - Unclear documentation for process management directives
-- proc - clarify prod idle timeout behaviour
-  - https://bugs.php.net/bug.php?id=77060 - PHP-FPM pm.process_idle_timeout behaviour
 - missing settings - review also as there are more missing
   - https://bugs.php.net/bug.php?id=67094 - Missing FPM settings in documentation
   - https://bugs.php.net/bug.php?id=63888 - Missing several PHP FPM ini entries in online documentation
   - https://bugs.php.net/bug.php?id=72316 - Missing access.* properties in documentation
 - extend access log documentation - better document %e options for example
   - https://bugs.php.net/bug.php?id=62828 - Need documentation for access.format tokens
+- proc - improve docs for pm directives - create a new section on process management
+  - https://bugs.php.net/bug.php?id=81242 - Unclear documentation for process management directives
 
 
 ## Changes
@@ -286,3 +288,10 @@
   - https://bugs.php.net/bug.php?id=72105 - Missing Documentation: PHP-FPM status page
   - https://github.com/php/doc-en/pull/738 - Documentation for the FPM status page and fpm_get_status()
   - https://github.com/php/doc-en/pull/1420 - FPM Status Page
+
+  ### 2022-03
+
+- **Doc**: socket - documentation listen.allowed_clients empty value (`any` is not correct name)
+  - https://bugs.php.net/bug.php?id=80580 - listen.allowed_clients does not operate as expected with blank or "any" value
+- **Doc**: socket - clarify docs for listen backlog values
+  - https://bugs.php.net/bug.php?id=78611 - listen.backlog is not -1, and -1 does not mean 'unlimited'.
