@@ -32,7 +32,9 @@
   - https://bugs.php.net/bug.php?id=69422 - json_encode() needs encoding specification
 
 
-## Docs
+## Changes
 
-- Better document json_decode
+### 2022-03
+
+- **Doc**: Closed request to better documented json_decode as it is just type juggling
   - https://bugs.php.net/bug.php?id=81685 - Using json_decode with an integer as first parameter doesn't return NULL

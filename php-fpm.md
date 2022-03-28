@@ -264,10 +264,7 @@
 
 ## Docs
 
-- missing settings - review also as there are more missing
-  - https://bugs.php.net/bug.php?id=67094 - Missing FPM settings in documentation
-  - https://bugs.php.net/bug.php?id=63888 - Missing several PHP FPM ini entries in online documentation
-  - https://bugs.php.net/bug.php?id=72316 - Missing access.* properties in documentation
+
 - extend access log documentation - better document %e options for example
   - https://bugs.php.net/bug.php?id=62828 - Need documentation for access.format tokens
 - proc - improve docs for pm directives - create a new section on process management
@@ -291,6 +288,15 @@
 
   ### 2022-03
 
+- **Doc**: configuration - missing settings - review also as there are more missing
+  - https://bugs.php.net/bug.php?id=67094 - Missing FPM settings in documentation (already done so just closed)
+  - https://bugs.php.net/bug.php?id=63888 - Missing several PHP FPM ini entries in online documentation (already done so just closed)
+  - missing values:
+    - pm.max_spawn_rate - PHP 8.1
+    - pm.status_listen - PHP 8.0
+    - request_slowlog_trace_depth - PHP 7.2
+    - request_terminate_timeout_track_finished - PHP
+    - apparmor_hat
 - **Doc**: socket - documentation listen.allowed_clients empty value (`any` is not correct name)
   - https://bugs.php.net/bug.php?id=80580 - listen.allowed_clients does not operate as expected with blank or "any" value
 - **Doc**: socket - clarify docs for listen backlog values

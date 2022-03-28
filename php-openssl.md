@@ -106,8 +106,6 @@
 
 ## Docs
 
-- library - Mention in the docs that OpenSSL 3.0 won't be updated for versions before 8.1
-  - https://bugs.php.net/bug.php?id=81540 - https://bugs.php.net/bug.php?id=81540
 - crypt - openssl_encrypt - Remove insecure examples
   - https://bugs.php.net/bug.php?id=80843 - Remove examples from comments as they are invariably insecure
 - crypt - AEAD tag setting clarification
@@ -123,3 +121,10 @@
   - https://bugs.php.net/bug.php?id=65186 - openssl_csr_new allows creation from text
 - installation - Update https://www.php.net/manual/en/openssl.installation.php to reflect that `--with-openssl` no longer works
   - https://bugs.php.net/bug.php?id=79401 - --with-openssl no longer accepts a directory
+
+## Changes
+
+### 2022-03
+
+- **Doc**: Requirements - Mention in the docs that OpenSSL 3.0 won't be updated for versions before 8.1
+  - https://bugs.php.net/bug.php?id=81540 - OpenSSL 3.0.0 is not supported prior to 8.1.0
