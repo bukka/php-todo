@@ -34,15 +34,18 @@
 
 ## Docs
 
-- **Docs**: Document `gnupg_deletekey`
-- **Docs**: Document `gnupg_gettrustlist`
-- **Docs**: Document `gnupg_listsignatures`
 - **Docs**: Crypt - better docs for ways how to choose recipients in encrypt
   - https://bugs.php.net/bug.php?id=58335 - Can't choose recipient in encrypt()
 - **Docs**: Add proper gnupg class documentation
 
 
 ## Changes
+
+### 2022-03
+
+- **Docs**: Document `gnupg_deletekey`
+- **Docs**: Document `gnupg_gettrustlist`
+- **Docs**: Document `gnupg_listsignatures`
 
 ### 2022-01
 
