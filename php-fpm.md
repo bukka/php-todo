@@ -264,7 +264,6 @@
 
 ## Docs
 
-
 - extend access log documentation - better document %e options for example
   - https://bugs.php.net/bug.php?id=62828 - Need documentation for access.format tokens
 - proc - improve docs for pm directives - create a new section on process management
@@ -272,19 +271,6 @@
 
 
 ## Changes
-
-### 2022-02
-
-- **Bug**: scoreboard - fixed locking of getting proc info
-  - https://bugs.php.net/bug.php?id=76109 - Unsafe access to fpm scoreboard
-  - https://bugs.php.net/bug.php?id=81275 - status page, contain bugus value in request duration sometimes
-  - https://github.com/php/php-src/pull/3188 - Implement fpm_scoreboard_copy and use it for fpm_handle_status_request
-  - https://github.com/php/php-src/pull/8049 - Implement fpm_scoreboard_copy (extended rebase of 3188)
-  - https://github.com/php/php-src/issues/7931 - PHP-FPM worker process stuck after slow log tracing
-- **Doc**: document status page
-  - https://bugs.php.net/bug.php?id=72105 - Missing Documentation: PHP-FPM status page
-  - https://github.com/php/doc-en/pull/738 - Documentation for the FPM status page and fpm_get_status()
-  - https://github.com/php/doc-en/pull/1420 - FPM Status Page
 
   ### 2022-03
 
@@ -301,3 +287,16 @@
   - https://bugs.php.net/bug.php?id=80580 - listen.allowed_clients does not operate as expected with blank or "any" value
 - **Doc**: socket - clarify docs for listen backlog values
   - https://bugs.php.net/bug.php?id=78611 - listen.backlog is not -1, and -1 does not mean 'unlimited'.
+
+### 2022-02
+
+- **Bug**: scoreboard - fixed locking of getting proc info
+  - https://bugs.php.net/bug.php?id=76109 - Unsafe access to fpm scoreboard
+  - https://bugs.php.net/bug.php?id=81275 - status page, contain bugus value in request duration sometimes
+  - https://github.com/php/php-src/pull/3188 - Implement fpm_scoreboard_copy and use it for fpm_handle_status_request
+  - https://github.com/php/php-src/pull/8049 - Implement fpm_scoreboard_copy (extended rebase of 3188)
+  - https://github.com/php/php-src/issues/7931 - PHP-FPM worker process stuck after slow log tracing
+- **Doc**: document status page
+  - https://bugs.php.net/bug.php?id=72105 - Missing Documentation: PHP-FPM status page
+  - https://github.com/php/doc-en/pull/738 - Documentation for the FPM status page and fpm_get_status()
+  - https://github.com/php/doc-en/pull/1420 - FPM Status Page
