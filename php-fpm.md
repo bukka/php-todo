@@ -4,8 +4,6 @@
 
 ### Monitoring, logging and tracing
 
-- **Bug**: scoreboard - active processes above max_children (possibly related to lock issue above)
-  - https://bugs.php.net/bug.php?id=76003 - FPM /status reports wrong number of active processes
 - **Bug**: syslog - fix syslog ident issues
   - https://github.com/php/php-src/pull/7334 - fix for 81324
   - https://bugs.php.net/bug.php?id=81324 - php-fpm will not set syslog ident for children
@@ -35,7 +33,8 @@
 - **Feat**: access log - filtering support (allow disabling ping and other requests)
   - https://bugs.php.net/bug.php?id=80428 - PHP-FPM : Is there an option to suppress /ping from logs
   - https://github.com/php/php-src/issues/8174 - PHP-FPM : Option to suppress "/ping" from logs -- patch file given
-  - https://github.com/php/php-src/pull/8184 - Feature "ping.dontlog" : See Issue #8174
+  - https://github.com/php/php-src/pull/8184 - Feature "ping.dontlog" : See Issue #8174 (obsoleted by 8214)
+  - https://github.com/php/php-src/pull/8214 - fpm: Implement access log filtering
 - **Feat**: access log - long lines support - using the same logic as zlog ideally
   - https://github.com/php/php-src/pull/5634 - PR to discussiong it and removing unused MAX_LINE_LENGTH
 - **Feat**: trace - slowlog - the SIGSTOP and SIGCONT stop script connection in stream (fsockopen) or mysql
@@ -222,6 +221,8 @@
   - https://bugs.php.net/bug.php?id=67383 - exec() leaks file and socket descriptors to called program (general for all parts of PHP - not good idea)
   - https://bugs.php.net/bug.php?id=76067 - system() function call leaks php-fpm listening sockets
   - https://bugs.php.net/bug.php?id=80992 - fork() don't close fpm_globals.listening_socket
+- **Feat**: socket - Consider re-enabling warning for non empty listening queue or remove commented out code in process ctl.
+  - https://github.com/php/php-src/blob/2ac5948f5cbaf3351fe18ab1068422487c9c215f/sapi/fpm/fpm/fpm_process_ctl.c#L349-L359
 - **Bug**: main - correctly decode path_info before comparing to comply with cgi spec
   - https://bugs.php.net/bug.php?id=74129 - Incorrect SCRIPT_NAME with apache ProxyPassMatch when spaces are in path
 - **Bug**: main - verify the PATH_TRANSLATED logic with cgi.fix_pathinfo
@@ -272,7 +273,15 @@
 
 ## Changes
 
-  ### 2022-03
+### 2022-04
+- **Feat**: socket - emit error for invalid port setting (reviewed, tested and merged)
+  - https://github.com/php/php-src/pull/8225 - fpm warns about port settings
+- **Feat**: selinux dumpable (reviewed and merged)
+  - https://github.com/php/php-src/pull/7648 - fpm dumpable process setting extra check for SElinux based systems
+- **Bug**: scoreboard - active processes above max_children (possibly related to lock issue above)
+  - https://bugs.php.net/bug.php?id=76003 - FPM /status reports wrong number of active processes
+  
+### 2022-03
 
 - **Doc**: configuration - missing settings - review also as there are more missing
   - https://bugs.php.net/bug.php?id=67094 - Missing FPM settings in documentation (already done so just closed)
