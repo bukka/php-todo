@@ -149,8 +149,12 @@
   - https://bugs.php.net/bug.php?id=75953 -	Reload signal should return error code when PHP-FPM init failed
 - **Feat**: reload - consider using SIGHUP as another reload signal
   - https://bugs.php.net/bug.php?id=67553 - Add SIGHUP as a reload signal
+- **Feat**: reload - reduce number of reallocation or use buffering (stack or smart str) for sockets clean up env
+  - https://github.com/php/php-src/blob/b0b416b705f5b535d95dc7d275347f89f3ef87ea/sapi/fpm/fpm/fpm_sockets.c#L71
 - **Bug**: signal - sigpipe might cause fpm to be unresponsive
   - https://bugs.php.net/bug.php?id=67320 - Ignored sigpipes in php-fpm cause php to become unresponsive
+- **Feat**: signal: consider changing SIGTERM for primary idle killing instead of SIGQUIT
+  - https://github.com/php/php-src/blob/8f02d7b7e499490312969cdfa9a3a81b9458595a/sapi/fpm/fpm/fpm_process_ctl.c#L138-L139
 - **Feat**: pool - look to introducing pool manager process handlig - reduce load on master and better (possibly more secure) separation and reload
   - https://bugs.php.net/bug.php?id=75440 - Fpm reload should be graceful, not killing running processes (possibly master could just re-read config and let proc mangers deal with it
   - https://bugs.php.net/bug.php?id=60961 - Graceful Restart (USR2) isn't very graceful (similar to above bug listing problems with graceful reload)
@@ -280,7 +284,7 @@
   - https://github.com/php/php-src/pull/7648 - fpm dumpable process setting extra check for SElinux based systems
 - **Bug**: scoreboard - active processes above max_children (possibly related to lock issue above)
   - https://bugs.php.net/bug.php?id=76003 - FPM /status reports wrong number of active processes
-  
+
 ### 2022-03
 
 - **Doc**: configuration - missing settings - review also as there are more missing
