@@ -73,8 +73,6 @@
 
 ### Process management and related
 
-- **Bug**: proc - look to the issue with dynamic mode leaving too many idle children
-  - https://bugs.php.net/bug.php?id=77023 - PHP-FPM cannot shutdown processes
 - **Bug**: proc - do not try to restart in the loop but add some sort of exponential delay
   - https://bugs.php.net/bug.php?id=61558 - Runaway spawning of children after pipe error
   - https://bugs.php.net/bug.php?id=70185 - php-fpm restarts master process in a loop when exec() and using ssh multiplexing
@@ -278,12 +276,15 @@
 ## Changes
 
 ### 2022-04
+
+- **Bug**: proc - look to the issue with dynamic mode leaving too many idle children
+  - https://bugs.php.net/bug.php?id=77023 - PHP-FPM cannot shutdown processes
+- **Bug**: scoreboard - active processes above max_children (possibly related to lock issue above)
+  - https://bugs.php.net/bug.php?id=76003 - FPM /status reports wrong number of active processes
 - **Feat**: socket - emit error for invalid port setting (reviewed, tested and merged)
   - https://github.com/php/php-src/pull/8225 - fpm warns about port settings
 - **Feat**: selinux dumpable (reviewed and merged)
   - https://github.com/php/php-src/pull/7648 - fpm dumpable process setting extra check for SElinux based systems
-- **Bug**: scoreboard - active processes above max_children (possibly related to lock issue above)
-  - https://bugs.php.net/bug.php?id=76003 - FPM /status reports wrong number of active processes
 
 ### 2022-03
 
