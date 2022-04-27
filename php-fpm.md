@@ -86,19 +86,16 @@
   - https://bugs.php.net/bug.php?id=77060 - PHP-FPM pm.process_idle_timeout behaviour (doc bug confusion asking about this behaviour)
 - **Feat**: proc - look to some option in ondemand for killing inactive connections
   - https://bugs.php.net/bug.php?id=69890 - pm.ondemand does not kill children after reaching max limit
-- **Test**: proc - make proc idle test stable
-  - https://github.com/php/php-src/pull/7561#issuecomment-980802605
-- **Test**: proc - skip ondemand tests on unsupported platforms
-  - https://bugs.php.net/bug.php?id=81110 - https://bugs.php.net/bug.php?id=81110
 - **Feat**: proc - stage redefinition to consider children idle if in reading header stage
   - https://bugs.php.net/bug.php?id=78405 - FPM with keepalive: Kills worker when no request is seen for $terminate_timeout
   - https://github.com/php/php-src/pull/8163 - Fix #78405: FPM with keepalive kills workers after $terminate_timeout
-- **Feat**: proc - look to ondemand scheduling issues / improvements - using epoll (for all modes)
+- **Feat**: proc - look to ondemand scheduling issues / improvements - using epoll (optionally for all modes)
   - https://bugs.php.net/bug.php?id=77959 - Scheduling of PHP-FPM processes in "ondemand"
   - https://github.com/php/php-src/pull/4101 - epoll discussion
   - https://github.com/php/php-src/pull/4104 - correct computation of idle time
   - https://bugs.php.net/bug.php?id=68824 - php-rpm pm=static causes load peaks when pm.max_requests is reached (epoll should resolve this)
   - https://bugs.php.net/bug.php?id=77060 - PHP-FPM pm.process_idle_timeout behaviour
+- **Feat**: proc - look to using reuse port for listen based scheduling (round robin) instead of fcgi lock
 - **Feat**: proc - Redefine boundary of pm.start_servers and pm.min_spare_servers
   - https://bugs.php.net/bug.php?id=62630 - issues with starting FPM in conditions of high load
 - **Feat**: proc - consider defining timeout when no children available
@@ -194,13 +191,15 @@
   - https://bugs.php.net/bug.php?id=80385 - Response data preceded by post data
 - **Bug**: conf - possibly incorrect order of ini setting
   - https://bugs.php.net/bug.php?id=75741 - enable_post_data_reading not working on PHP-FPM
-- **Bug**: conf - possible overwritting issue with php_admin_value
+  - https://github.com/php/php-src/issues/8157 - post_max_size evaluates .user.ini too late in php-fpm?
+- **Bug**: conf - possible overwritting issue with php_admin_value and php_value
   - https://bugs.php.net/bug.php?id=80012 - PHP_ADMIN_VALUE parameter is not correctly inherited
   - https://bugs.php.net/bug.php?id=72253 - phpinfo shows only first block of admin_value[disable_functions]
   - https://bugs.php.net/bug.php?id=72018 - php_admin_value override
   - https://bugs.php.net/bug.php?id=68171 - php_admin_value[extension] order not maintained
   - https://bugs.php.net/bug.php?id=68018 - php_value directive modifies "Changeable" context (patch)
   - https://bugs.php.net/bug.php?id=60387 - Problem with php_(admin)?_value/flag and load order
+  - https://github.com/php/php-src/issues/8398 - php_value[xxx] in php-fpm pool - first declaration wins
 - **Feat**: conf - look to supporting zend_extension in php_admin_value
   - https://bugs.php.net/bug.php?id=73408 - Loading Zend Extensions in FPM Pool Configuration
 - **Bug**: conf - setting env[LC_MESSAGES] does not work as expected
@@ -265,6 +264,18 @@
 - https://bugs.php.net/bug.php?id=70945 - php-fpm don't start : ERROR: no data have been read from pipe failed
 - https://bugs.php.net/bug.php?id=67589 - With --nodaemonize errors don't get into error_log directive
 
+## Testing
+
+- **Test**: tester - allow out of order log entries with some being optional and debug only collected (some sort of event based collector)
+- **Test**: tester - print all logs when error including some tracing info if possible (change log levels to debug)
+- **Test**: proc - try to make sigquit test work
+  - https://github.com/php/php-src/issues/8443 - sapi/fpm/tests/bug77023-pm-dynamic-blocking-sigquit.phpt test is failing frequently
+- **Test**: proc - make proc idle test stable
+  - https://github.com/php/php-src/pull/7561#issuecomment-980802605
+- **Test**: proc - skip ondemand tests on unsupported platforms
+  - https://bugs.php.net/bug.php?id=81110 - Tests use unsupported ondemand process manager
+- **Test**: logs - Make log-bwd-multiple-msgs-stdout-stderr work again
+
 ## Docs
 
 - extend access log documentation - better document %e options for example
@@ -277,6 +288,8 @@
 
 ### 2022-04
 
+- **Feat**: socket - change default for listen.backlog on Linux to -1
+  - https://github.com/php/php-src/pull/8410 - fpm: listen backlog should default to -1 also on Linux (reviewed and merged)
 - **Bug**: proc - look to the issue with dynamic mode leaving too many idle children
   - https://bugs.php.net/bug.php?id=77023 - PHP-FPM cannot shutdown processes
 - **Bug**: scoreboard - active processes above max_children (possibly related to lock issue above)
