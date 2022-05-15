@@ -167,9 +167,6 @@
 
 ### FastCGI, worker request handling and conf
 
-- **Bug**: fcgi - Fix issue with content-length 0 causing nginx 502
-  - https://bugs.php.net/bug.php?id=72185 - php-fpm writes stdout with contentlength =0 causing nginx 502
-  - https://github.com/php/php-src/pull/3198 - fix - needs a test
 - **Bug**: main - incorrectly marking headers as sent when previous connection aborted
   - https://bugs.php.net/bug.php?id=77780 - "Headers already sent..." when previous connection was aborted
 - **Bug**: main - fastcgi.error_header sets header after request is sent
@@ -215,13 +212,15 @@
   - https://github.com/php/php-src/pull/3563 - Introducing "pool:" prefix on [section] FPM ini configuration
 - **Feat**: conf - add compile option to set default FPM config path
   - https://bugs.php.net/bug.php?id=61073 - php-fpm config file path option lacking
-- **Bug**: socket - non portable socket binding on FreeBSD
-  - https://bugs.php.net/bug.php?id=77501 - listen = 9000 only listens on one interface
-  - https://bugs.php.net/bug.php?id=77482 - Wont bind to IPv4 if IPv6 enabled
-- **Bug**: socket - Add FD_CLOSEXEC on listening socket so it is not iherited by prod_open
+- **Bug**: socket - Add FD_CLOSEXEC on listening socket so it is not iherited by proc_open
   - https://bugs.php.net/bug.php?id=67383 - exec() leaks file and socket descriptors to called program (general for all parts of PHP - not good idea)
   - https://bugs.php.net/bug.php?id=76067 - system() function call leaks php-fpm listening sockets
   - https://bugs.php.net/bug.php?id=80992 - fork() don't close fpm_globals.listening_socket
+- **Bug**: socket - non portable socket binding on FreeBSD
+  - https://bugs.php.net/bug.php?id=77501 - listen = 9000 only listens on one interface
+  - https://bugs.php.net/bug.php?id=77482 - Wont bind to IPv4 if IPv6 enabled
+- **Feat**: socket - socket route option
+  - https://github.com/php/php-src/pull/8470 - FPM add routing view global option (for FreeBSD for now).
 - **Feat**: socket - Consider re-enabling warning for non empty listening queue or remove commented out code in process ctl.
   - https://github.com/php/php-src/blob/2ac5948f5cbaf3351fe18ab1068422487c9c215f/sapi/fpm/fpm/fpm_process_ctl.c#L349-L359
 - **Bug**: main - correctly decode path_info before comparing to comply with cgi spec
@@ -275,6 +274,8 @@
 - **Test**: proc - skip ondemand tests on unsupported platforms
   - https://bugs.php.net/bug.php?id=81110 - Tests use unsupported ondemand process manager
 - **Test**: logs - Make log-bwd-multiple-msgs-stdout-stderr work again
+- **Test**: signals - Rename and clean up the signal reloading tests
+- **Test**: fcgi - Rename and clean up HTTP Status header truncation
 
 ## Docs
 
@@ -285,6 +286,11 @@
 
 
 ## Changes
+
+### 2022-05
+- **Bug**: fcgi - Fix issue with content-length 0 causing nginx 502
+  - https://bugs.php.net/bug.php?id=72185 - php-fpm writes stdout with contentlength =0 causing nginx 502
+  - https://github.com/php/php-src/pull/3198 - fix - needs a test
 
 ### 2022-04
 

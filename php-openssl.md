@@ -4,10 +4,9 @@
 
 ### TLS
 
-- **Bug**: Check if close_notify changes in OpenSSL 3.0 are still causing connection issue
-  - https://bugs.php.net/bug.php?id=79589 - error:14095126:SSL routines:ssl3_read_n:unexpected eof while reading
 - **Bug**: Check issue with TLS 1.3 in phpredis
   - https://bugs.php.net/bug.php?id=79501 - TLS connections freezing on 7.4 (all versions after 7.3.17)
+  - https://github.com/php/php-src/issues/8409 - SSL handshake timeout leaves persistent connections hanging
 - **Bug**: Check corrupted wsdl fetching result if fetching gzip
   - https://bugs.php.net/bug.php?id=79575 - Content-Length header name is getting corrupted
 - **Bug**: Roundcube peer veryfication issue
@@ -23,6 +22,8 @@
 - **Feat**: Refactore async code and provide info about WANT_READ and WANT_WRITE to PHP code
   - https://github.com/php/php-src/pull/2605 - Avoid triggering SIGPIPE after stream_socket_shutdown(SHUT_WR) of a SSL stream (bug report containing discussion)
   - https://bugs.php.net/bug.php?id=68732 - Unchecked return value (this should be addressed as part of refactoring)
+- **Feat**: Add option to not add SSL_OP_IGNORE_UNEXPECTED_EOF (opt in protection for truncation attack) - create a proper test with proxy and TCP FIN
+  - https://github.com/php/php-src/issues/8369#issuecomment-1126940364 - note about that in the bug
 - **Feat**: Allow multiple peer fingerprints in the context
   - https://bugs.php.net/bug.php?id=81528 - Support multiple peer_fingerprint values per algorithm
 - **Feat**: Support TLS PSK
@@ -66,6 +67,9 @@
   - https://bugs.php.net/bug.php?id=60388 - openssl_x509_parse extensions=>subjectAltName
 - **Bug**: X509 - Look to the issue with default certs added to store in setup_verify
   - https://bugs.php.net/bug.php?id=65154 - setup_verify implicitly adds default CA paths
+- **Bug**: X509 - Check why checking X509_PURPOSE_SSL_SERVER with openssl_x509_checkpurpose returns false
+  - https://github.com/php/php-src/issues/8371 - check_cert() insists on all provides certificates to validate against system CA store
+  - https://github.com/php/php-src/issues/8372 - check_cert() and php_openssl_store_errors do not pick up validation errors
 - **Bug**: X509 - Check why checking X509_PURPOSE_ANY with openssl_x509_checkpurpose returns false
   - https://bugs.php.net/bug.php?id=55362 - X509_PURPOSE_ANY is not recognized by openssl
 - **Feat**: X509 - Add addition X509 purpose constants
@@ -124,6 +128,11 @@
 
 ## Changes
 
+### 2022-05
+
+- **Bug**: Fix close_notify changes in OpenSSL 3.0 causing connection issues
+  - https://bugs.php.net/bug.php?id=79589 - error:14095126:SSL routines:ssl3_read_n:unexpected eof while reading
+  - https://github.com/php/php-src/issues/8369 - OpenSSL 3: Support of SSL_OP_IGNORE_UNEXPECTED_EOF context option
 ### 2022-03
 
 - **Doc**: Requirements - Mention in the docs that OpenSSL 3.0 won't be updated for versions before 8.1
