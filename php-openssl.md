@@ -36,6 +36,12 @@
 
 - **Bug**: general - Properly review VCWD PR
   - https://github.com/php/php-src/pull/7438 - Several openssl functions ignore the VCWD
+- **Bug**: config - add path check for config filename (possible break so only master probably)
+  - php_openssl_parse_config function
+  - MINIT config filename
+  - consider also cafile locations from ini
+- **Bug**: general - Review binary file mode settings (PKCS7_BINARY and CMS_BINARY)
+  - passing flags does not make much sense in many cases
 - **Feat**: general - Look to the stream support for the input params (start with investigation and implemetation ideas)
   - https://bugs.php.net/bug.php?id=50718 - OpenSSL* doesnt support streamwrappers
 - **Feat**: crypt - Consider tag length veryfication
@@ -43,6 +49,7 @@
 - **Feat**: crypt - Add chacha20-poly1305 support
   - https://bugs.php.net/bug.php?id=76935 - "chacha20-poly1305" is an AEAD but does not work like AEAD
 - **Feat**: crypt - New function to retrieve key length (using EVP_CIPHER_key_length)
+- **Bug**: pkey - RAND_file_name could potentially not work correct with open basedir check and do rand file checks
 - **Bug**: pkey - Do not try to use Rand file when generating key
   - https://bugs.php.net/bug.php?id=78444 - openssl_pkey_new generates OpenSSL errors with OpenSSL 1.1.1
 - **Feat**: pkey - Improve php_openssl_dh_compute_key to support ECDH before OpenSSL 3.0 and extend tests
@@ -79,6 +86,7 @@
   - https://bugs.php.net/bug.php?id=77411 - openssl_x509_parse serialNumber not always integer with OpenSSL version 1.1
 - **Feat**: X509 - Extend openssl_x509_parse with more info about pub key if possible
   - https://bugs.php.net/bug.php?id=77761 - openssl_x509_parse does not create entries for public key type and size
+- **Feat**: X509 - Optimize order of operations in php_openssl_load_all_certs_from_file
 - **Bug**: PKCS7 - Add test for PR to fix openssl_pkcs7_verify with signers_certificates_filename
   - https://github.com/php/php-src/pull/6927 - openssl_pkcs7_verify() may ignore untrusted CAs
   - https://bugs.php.net/bug.php?id=50713 - openssl_pkcs7_verify() may ignore untrusted CAs
@@ -94,7 +102,11 @@
   - https://bugs.php.net/bug.php?id=55045 - openssl_pkcs7_sign() & openssl_pkcs7_encrypt()
   - https://bugs.php.net/bug.php?id=52356 - In memory support for openssl_pkcs7_*
   - https://bugs.php.net/bug.php?id=22978 - (openssl_pkcs7_verify) pem saved into variable
-- **Feat**: Extend CMS with some new features in PKCS7 if applicable
+- **Bug**: CMS - openssl_cms_read should check file path - investigate how it actually read the file (uses PEM_read_bio_CMS)
+  - should apply for PKCS7 as well
+- **Bug**: CMS - openssl_cms_verify should clean exit if sigbio is NULL
+- **Feat**: CMS - Extend with some new features in PKCS7 if applicable
+- **Feat**: CMS - Try to reuse CMS and PKCS7 code - reduce duplications
 - **Feat**: CRL functions support
   - https://bugs.php.net/bug.php?id=40046 - OpenSSL CRL generation support (patch)
 - **Feat**: constants - Consider defining LIBRESSL_VERSION_NUMBER when available
