@@ -2,9 +2,6 @@
 
 ## Source issues
 
-- **Feat**: Build - Homebrew support in search path _(in progress)_
-  - https://github.com/php-gnupg/php-gnupg/issues/42 - PHP 8.0 Mac Apple Silicon - configure: error: Please reinstall the gpgme distribution
-  - https://github.com/php-gnupg/php-gnupg/pull/43 - Add /opt/homebrew to the configuration SEARCH_PATH (my pr)
 - **Feat**: CI - Add GitHub actions CI for running tests with multiple gpg and PHP versions
 - **Bug**: sign - Investigate why setarmor for sign doesn't work
   - https://github.com/php-gnupg/php-gnupg/issues/38 - gnupg::setarmor(0) not respected
@@ -47,6 +44,11 @@
 - **Docs**: Document `gnupg_gettrustlist`
 - **Docs**: Document `gnupg_listsignatures`
 
+### 2022-02
+
+- **Feat**: Build - Homebrew support in search path _(in progress)_
+  - https://github.com/php-gnupg/php-gnupg/issues/42 - PHP 8.0 Mac Apple Silicon - configure: error: Please reinstall the gpgme distribution
+  - https://github.com/php-gnupg/php-gnupg/pull/43 - Add /opt/homebrew to the configuration SEARCH_PATH
 ### 2022-01
 
 - **Docs** - Documented `gnupg_init` options

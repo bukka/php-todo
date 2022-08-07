@@ -4,11 +4,6 @@
 
 ### Monitoring, logging and tracing
 
-- **Bug**: syslog - fix syslog ident issues
-  - https://github.com/php/php-src/pull/7334 - fix for 81324
-  - https://bugs.php.net/bug.php?id=81324 - php-fpm will not set syslog ident for children
-  - https://bugs.php.net/bug.php?id=74469 - syslog.ident setting ignored when logging errors (error_log=syslog)
-  - https://bugs.php.net/bug.php?id=67764 - fpm: syslog.ident don't work (truncated ?)
 - **Bug**: error log - missing new line
   - https://bugs.php.net/bug.php?id=77106 - Missing newlines between PHP messages
 - **Bug**: error log - check how changes is error log file permission impacts IP and time logged
@@ -75,8 +70,6 @@
 
 - **Bug**: proc - do not try to restart in the loop but add some sort of exponential delay
   - https://bugs.php.net/bug.php?id=61558 - Runaway spawning of children after pipe error
-  - https://bugs.php.net/bug.php?id=70185 - php-fpm restarts master process in a loop when exec() and using ssh multiplexing
-  - https://bugs.php.net/bug.php?id=73056 - shell_exec cause PHP FPM child processes exit and start very quickly forever
 - **Bug**: proc - ondemand race condition
   - https://github.com/php/php-src/pull/1308 - pm.ondemand forks fewer child workers than it should
   - https://bugs.php.net/bug.php?id=69724 - pm.ondemand forks fewer child workers than it should (bug for the above PR - contains extra patches)
@@ -160,7 +153,7 @@
 - **Feat**: pool - look to the alternative way of dynamically loading pool configuration and restarting it
   - https://bugs.php.net/bug.php?id=61595 - implement dynamic loading of pools config via file or SQL
   - https://bugs.php.net/bug.php?id=51973 - a way to restart single pools, enable/disable modules per pool
-- **Feat**: pool / proc - control group (linux namespace) support
+- **Feat**: pool / proc - control group (;linux namespace) support
   - https://bugs.php.net/bug.php?id=80657 - Linux namespace support
   - https://bugs.php.net/bug.php?id=70605 - Option to attach a pool to a cgroup
 
@@ -197,6 +190,7 @@
   - https://bugs.php.net/bug.php?id=68018 - php_value directive modifies "Changeable" context (patch)
   - https://bugs.php.net/bug.php?id=60387 - Problem with php_(admin)?_value/flag and load order
   - https://github.com/php/php-src/issues/8398 - php_value[xxx] in php-fpm pool - first declaration wins
+  - https://github.com/php/php-src/issues/8699 - Wrong value from ini_get() for shared files because of opcache optimization
 - **Feat**: conf - look to supporting zend_extension in php_admin_value
   - https://bugs.php.net/bug.php?id=73408 - Loading Zend Extensions in FPM Pool Configuration
 - **Bug**: conf - setting env[LC_MESSAGES] does not work as expected
@@ -287,7 +281,16 @@
 
 ## Changes
 
+### 2022-06
+
+- **Bug**: syslog - fix syslog ident issues
+  - https://github.com/php/php-src/pull/7334 - fix for 81324
+  - https://bugs.php.net/bug.php?id=81324 - php-fpm will not set syslog ident for children
+  - https://bugs.php.net/bug.php?id=74469 - syslog.ident setting ignored when logging errors (error_log=syslog)
+  - https://bugs.php.net/bug.php?id=67764 - fpm: syslog.ident don't work (truncated ?)
+
 ### 2022-05
+
 - **Bug**: fcgi - Fix issue with content-length 0 causing nginx 502
   - https://bugs.php.net/bug.php?id=72185 - php-fpm writes stdout with contentlength =0 causing nginx 502
   - https://github.com/php/php-src/pull/3198 - fix - needs a test

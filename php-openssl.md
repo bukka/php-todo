@@ -4,9 +4,10 @@
 
 ### TLS
 
+- **Bug**: Persistent connection after error handler is not closed
+  - https://github.com/php/php-src/issues/8409 - SSL handshake timeout leaves persistent connections hanging
 - **Bug**: Check issue with TLS 1.3 in phpredis
   - https://bugs.php.net/bug.php?id=79501 - TLS connections freezing on 7.4 (all versions after 7.3.17)
-  - https://github.com/php/php-src/issues/8409 - SSL handshake timeout leaves persistent connections hanging
 - **Bug**: Check corrupted wsdl fetching result if fetching gzip
   - https://bugs.php.net/bug.php?id=79575 - Content-Length header name is getting corrupted
 - **Bug**: Roundcube peer veryfication issue
@@ -22,6 +23,8 @@
 - **Feat**: Refactore async code and provide info about WANT_READ and WANT_WRITE to PHP code
   - https://github.com/php/php-src/pull/2605 - Avoid triggering SIGPIPE after stream_socket_shutdown(SHUT_WR) of a SSL stream (bug report containing discussion)
   - https://bugs.php.net/bug.php?id=68732 - Unchecked return value (this should be addressed as part of refactoring)
+- **Feat**: Check if liveness poll skipping improvement is worth it
+  - https://github.com/php/php-src/pull/8829 - Improve php_openssl_sockop_set_option logic for liveness poll skipping
 - **Feat**: Add option to not add SSL_OP_IGNORE_UNEXPECTED_EOF (opt in protection for truncation attack) - create a proper test with proxy and TCP FIN
   - https://github.com/php/php-src/issues/8369#issuecomment-1126940364 - note about that in the bug
 - **Feat**: Allow multiple peer fingerprints in the context
@@ -34,20 +37,14 @@
 
 ### Crypto
 
-- **Bug**: general - Properly review VCWD PR
-  - https://github.com/php/php-src/pull/7438 - Several openssl functions ignore the VCWD
 - **Bug**: config - add path check for config filename (possible break so only master probably)
   - php_openssl_parse_config function
   - MINIT config filename
   - consider also cafile locations from ini
-- **Bug**: general - Review binary file mode settings (PKCS7_BINARY and CMS_BINARY)
-  - passing flags does not make much sense in many cases
-- **Feat**: general - Look to the stream support for the input params (start with investigation and implemetation ideas)
-  - https://bugs.php.net/bug.php?id=50718 - OpenSSL* doesnt support streamwrappers
-- **Feat**: crypt - Consider tag length veryfication
-  - https://bugs.php.net/bug.php?id=75804 - authenticated encryption tag is broken
 - **Feat**: crypt - Add chacha20-poly1305 support
   - https://bugs.php.net/bug.php?id=76935 - "chacha20-poly1305" is an AEAD but does not work like AEAD
+- **Feat**: crypt - Consider tag length veryfication
+  - https://bugs.php.net/bug.php?id=75804 - authenticated encryption tag is broken
 - **Feat**: crypt - New function to retrieve key length (using EVP_CIPHER_key_length)
 - **Bug**: pkey - RAND_file_name could potentially not work correct with open basedir check and do rand file checks
 - **Bug**: pkey - Do not try to use Rand file when generating key
@@ -102,15 +99,22 @@
   - https://bugs.php.net/bug.php?id=55045 - openssl_pkcs7_sign() & openssl_pkcs7_encrypt()
   - https://bugs.php.net/bug.php?id=52356 - In memory support for openssl_pkcs7_*
   - https://bugs.php.net/bug.php?id=22978 - (openssl_pkcs7_verify) pem saved into variable
+- **Bug**: PKCS12 - openssl_pkcs12_read should check file path - investigate how it actually read the file
 - **Bug**: CMS - openssl_cms_read should check file path - investigate how it actually read the file (uses PEM_read_bio_CMS)
   - should apply for PKCS7 as well
 - **Bug**: CMS - openssl_cms_verify should clean exit if sigbio is NULL
 - **Feat**: CMS - Extend with some new features in PKCS7 if applicable
+- **Feat**: CMS - Add AES GCM constant
+  - https://bugs.php.net/bug.php?id=81724 - openssl_cms/pkcs7_encrypt only allows specific ciphers
 - **Feat**: CMS - Try to reuse CMS and PKCS7 code - reduce duplications
-- **Feat**: CRL functions support
-  - https://bugs.php.net/bug.php?id=40046 - OpenSSL CRL generation support (patch)
+- **Bug**: general - Review binary file mode settings (PKCS7_BINARY and CMS_BINARY)
+  - passing flags does not make much sense in many cases
+- **Feat**: general - Look to the stream support for the input params (start with investigation and implemetation ideas)
+  - https://bugs.php.net/bug.php?id=50718 - OpenSSL* doesnt support streamwrappers
 - **Feat**: constants - Consider defining LIBRESSL_VERSION_NUMBER when available
   - https://bugs.php.net/bug.php?id=71143 - Define LIBRESSL_VERSION_NUMBER when available
+- **Feat**: CRL functions support
+  - https://bugs.php.net/bug.php?id=40046 - OpenSSL CRL generation support (patch)
 - **Feat**: PKCS11 support (waiting for available provider)
   - https://github.com/php/php-src/pull/6860 - RFC7512 URI support
   - https://github.com/php/php-src/issues/7797 - SSL context options for in memory cert and pk (addressed by PKCS11 PR)
@@ -140,6 +144,10 @@
 
 ## Changes
 
+### 2022-06
+
+- **Bug**: Fix openssl path checking for VCWD and null bytes (#50293 and #81713) in OpenSSL functions
+  - https://github.com/php/php-src/pull/8667
 ### 2022-05
 
 - **Bug**: Fix close_notify changes in OpenSSL 3.0 causing connection issues

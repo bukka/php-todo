@@ -5,6 +5,9 @@
 - **Bug**: encoding serialization - var_dump inside jsonSerialize issue
   - https://bugs.php.net/bug.php?id=81524 - json_encode() on JsonSerializable populates the properties HashTable
   - https://github.com/php/php-src/pull/7589 - Use HT for recursion protection in JSON encode (perf issue fix)
+- **Feat**: encoding - customisable pretty printing - indent
+  - https://bugs.php.net/bug.php?id=76005 - Ability to specify indentation string for json_encode with JSON_PRETTY_PRINT
+  - https://github.com/php/php-src/pull/7093 - Add json_encode indent parameter
 - **Feat**: encoding serialization - serializable generators
   - https://bugs.php.net/bug.php?id=72238 - Make Generator class serialisable in JSON
 - **Feat**: encoding - Check and possibly close JSON_NUMERIC_CHECK change request
@@ -14,9 +17,6 @@
   - https://github.com/php/php-src/pull/7234 - json_decode decodes negative zero as positive zero
 - **Feat**: encoding - Consider proposed JSON_NUMERIC_LEADZERO option
   - https://bugs.php.net/bug.php?id=79189 - json_encode with JSON_NUMERIC_CHECK and extra option
-- **Feat**: encoding - customisable pretty printing - indent
-  - https://bugs.php.net/bug.php?id=76005 - Ability to specify indentation string for json_encode with JSON_PRETTY_PRINT
-  - https://github.com/php/php-src/pull/7093 - Add json_encode indent parameter
 - **Feat**: encoding - customisable pretty printing - new line
   - https://bugs.php.net/bug.php?id=74419 - JSON_PRETTY_PRINT prints only Unix newlines
 - **Feat**: encoding - option to disallow objects
