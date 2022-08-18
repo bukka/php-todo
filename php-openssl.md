@@ -37,15 +37,15 @@
 
 ### Crypto
 
+
+- **Feat**: crypt - Add chacha20-poly1305 support
+  - https://bugs.php.net/bug.php?id=76935 - "chacha20-poly1305" is an AEAD but does not work like AEAD
+- **Feat**: crypt - New function to retrieve key length (using EVP_CIPHER_key_length)
 - **Bug**: config - add path check for config filename (possible break so only master probably)
+  - https://github.com/php/php-src/issues/9317
   - php_openssl_parse_config function
   - MINIT config filename
   - consider also cafile locations from ini
-- **Feat**: crypt - Add chacha20-poly1305 support
-  - https://bugs.php.net/bug.php?id=76935 - "chacha20-poly1305" is an AEAD but does not work like AEAD
-- **Feat**: crypt - Consider tag length veryfication
-  - https://bugs.php.net/bug.php?id=75804 - authenticated encryption tag is broken
-- **Feat**: crypt - New function to retrieve key length (using EVP_CIPHER_key_length)
 - **Bug**: pkey - RAND_file_name could potentially not work correct with open basedir check and do rand file checks
 - **Bug**: pkey - Do not try to use Rand file when generating key
   - https://bugs.php.net/bug.php?id=78444 - openssl_pkey_new generates OpenSSL errors with OpenSSL 1.1.1
@@ -113,6 +113,8 @@
   - https://bugs.php.net/bug.php?id=50718 - OpenSSL* doesnt support streamwrappers
 - **Feat**: constants - Consider defining LIBRESSL_VERSION_NUMBER when available
   - https://bugs.php.net/bug.php?id=71143 - Define LIBRESSL_VERSION_NUMBER when available
+- **Feat**: crypt - Consider tag length veryfication
+  - https://bugs.php.net/bug.php?id=75804 - authenticated encryption tag is broken
 - **Feat**: CRL functions support
   - https://bugs.php.net/bug.php?id=40046 - OpenSSL CRL generation support (patch)
 - **Feat**: PKCS11 support (waiting for available provider)
