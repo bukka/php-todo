@@ -4,20 +4,24 @@
 
 ### TLS
 
-- **Bug**: Persistent connection after error handler is not closed
-  - https://github.com/php/php-src/issues/8409 - SSL handshake timeout leaves persistent connections hanging
+- **Bug**: OpenSSL 1.0.2 locking issues
+  - https://github.com/php/php-src/issues/8620 - Segmentation fault on exit when using ldap_bind() 
 - **Bug**: Check issue with TLS 1.3 in phpredis
   - https://bugs.php.net/bug.php?id=79501 - TLS connections freezing on 7.4 (all versions after 7.3.17)
-- **Bug**: Check corrupted wsdl fetching result if fetching gzip
-  - https://bugs.php.net/bug.php?id=79575 - Content-Length header name is getting corrupted
+- **Bug**: Check and fix SAN IP validation
+  https://github.com/php/php-src/issues/9356 - Incomplete validation of IP Address fields in subjectAltNames
 - **Bug**: Roundcube peer veryfication issue
   - https://bugs.php.net/bug.php?id=79909 - verify_peer => true, connection "Error: Login failed ... Unknown reason"
 - **Bug**: Check issue with connection to server with chain containing 3 intermediates wiht RabbitMQ
   - https://bugs.php.net/bug.php?id=78414 - TLS handshake fails when the certificate chain has more than 2 certificates
+- **Bug**: Check corrupted wsdl fetching result if fetching gzip
+  - https://bugs.php.net/bug.php?id=79575 - Content-Length header name is getting corrupted
 - **Bug**: Allow getting client certificate when provided
   - https://bugs.php.net/bug.php?id=80770 - It is not possible to get client peer certificate with stream_socket_server
 - **Bug**: Consider notice for unsupported method flag
   - https://bugs.php.net/bug.php?id=81213 - Stream crypto methods SSLv2 and v3 switch to TLS1.0
+- **Bug**: The `SSL: Success` warning in failed connection does not make much sense
+  - https://github.com/php/php-src/issues/9261#issuecomment-1218471408 - Problem with enabling crypto on stream socket connection
 - **Bug**: Check stream_socket_client async issue
   - https://bugs.php.net/bug.php?id=49295 - stream_socket_client() fails on SSL+async
 - **Feat**: Refactore async code and provide info about WANT_READ and WANT_WRITE to PHP code
@@ -37,10 +41,6 @@
 
 ### Crypto
 
-
-- **Feat**: crypt - Add chacha20-poly1305 support
-  - https://bugs.php.net/bug.php?id=76935 - "chacha20-poly1305" is an AEAD but does not work like AEAD
-- **Feat**: crypt - New function to retrieve key length (using EVP_CIPHER_key_length)
 - **Bug**: config - add path check for config filename (possible break so only master probably)
   - https://github.com/php/php-src/issues/9317
   - php_openssl_parse_config function
@@ -49,9 +49,19 @@
 - **Bug**: pkey - RAND_file_name could potentially not work correct with open basedir check and do rand file checks
 - **Bug**: pkey - Do not try to use Rand file when generating key
   - https://bugs.php.net/bug.php?id=78444 - openssl_pkey_new generates OpenSSL errors with OpenSSL 1.1.1
-- **Feat**: pkey - Improve php_openssl_dh_compute_key to support ECDH before OpenSSL 3.0 and extend tests
+- **Bug**: pkey / md alg - fix compilation without some old digests
+  - https://github.com/php/php-src/pull/8135 - openssl: allow support for nonessential hash function to be absent
+  - https://github.com/php/php-src/pull/8431 - openssl.c: Add opensslconf.h checks for md2, md4, md5 and rmd160
+  - https://github.com/php/php-src/issues/8430 - openssl.c - ignores opensslconf.h & fails to link
+- **Bug**: pkey - fix --no-ec build - PHP fails to build if openssl was built with --no-ec
+  - https://github.com/php/php-src/issues/9064 - 
 - **Bug**: Missing types supported by openssl_public_encrypt
   - https://bugs.php.net/bug.php?id=76676 - OPENSSL_KEYTYPE_EC (and others) not supported by openssl_public_encrypt()
+- **Bug**: Incorrect returned array for SM2 key (DH key in it)
+  - https://github.com/php/php-src/issues/9422#issuecomment-1229484671 - comment in openssl ext sm2 compatibility
+- **Feat**: pkey - SM2 support
+  - https://github.com/php/php-src/issues/9422 - openssl ext sm2 compatibility
+- **Feat**: pkey - Improve php_openssl_dh_compute_key to support ECDH before OpenSSL 3.0 and extend tests
 - **Feat**: pkey - Allow setting padding for openssl_verify
   - https://bugs.php.net/bug.php?id=80495 - Enable to set padding in openssl_verify
 - **Feat**: pkey - Consider adding PKCS#8 export format support
@@ -145,6 +155,14 @@
   - https://bugs.php.net/bug.php?id=79401 - --with-openssl no longer accepts a directory
 
 ## Changes
+
+### 2022-08
+
+- **Feat**: crypt - Add chacha20-poly1305 support
+  - https://bugs.php.net/bug.php?id=76935 - "chacha20-poly1305" is an AEAD but does not work like AEAD
+- **Feat**: crypt - New function to retrieve key length (using EVP_CIPHER_key_length)
+- **Bug**: Persistent connection after error handler is not closed
+  - https://github.com/php/php-src/issues/8409 - SSL handshake timeout leaves persistent connections hanging
 
 ### 2022-06
 
