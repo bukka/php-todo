@@ -14,6 +14,7 @@
   - https://bugs.php.net/bug.php?id=64803 - async stream_socket_client return
 - **Bug**: Seeking past the end on memory stream does not work
   - https://bugs.php.net/bug.php?id=52335  - fseek() on memory stream behavior different then file
+  - https://github.com/php/php-src/issues/9441 - fseek does not work with php://input even though the stream is advertised as seekable
 - **Bug**: HTTP 1/1 steram hangs due to server not closing - unresolve issue with stream_select
   - https://bugs.php.net/bug.php?id=80931 - file_get_contents() hangs with HTTP/1.1 if server doesn't close connection
   - https://github.com/php/php-src/pull/6874 - Fix #80931: HTTP stream hangs if server doesn't close connection
@@ -28,6 +29,8 @@
 
 ## Changes
 
-### 2022-06
+### 2022-07
+- **Bug**: Fix open_basedir check in GlobIterator and glob:// stream
+  - https://github.com/php/php-src/commit/1a9e6895f1d203f38655b52d5b6b823be7d14cbd
 - **Feat**: Allow not close stream on rscr dtor in php cli sapi
   - https://github.com/php/php-src/pull/8833

@@ -55,6 +55,8 @@
   - https://bugs.php.net/bug.php?id=64539 - FPM status page: query_string not properly JSON encoded
 - **Bug**: status - start time invalid on Solaris
   - https://bugs.php.net/bug.php?id=69289 - fpm_status uses wrong time_format for json and xml output
+- **Feat**: status - support full parameter for openmetrics
+  - https://github.com/php/php-src/issues/9494
 - **Feat**: status - value queries and v2 openmetrics
   - https://github.com/php/php-src/pull/7291#discussion_r676184017
 - **Feat**: status - add parameters to list extra fields for fcgi envs
@@ -95,6 +97,7 @@
   - https://bugs.php.net/bug.php?id=65503 - Timeout when max_children reached
 - **Feat**: proc and main - Bootstrapping mode
   - https://github.com/php/php-src/pull/6772 - Add FPM early bootstrapping mode
+- **Feat**: proc - exponential delay for process restart to prevent CPU exhaustion
 - **Feat**: proc - add function to terminate child (this should be probably explicitly enabled in pool config)
   - https://bugs.php.net/bug.php?id=62948 - apache_child_terminate() for FPM
 - **Bug**: event - Check for the maximum file descriptors in devpoll
@@ -158,27 +161,13 @@
   - https://bugs.php.net/bug.php?id=70605 - Option to attach a pool to a cgroup
 
 
-### FastCGI, worker request handling and conf
+### FastCGI, worker request handling and config
 
-- **Bug**: main - incorrectly marking headers as sent when previous connection aborted
-  - https://bugs.php.net/bug.php?id=77780 - "Headers already sent..." when previous connection was aborted
 - **Bug**: main - fastcgi.error_header sets header after request is sent
   - https://bugs.php.net/bug.php?id=68207 - Setting fastcgi.error_header can result in an E_WARNING being triggered
 - **Bug**: main / fcgi - investigate if file uploads can cause disk space exhaustion
   - https://bugs.php.net/bug.php?id=75889 - Overloading disk with temporary files
   - https://bugs.php.net/bug.php?id=70620 php-fpm can interrupt sapi_deactivate cleanup (Security bug - exposed by the #75889)
-- **Bug**: main - PHP_ADMIN_VALUE and PHP_VALUE should be cleared on request end
-  - https://bugs.php.net/bug.php?id=63965 - php-fpm site-specific settings go global
-  - https://bugs.php.net/bug.php?id=53611 - fastcgi_param PHP_VALUE pollutes other sites
-  - https://bugs.php.net/bug.php?id=61867 - user_ini_filename ignored for cached user_config (might need a check if this will be addressed by the above)
-- **Feat**: main - option disable PHP_ADMIN_VALUE and PHP_VALUE
-  - https://bugs.php.net/bug.php?id=64103 - Bypass PHP Security Settings with PHP-FPM
-  - https://bugs.php.net/bug.php?id=70134 - open_basedir bypass with IP-based PHP-FPM
-  - https://bugs.php.net/bug.php?id=72129 - PHP_VALUE, PHP_ADMIN_VALUE... changed by environment variables set in .htaccess
-  - https://bugs.php.net/bug.php?id=77190 - PHP_VALUE can be changed by PHP-FPM environment variables without checking
-  - https://bugs.php.net/bug.php?id=78305 -	Injection of INI settings into FPM worker processes
-  - https://bugs.php.net/bug.php?id=79417 - PHP-FPM: php_admin_value can be overwritten in .htaccess
-  - https://bugs.php.net/bug.php?id=80385 - Response data preceded by post data
 - **Bug**: conf - possibly incorrect order of ini setting
   - https://bugs.php.net/bug.php?id=75741 - enable_post_data_reading not working on PHP-FPM
   - https://github.com/php/php-src/issues/8157 - post_max_size evaluates .user.ini too late in php-fpm?
@@ -191,6 +180,20 @@
   - https://bugs.php.net/bug.php?id=60387 - Problem with php_(admin)?_value/flag and load order
   - https://github.com/php/php-src/issues/8398 - php_value[xxx] in php-fpm pool - first declaration wins
   - https://github.com/php/php-src/issues/8699 - Wrong value from ini_get() for shared files because of opcache optimization
+- **Bug**: main - PHP_ADMIN_VALUE and PHP_VALUE should be cleared on request end
+  - https://bugs.php.net/bug.php?id=63965 - php-fpm site-specific settings go global
+  - https://bugs.php.net/bug.php?id=53611 - fastcgi_param PHP_VALUE pollutes other sites
+  - https://bugs.php.net/bug.php?id=61867 - user_ini_filename ignored for cached user_config (might need a check if this will be addressed by the above)
+- **Feat**: main - option disable PHP_ADMIN_VALUE and PHP_VALUE
+  - https://bugs.php.net/bug.php?id=64103 - Bypass PHP Security Settings with PHP-FPM
+  - https://bugs.php.net/bug.php?id=70134 - open_basedir bypass with IP-based PHP-FPM
+  - https://bugs.php.net/bug.php?id=72129 - PHP_VALUE, PHP_ADMIN_VALUE... changed by environment variables set in .htaccess
+  - https://bugs.php.net/bug.php?id=77190 - PHP_VALUE can be changed by PHP-FPM environment variables without checking
+  - https://bugs.php.net/bug.php?id=78305 -	Injection of INI settings into FPM worker processes
+  - https://bugs.php.net/bug.php?id=79417 - PHP-FPM: php_admin_value can be overwritten in .htaccess
+  - https://bugs.php.net/bug.php?id=80385 - Response data preceded by post data
+- **Feat**: main / core - Introduce new INI type (e.g. ZEND_INI_ADMIN) for PHP_ADMIN_VALUE to not use ZEND_INI_SYSTEM
+  - https://github.com/php/php-src/pull/8997 - Fix GH-8699: ini_get() opcache optimization in 8.1 (see discussion of the change)
 - **Feat**: conf - look to supporting zend_extension in php_admin_value
   - https://bugs.php.net/bug.php?id=73408 - Loading Zend Extensions in FPM Pool Configuration
 - **Bug**: conf - setting env[LC_MESSAGES] does not work as expected
@@ -261,6 +264,9 @@
 
 - **Test**: tester - allow out of order log entries with some being optional and debug only collected (some sort of event based collector)
 - **Test**: tester - print all logs when error including some tracing info if possible (change log levels to debug)
+- **Test**: signals - Rename and clean up the signal reloading tests
+  - bug74085-concurrent-reload.phpt
+  - bug76601-reload-child-signals.phpt
 - **Test**: proc - try to make sigquit test work
   - https://github.com/php/php-src/issues/8443 - sapi/fpm/tests/bug77023-pm-dynamic-blocking-sigquit.phpt test is failing frequently
 - **Test**: proc - make proc idle test stable
@@ -268,8 +274,10 @@
 - **Test**: proc - skip ondemand tests on unsupported platforms
   - https://bugs.php.net/bug.php?id=81110 - Tests use unsupported ondemand process manager
 - **Test**: logs - Make log-bwd-multiple-msgs-stdout-stderr work again
-- **Test**: signals - Rename and clean up the signal reloading tests
+- **Test**: socket - Check why bug68381 test fails with ASAN (currently skip with ASAN)
 - **Test**: fcgi - Rename and clean up HTTP Status header truncation
+- **Test**: binary - better integrate exit code test - bug78323.phpt
+
 
 ## Docs
 
@@ -280,6 +288,11 @@
 
 
 ## Changes
+
+### 2022-08
+
+- **Bug**: main - incorrectly marking headers as sent when previous connection aborted
+  - https://bugs.php.net/bug.php?id=77780 - "Headers already sent..." when previous connection was aborted
 
 ### 2022-06
 

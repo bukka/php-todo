@@ -41,20 +41,12 @@
 
 ### Crypto
 
-- **Bug**: config - add path check for config filename (possible break so only master probably)
-  - https://github.com/php/php-src/issues/9317
-  - php_openssl_parse_config function
-  - MINIT config filename
-  - consider also cafile locations from ini
-- **Bug**: pkey - RAND_file_name could potentially not work correct with open basedir check and do rand file checks
-- **Bug**: pkey - Do not try to use Rand file when generating key
-  - https://bugs.php.net/bug.php?id=78444 - openssl_pkey_new generates OpenSSL errors with OpenSSL 1.1.1
 - **Bug**: pkey / md alg - fix compilation without some old digests
-  - https://github.com/php/php-src/pull/8135 - openssl: allow support for nonessential hash function to be absent
   - https://github.com/php/php-src/pull/8431 - openssl.c: Add opensslconf.h checks for md2, md4, md5 and rmd160
+  - https://github.com/php/php-src/pull/8135 - openssl: allow support for nonessential hash function to be absent
   - https://github.com/php/php-src/issues/8430 - openssl.c - ignores opensslconf.h & fails to link
-- **Bug**: pkey - fix --no-ec build - PHP fails to build if openssl was built with --no-ec
-  - https://github.com/php/php-src/issues/9064 - 
+- **Bug**: pkey - fix --no-ec build
+  - https://github.com/php/php-src/issues/9064 - PHP fails to build if openssl was built with --no-ec
 - **Bug**: Missing types supported by openssl_public_encrypt
   - https://bugs.php.net/bug.php?id=76676 - OPENSSL_KEYTYPE_EC (and others) not supported by openssl_public_encrypt()
 - **Bug**: Incorrect returned array for SM2 key (DH key in it)
@@ -117,6 +109,14 @@
 - **Feat**: CMS - Add AES GCM constant
   - https://bugs.php.net/bug.php?id=81724 - openssl_cms/pkcs7_encrypt only allows specific ciphers
 - **Feat**: CMS - Try to reuse CMS and PKCS7 code - reduce duplications
+- **Bug**: config - add path check for config filename (possible break so only master probably)
+  - https://github.com/php/php-src/issues/9317
+  - php_openssl_parse_config function
+  - MINIT config filename
+  - consider also cafile locations from ini
+- **Bug**: pkey - RAND_file_name could potentially not work correct with open basedir check and do rand file checks
+- **Bug**: pkey - Do not try to use Rand file when generating key
+  - https://bugs.php.net/bug.php?id=78444 - openssl_pkey_new generates OpenSSL errors with OpenSSL 1.1.1
 - **Bug**: general - Review binary file mode settings (PKCS7_BINARY and CMS_BINARY)
   - passing flags does not make much sense in many cases
 - **Feat**: general - Look to the stream support for the input params (start with investigation and implemetation ideas)
