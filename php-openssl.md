@@ -14,10 +14,14 @@
   - https://bugs.php.net/bug.php?id=79909 - verify_peer => true, connection "Error: Login failed ... Unknown reason"
 - **Bug**: Check issue with connection to server with chain containing 3 intermediates wiht RabbitMQ
   - https://bugs.php.net/bug.php?id=78414 - TLS handshake fails when the certificate chain has more than 2 certificates
+- **Bug**: Issue with proxied file_get_contents with https
+  - https://bugs.php.net/bug.php?id=76196 - proxied file_get_contents calls lag the cert check one behind for further calls
 - **Bug**: Check corrupted wsdl fetching result if fetching gzip
   - https://bugs.php.net/bug.php?id=79575 - Content-Length header name is getting corrupted
 - **Bug**: Allow getting client certificate when provided
   - https://bugs.php.net/bug.php?id=80770 - It is not possible to get client peer certificate with stream_socket_server
+- **Bug**: Check why stream_context_set_default does not set options for veryfying self signed cert
+  - https://bugs.php.net/bug.php?id=69319 - stream_context_set_default() options not set as default in streaming functions
 - **Bug**: Consider notice for unsupported method flag
   - https://bugs.php.net/bug.php?id=81213 - Stream crypto methods SSLv2 and v3 switch to TLS1.0
 - **Bug**: The `SSL: Success` warning in failed connection does not make much sense
@@ -27,6 +31,7 @@
 - **Feat**: Refactore async code and provide info about WANT_READ and WANT_WRITE to PHP code
   - https://github.com/php/php-src/pull/2605 - Avoid triggering SIGPIPE after stream_socket_shutdown(SHUT_WR) of a SSL stream (bug report containing discussion)
   - https://bugs.php.net/bug.php?id=68732 - Unchecked return value (this should be addressed as part of refactoring)
+  - https://bugs.php.net/bug.php?id=75288 - stream_socket_enable_crypto() blocks during handshake
 - **Feat**: Check if liveness poll skipping improvement is worth it
   - https://github.com/php/php-src/pull/8829 - Improve php_openssl_sockop_set_option logic for liveness poll skipping
 - **Feat**: Add option to not add SSL_OP_IGNORE_UNEXPECTED_EOF (opt in protection for truncation attack) - create a proper test with proxy and TCP FIN
@@ -138,6 +143,8 @@
 
 ## Docs
 
+- tls - Document crypto_method context option
+  - https://bugs.php.net/bug.php?id=68131 - crypto_method context option not documented.
 - crypt - openssl_encrypt - Remove insecure examples
   - https://bugs.php.net/bug.php?id=80843 - Remove examples from comments as they are invariably insecure
 - crypt - AEAD tag setting clarification
