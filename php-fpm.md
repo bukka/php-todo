@@ -4,6 +4,9 @@
 
 ### Monitoring, logging and tracing
 
+- **Bug**: The fpm_stdio_child_said can happen after the child is deleted
+  - https://github.com/php/php-src/issues/8517 - Random crash of php8 - segfault...
+  - https://github.com/php/php-src/pull/9444 - Fix GH-8517: FPM child pointer can be possibly uninitialized
 - **Bug**: error log - missing new line
   - https://bugs.php.net/bug.php?id=77106 - Missing newlines between PHP messages
 - **Bug**: error log - check how changes is error log file permission impacts IP and time logged
@@ -70,8 +73,6 @@
 
 ### Process management and related
 
-- **Bug**: proc - do not try to restart in the loop but add some sort of exponential delay
-  - https://bugs.php.net/bug.php?id=61558 - Runaway spawning of children after pipe error
 - **Bug**: proc - ondemand race condition
   - https://github.com/php/php-src/pull/1308 - pm.ondemand forks fewer child workers than it should
   - https://bugs.php.net/bug.php?id=69724 - pm.ondemand forks fewer child workers than it should (bug for the above PR - contains extra patches)
@@ -97,7 +98,8 @@
   - https://bugs.php.net/bug.php?id=65503 - Timeout when max_children reached
 - **Feat**: proc and main - Bootstrapping mode
   - https://github.com/php/php-src/pull/6772 - Add FPM early bootstrapping mode
-- **Feat**: proc - exponential delay for process restart to prevent CPU exhaustion
+- **Feat**: proc - Introduce delay for process restarts to prevent CPU exhaustion
+  - https://github.com/php/php-src/issues/9632 - FPM delayed process restarting
 - **Feat**: proc - add function to terminate child (this should be probably explicitly enabled in pool config)
   - https://bugs.php.net/bug.php?id=62948 - apache_child_terminate() for FPM
 - **Bug**: event - Check for the maximum file descriptors in devpoll
@@ -171,6 +173,7 @@
 - **Bug**: conf - possibly incorrect order of ini setting
   - https://bugs.php.net/bug.php?id=75741 - enable_post_data_reading not working on PHP-FPM
   - https://github.com/php/php-src/issues/8157 - post_max_size evaluates .user.ini too late in php-fpm?
+  - https://github.com/php/php-src/pull/8955 - activate sapi module before POST handling to allow to apply user.ini
 - **Bug**: conf - possible overwritting issue with php_admin_value and php_value
   - https://bugs.php.net/bug.php?id=80012 - PHP_ADMIN_VALUE parameter is not correctly inherited
   - https://bugs.php.net/bug.php?id=72253 - phpinfo shows only first block of admin_value[disable_functions]
@@ -255,6 +258,7 @@
 
 ## Feedback required
 
+- https://github.com/php/php-src/issues/8646 - Core: Memory leak PHP FPM 8.1 ARM64
 - https://bugs.php.net/bug.php?id=73313 - over fpm does not respect in .user.ini engine off directive
 - https://bugs.php.net/bug.php?id=76224 - Error and shutdown handlers triggered on object destroy
 - https://bugs.php.net/bug.php?id=70945 - php-fpm don't start : ERROR: no data have been read from pipe failed
