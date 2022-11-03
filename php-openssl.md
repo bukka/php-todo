@@ -46,15 +46,11 @@
 
 ### Crypto
 
-- **Bug**: pkey / md alg - fix compilation without some old digests
-  - https://github.com/php/php-src/pull/8431 - openssl.c: Add opensslconf.h checks for md2, md4, md5 and rmd160
-  - https://github.com/php/php-src/pull/8135 - openssl: allow support for nonessential hash function to be absent
-  - https://github.com/php/php-src/issues/8430 - openssl.c - ignores opensslconf.h & fails to link
 - **Bug**: pkey - fix --no-ec build
   - https://github.com/php/php-src/issues/9064 - PHP fails to build if openssl was built with --no-ec
-- **Bug**: Missing types supported by openssl_public_encrypt
+- **Bug**: pkey - Missing types supported by openssl_public_encrypt
   - https://bugs.php.net/bug.php?id=76676 - OPENSSL_KEYTYPE_EC (and others) not supported by openssl_public_encrypt()
-- **Bug**: Incorrect returned array for SM2 key (DH key in it)
+- **Bug**: pkey - Incorrect returned array for SM2 key (DH key in it)
   - https://github.com/php/php-src/issues/9422#issuecomment-1229484671 - comment in openssl ext sm2 compatibility
 - **Feat**: pkey - SM2 support
   - https://github.com/php/php-src/issues/9422 - openssl ext sm2 compatibility
@@ -162,6 +158,13 @@
   - https://bugs.php.net/bug.php?id=79401 - --with-openssl no longer accepts a directory
 
 ## Changes
+
+### 2022-10
+
+- **Bug**: pkey / md alg - fix compilation without some old digests
+  - https://github.com/php/php-src/pull/8431 - openssl.c: Add opensslconf.h checks for md2, md4, md5 and rmd160
+  - https://github.com/php/php-src/pull/8135 - openssl: allow support for nonessential hash function to be absent
+  - https://github.com/php/php-src/issues/8430 - openssl.c - ignores opensslconf.h & fails to link
 
 ### 2022-08
 

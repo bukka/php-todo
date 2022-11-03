@@ -5,9 +5,7 @@
 - **Bug**: encoding serialization - var_dump inside jsonSerialize issue
   - https://bugs.php.net/bug.php?id=81524 - json_encode() on JsonSerializable populates the properties HashTable
   - https://github.com/php/php-src/pull/7589 - Use HT for recursion protection in JSON encode (perf issue fix)
-- **Feat**: encoding - customisable pretty printing - indent
-  - https://bugs.php.net/bug.php?id=76005 - Ability to specify indentation string for json_encode with JSON_PRETTY_PRINT
-  - https://github.com/php/php-src/pull/7093 - Add json_encode indent parameter
+  - https://github.com/php/php-src/pull/9703 - Don't build prop table during json_encode(JsonSerializable) (breaking attempt)
 - **Feat**: encoding serialization - serializable generators
   - https://bugs.php.net/bug.php?id=72238 - Make Generator class serialisable in JSON
 - **Feat**: encoding - Check and possibly close JSON_NUMERIC_CHECK change request
@@ -17,6 +15,9 @@
   - https://github.com/php/php-src/pull/7234 - json_decode decodes negative zero as positive zero
 - **Feat**: encoding - Consider proposed JSON_NUMERIC_LEADZERO option
   - https://bugs.php.net/bug.php?id=79189 - json_encode with JSON_NUMERIC_CHECK and extra option
+- **Feat**: encoding - customisable pretty printing - indent
+  - https://bugs.php.net/bug.php?id=76005 - Ability to specify indentation string for json_encode with JSON_PRETTY_PRINT
+  - https://github.com/php/php-src/pull/7093 - Add json_encode indent parameter
 - **Feat**: encoding - customisable pretty printing - new line
   - https://bugs.php.net/bug.php?id=74419 - JSON_PRETTY_PRINT prints only Unix newlines
 - **Feat**: encoding - option to disallow objects
@@ -25,7 +26,7 @@
   - https://bugs.php.net/bug.php?id=78765 - enhancement to json_decode : treat a JSON string with duplicate keys as invalid
 - **Feat**: decoding - Consider option to return non parsed json string for recursion out of scope (not probably possible)
   - https://bugs.php.net/bug.php?id=75915 - json_decode recursion level misleading
-- **Feat**: decoding - Look to simd support and possible replacing of json person to be LL
+- **Feat**: decoding - Look to simd support and possible replacing of json parser to be LL
 - **Feat**: Errors - Look to re-considering JSON_THROW_ON_ERROR behaviour
   - https://bugs.php.net/bug.php?id=77997 - json_last_error should work even if JSON_THROW_ON_ERROR
 - **Feat**: spec - JsonSchema support 
