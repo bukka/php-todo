@@ -2,7 +2,7 @@
 
 ## Source issues
 
-### Monitoring, logging and tracing
+### Logging, tracing and socket
 
 - **Bug**: The fpm_stdio_child_said can happen after the child is deleted
   - https://github.com/php/php-src/issues/8517 - Random crash of php8 - segfault...
@@ -45,13 +45,27 @@
 - **Feat**: trace - slowlog - add request information - maybe some custom configurable fmt
   - https://bugs.php.net/bug.php?id=81501 - Log request information in slowlog
   - https://bugs.php.net/bug.php?id=79137 - Add request parameters to slow log script report
-- **Bug**: status - listen queue len does not follow listen.backlog
+- **Bug**: socket - Add FD_CLOSEXEC on listening socket so it is not iherited by proc_open
+  - https://bugs.php.net/bug.php?id=67383 - exec() leaks file and socket descriptors to called program (general for all parts of PHP - not good idea)
+  - https://bugs.php.net/bug.php?id=76067 - system() function call leaks php-fpm listening sockets
+  - https://bugs.php.net/bug.php?id=80992 - fork() don't close fpm_globals.listening_socket
+- **Bug**: socket - non portable socket binding on FreeBSD
+  - https://bugs.php.net/bug.php?id=77501 - listen = 9000 only listens on one interface
+  - https://bugs.php.net/bug.php?id=77482 - Wont bind to IPv4 if IPv6 enabled
+- **Feat**: socket - socket route option
+  - https://github.com/php/php-src/pull/8470 - FPM add routing view global option (for FreeBSD for now).
+- **Feat**: socket - Consider re-enabling warning for non empty listening queue or remove commented out code in process ctl.
+  - https://github.com/php/php-src/blob/2ac5948f5cbaf3351fe18ab1068422487c9c215f/sapi/fpm/fpm/fpm_process_ctl.c#L349-L359
+
+### Status and config
+
+- **Bug**: scoreboard- listen queue len does not follow listen.backlog
   - https://bugs.php.net/bug.php?id=76323 - FPM /status reports wrong number of listen queue len
-- **Bug**: status - correct listen queue len for UDS
+- **Bug**: scoreboard - correct listen queue len for UDS
   - https://bugs.php.net/bug.php?id=80739 - PHP-FPM status page shows listen queue 0 (main details here)
-- **Bug**: status - inconsistent idle process count
+- **Bug**: scoreboard - inconsistent idle process count
   - https://bugs.php.net/bug.php?id=74542 - Inconsistent php-fpm status page
-- **Bug**: status - slow request causing counter reset
+- **Bug**: scoreboard - slow request causing counter reset
   - https://bugs.php.net/bug.php?id=70645 - Resetting counters on status page
 - **Bug**: status - JSON and XML output is not escaped and can be invalid
   - https://bugs.php.net/bug.php?id=69250 - PHP FPM status report produces invalid JSON and XML
@@ -59,17 +73,102 @@
 - **Bug**: status - start time invalid on Solaris
   - https://bugs.php.net/bug.php?id=69289 - fpm_status uses wrong time_format for json and xml output
 - **Feat**: status - support full parameter for openmetrics
-  - https://github.com/php/php-src/issues/9494
+  - https://github.com/php/php-src/issues/9494 - FPM status with OpenMetrics format and FULL parameter
+  - https://github.com/php/php-src/pull/9646 - expose per process metrics in fpm status
 - **Feat**: status - value queries and v2 openmetrics
   - https://github.com/php/php-src/pull/7291#discussion_r676184017
 - **Feat**: status - add parameters to list extra fields for fcgi envs
+  - https://github.com/php/php-src/issues/8880 - Support fastcgi parameter in FPM for status page to display request meta data
   - https://github.com/php/php-src/pull/2713 - Enhancement: php-fpm status page shows ip address of the client (closed but idea is there)
   - https://bugs.php.net/bug.php?id=72319 - FPM status page shows wrong request_uri (generic solution for this bug - would be worth to do path info as well)
 - **Feat**: ping - integrate ping.listen similar to pm.status_listen
   - https://bugs.php.net/bug.php?id=68678 - FPM Ping should use a reserved worker
 - **Feat**: scoreboard - track number of terminated requests
   - https://bugs.php.net/bug.php?id=78789 - Count number of request_terminate_timeout reached + killed in scoreboard
+- **Bug**: conf - possibly incorrect order of ini setting
+  - https://bugs.php.net/bug.php?id=75741 - enable_post_data_reading not working on PHP-FPM
+  - https://github.com/php/php-src/issues/8157 - post_max_size evaluates .user.ini too late in php-fpm?
+  - https://github.com/php/php-src/pull/8955 - activate sapi module before POST handling to allow to apply user.ini
+- **Bug**: conf - possible overwritting issue with php_admin_value and php_value
+  - https://bugs.php.net/bug.php?id=80012 - PHP_ADMIN_VALUE parameter is not correctly inherited
+  - https://bugs.php.net/bug.php?id=72253 - phpinfo shows only first block of admin_value[disable_functions]
+  - https://bugs.php.net/bug.php?id=72018 - php_admin_value override
+  - https://bugs.php.net/bug.php?id=68171 - php_admin_value[extension] order not maintained
+  - https://bugs.php.net/bug.php?id=68018 - php_value directive modifies "Changeable" context (patch)
+  - https://bugs.php.net/bug.php?id=60387 - Problem with php_(admin)?_value/flag and load order
+  - https://github.com/php/php-src/issues/8398 - php_value[xxx] in php-fpm pool - first declaration wins
+- **Feat**: conf - Introduce ZEND_INI_ADMIN for PHP ini admin values and not overwrite some system ini that cannot be overriden
+  - https://github.com/php/php-src/issues/8699 - Wrong value from ini_get() for shared files because of opcache optimization
+  - https://github.com/php/php-src/issues/9722 - FPM is maliciously compliant when asked to set opcache.preload
+- **Feat**: main - PHP_ADMIN_VALUE and PHP_VALUE should be cleared on request end
+  - https://bugs.php.net/bug.php?id=63965 - php-fpm site-specific settings go global
+  - https://bugs.php.net/bug.php?id=53611 - fastcgi_param PHP_VALUE pollutes other sites
+  - https://bugs.php.net/bug.php?id=61867 - user_ini_filename ignored for cached user_config (might need a check if this will be addressed by the above)
+- **Feat**: main - option disable PHP_ADMIN_VALUE and PHP_VALUE
+  - https://bugs.php.net/bug.php?id=64103 - Bypass PHP Security Settings with PHP-FPM
+  - https://bugs.php.net/bug.php?id=70134 - open_basedir bypass with IP-based PHP-FPM
+  - https://bugs.php.net/bug.php?id=72129 - PHP_VALUE, PHP_ADMIN_VALUE... changed by environment variables set in .htaccess
+  - https://bugs.php.net/bug.php?id=77190 - PHP_VALUE can be changed by PHP-FPM environment variables without checking
+  - https://bugs.php.net/bug.php?id=78305 -	Injection of INI settings into FPM worker processes
+  - https://bugs.php.net/bug.php?id=79417 - PHP-FPM: php_admin_value can be overwritten in .htaccess
+  - https://bugs.php.net/bug.php?id=80385 - Response data preceded by post data
+- **Feat**: main / core - Introduce new INI type (e.g. ZEND_INI_ADMIN) for PHP_ADMIN_VALUE to not use ZEND_INI_SYSTEM
+  - https://github.com/php/php-src/pull/8997 - Fix GH-8699: ini_get() opcache optimization in 8.1 (see discussion of the change)
+- **Feat**: conf - look to supporting zend_extension in php_admin_value
+  - https://bugs.php.net/bug.php?id=73408 - Loading Zend Extensions in FPM Pool Configuration
+- **Bug**: conf - setting env[LC_MESSAGES] does not work as expected
+  - https://bugs.php.net/bug.php?id=81253 - unexpected result of setting env[LC_MESSAGES] in php-fpm pool config
+- **Feat**: conf - add support for environment variables in configuration
+  - https://bugs.php.net/bug.php?id=75994 - Environment permanently breaks for worker process.
+  - https://bugs.php.net/bug.php?id=76798 - Can't configure PHP-FPM via environment variables (check if it worked before 7.1.15 and 7.2.1)
+- **Feat**: conf - allow multiple includes per file
+  - https://bugs.php.net/bug.php?id=68022 -	FPM should allow multiple includes per file (patch)
+- **Bug**: conf - if error in the config, correctly put file name and file line of the error to the error message
+  - https://bugs.php.net/bug.php?id=65500 - debug_backtrace doesn't identify file name when config contains invalid comment
+- **Feat**: conf - optional pool prefix support
+  - https://github.com/php/php-src/pull/3563 - Introducing "pool:" prefix on [section] FPM ini configuration
+- **Feat**: conf - add compile option to set default FPM config path
+  - https://bugs.php.net/bug.php?id=61073 - php-fpm config file path option lacking
 
+
+### FastCGI, worker request handling
+
+- **Bug**: main - fastcgi.error_header sets header after request is sent
+  - https://bugs.php.net/bug.php?id=68207 - Setting fastcgi.error_header can result in an E_WARNING being triggered
+- **Bug**: main / fcgi - investigate if file uploads can cause disk space exhaustion
+  - https://bugs.php.net/bug.php?id=75889 - Overloading disk with temporary files
+  - https://bugs.php.net/bug.php?id=70620 php-fpm can interrupt sapi_deactivate cleanup (Security bug - exposed by the #75889)
+- **Bug**: main - correctly decode path_info before comparing to comply with cgi spec
+  - https://bugs.php.net/bug.php?id=74129 - Incorrect SCRIPT_NAME with apache ProxyPassMatch when spaces are in path
+- **Bug**: main - verify the PATH_TRANSLATED logic with cgi.fix_pathinfo
+  - https://bugs.php.net/bug.php?id=68053 - PHP-FPM with cgi.fix_pathinfo 0 loads script from PATH_TRANSLATED
+- **Bug**: main - Look to the suggested changes for Apache and fcgi env vars (mainly verify if it's still issue with httpd)
+  - https://bugs.php.net/bug.php?id=51983 - [fpm sapi] pm.status_path not working when cgi.fix_pathinfo=1
+- **Test**: main - properly test the logic for processing env vars (especially the httpd logic) and verify it works with httpd balancer
+  - https://bugs.php.net/bug.php?id=71379 - Add support for Apache 2.4 mod_proxy_balancer to FPM
+  - https://bugs.php.net/bug.php?id=67998 - Wrong SCRIPT_FILENAME (check if this is still an issue or has been fixed)
+- **Bug**: main - argv and argc should not be included in env vars
+  - https://bugs.php.net/bug.php?id=75712 - php-fpm's import_environment_variables impl should not copy $_ENV, $_SERVER
+- **Bug**: main - check handling of multiple headers
+  - https://bugs.php.net/bug.php?id=78844 - FPM does not support multiple HTTP request headers with the same name
+- **Feat**: main - refactore processing of fcgi env vars
+- **Bug**: fcgi - Abort connection if CONTENT_LENGTH differs from input length
+- **Bug**: fcgi - FCGI_GET_VALUES does not seem to work
+  - https://bugs.php.net/bug.php?id=76922 - FastCGI terminates connection immediately after FCGI_GET_VALUES
+- **Bug**: fcgi - FCGI_ABORT_REQUEST from the client (web server) seems to be ignored
+  - https://bugs.php.net/bug.php?id=76419 - connection_aborted() under FPM doesn't work properly
+- **Feat**: fcgi - flag to allow missing content length
+  - https://github.com/php/php-src/pull/7509 - discussion
+- **Feat**: fcgi - spec update to no content length bytes
+  - https://bugs.php.net/bug.php?id=79723 - sapi_cgi_read_post() ignores EOF
+  - https://bugs.php.net/bug.php?id=51191 - Request body is 0-size when chunked requests are used 
+  - https://github.com/php/php-src/pull/7509 - Fixed reading in streamed body using fastcgi
+- **Feat**: fcgi - do not require any CGI parameters to allow overwriting on pool level
+  - https://bugs.php.net/bug.php?id=74995 - Control/set fastcgi parameters from pool config file
+- **Feat**: fcgi - spec update to allow using FCGI over TLS
+- **Feat**: fcgi - spec update to allow larger headers than 64k
+  - https://trac.nginx.org/nginx/ticket/239 - Support for large (> 64k) FastCGI requests
+- **Feat**: fcgi - implement TLS support with client cert auth
 
 ### Process management and related
 
@@ -162,102 +261,10 @@
   - https://bugs.php.net/bug.php?id=80657 - Linux namespace support
   - https://bugs.php.net/bug.php?id=70605 - Option to attach a pool to a cgroup
 
-
-### FastCGI, worker request handling and config
-
-- **Bug**: main - fastcgi.error_header sets header after request is sent
-  - https://bugs.php.net/bug.php?id=68207 - Setting fastcgi.error_header can result in an E_WARNING being triggered
-- **Bug**: main / fcgi - investigate if file uploads can cause disk space exhaustion
-  - https://bugs.php.net/bug.php?id=75889 - Overloading disk with temporary files
-  - https://bugs.php.net/bug.php?id=70620 php-fpm can interrupt sapi_deactivate cleanup (Security bug - exposed by the #75889)
-- **Bug**: conf - possibly incorrect order of ini setting
-  - https://bugs.php.net/bug.php?id=75741 - enable_post_data_reading not working on PHP-FPM
-  - https://github.com/php/php-src/issues/8157 - post_max_size evaluates .user.ini too late in php-fpm?
-  - https://github.com/php/php-src/pull/8955 - activate sapi module before POST handling to allow to apply user.ini
-- **Bug**: conf - possible overwritting issue with php_admin_value and php_value
-  - https://bugs.php.net/bug.php?id=80012 - PHP_ADMIN_VALUE parameter is not correctly inherited
-  - https://bugs.php.net/bug.php?id=72253 - phpinfo shows only first block of admin_value[disable_functions]
-  - https://bugs.php.net/bug.php?id=72018 - php_admin_value override
-  - https://bugs.php.net/bug.php?id=68171 - php_admin_value[extension] order not maintained
-  - https://bugs.php.net/bug.php?id=68018 - php_value directive modifies "Changeable" context (patch)
-  - https://bugs.php.net/bug.php?id=60387 - Problem with php_(admin)?_value/flag and load order
-  - https://github.com/php/php-src/issues/8398 - php_value[xxx] in php-fpm pool - first declaration wins
-  - https://github.com/php/php-src/issues/8699 - Wrong value from ini_get() for shared files because of opcache optimization
-- **Bug**: main - PHP_ADMIN_VALUE and PHP_VALUE should be cleared on request end
-  - https://bugs.php.net/bug.php?id=63965 - php-fpm site-specific settings go global
-  - https://bugs.php.net/bug.php?id=53611 - fastcgi_param PHP_VALUE pollutes other sites
-  - https://bugs.php.net/bug.php?id=61867 - user_ini_filename ignored for cached user_config (might need a check if this will be addressed by the above)
-- **Feat**: main - option disable PHP_ADMIN_VALUE and PHP_VALUE
-  - https://bugs.php.net/bug.php?id=64103 - Bypass PHP Security Settings with PHP-FPM
-  - https://bugs.php.net/bug.php?id=70134 - open_basedir bypass with IP-based PHP-FPM
-  - https://bugs.php.net/bug.php?id=72129 - PHP_VALUE, PHP_ADMIN_VALUE... changed by environment variables set in .htaccess
-  - https://bugs.php.net/bug.php?id=77190 - PHP_VALUE can be changed by PHP-FPM environment variables without checking
-  - https://bugs.php.net/bug.php?id=78305 -	Injection of INI settings into FPM worker processes
-  - https://bugs.php.net/bug.php?id=79417 - PHP-FPM: php_admin_value can be overwritten in .htaccess
-  - https://bugs.php.net/bug.php?id=80385 - Response data preceded by post data
-- **Feat**: main / core - Introduce new INI type (e.g. ZEND_INI_ADMIN) for PHP_ADMIN_VALUE to not use ZEND_INI_SYSTEM
-  - https://github.com/php/php-src/pull/8997 - Fix GH-8699: ini_get() opcache optimization in 8.1 (see discussion of the change)
-- **Feat**: conf - look to supporting zend_extension in php_admin_value
-  - https://bugs.php.net/bug.php?id=73408 - Loading Zend Extensions in FPM Pool Configuration
-- **Bug**: conf - setting env[LC_MESSAGES] does not work as expected
-  - https://bugs.php.net/bug.php?id=81253 - unexpected result of setting env[LC_MESSAGES] in php-fpm pool config
-- **Feat**: conf - add support for environment variables in configuration
-  - https://bugs.php.net/bug.php?id=75994 - Environment permanently breaks for worker process.
-  - https://bugs.php.net/bug.php?id=76798 - Can't configure PHP-FPM via environment variables (check if it worked before 7.1.15 and 7.2.1)
-- **Feat**: conf - allow multiple includes per file
-  - https://bugs.php.net/bug.php?id=68022 -	FPM should allow multiple includes per file (patch)
-- **Bug**: conf - if error in the config, correctly put file name and file line of the error to the error message
-  - https://bugs.php.net/bug.php?id=65500 - debug_backtrace doesn't identify file name when config contains invalid comment
-- **Feat**: conf - optional pool prefix support
-  - https://github.com/php/php-src/pull/3563 - Introducing "pool:" prefix on [section] FPM ini configuration
-- **Feat**: conf - add compile option to set default FPM config path
-  - https://bugs.php.net/bug.php?id=61073 - php-fpm config file path option lacking
-- **Bug**: socket - Add FD_CLOSEXEC on listening socket so it is not iherited by proc_open
-  - https://bugs.php.net/bug.php?id=67383 - exec() leaks file and socket descriptors to called program (general for all parts of PHP - not good idea)
-  - https://bugs.php.net/bug.php?id=76067 - system() function call leaks php-fpm listening sockets
-  - https://bugs.php.net/bug.php?id=80992 - fork() don't close fpm_globals.listening_socket
-- **Bug**: socket - non portable socket binding on FreeBSD
-  - https://bugs.php.net/bug.php?id=77501 - listen = 9000 only listens on one interface
-  - https://bugs.php.net/bug.php?id=77482 - Wont bind to IPv4 if IPv6 enabled
-- **Feat**: socket - socket route option
-  - https://github.com/php/php-src/pull/8470 - FPM add routing view global option (for FreeBSD for now).
-- **Feat**: socket - Consider re-enabling warning for non empty listening queue or remove commented out code in process ctl.
-  - https://github.com/php/php-src/blob/2ac5948f5cbaf3351fe18ab1068422487c9c215f/sapi/fpm/fpm/fpm_process_ctl.c#L349-L359
-- **Bug**: main - correctly decode path_info before comparing to comply with cgi spec
-  - https://bugs.php.net/bug.php?id=74129 - Incorrect SCRIPT_NAME with apache ProxyPassMatch when spaces are in path
-- **Bug**: main - verify the PATH_TRANSLATED logic with cgi.fix_pathinfo
-  - https://bugs.php.net/bug.php?id=68053 - PHP-FPM with cgi.fix_pathinfo 0 loads script from PATH_TRANSLATED
-- **Bug**: main - Look to the suggested changes for Apache and fcgi env vars (mainly verify if it's still issue with httpd)
-  - https://bugs.php.net/bug.php?id=51983 - [fpm sapi] pm.status_path not working when cgi.fix_pathinfo=1
-- **Test**: main - properly test the logic for processing env vars (especially the httpd logic) and verify it works with httpd balancer
-  - https://bugs.php.net/bug.php?id=71379 - Add support for Apache 2.4 mod_proxy_balancer to FPM
-  - https://bugs.php.net/bug.php?id=67998 - Wrong SCRIPT_FILENAME (check if this is still an issue or has been fixed)
-- **Bug**: main - argv and argc should not be included in env vars
-  - https://bugs.php.net/bug.php?id=75712 - php-fpm's import_environment_variables impl should not copy $_ENV, $_SERVER
-- **Bug**: main - check handling of multiple headers
-  - https://bugs.php.net/bug.php?id=78844 - FPM does not support multiple HTTP request headers with the same name
-- **Feat**: main - refactore processing of fcgi env vars
-- **Bug**: fcgi - Abort connection if CONTENT_LENGTH differs from input length
-- **Bug**: fcgi - FCGI_GET_VALUES does not seem to work
-  - https://bugs.php.net/bug.php?id=76922 - FastCGI terminates connection immediately after FCGI_GET_VALUES
-- **Bug**: fcgi - FCGI_ABORT_REQUEST from the client (web server) seems to be ignored
-  - https://bugs.php.net/bug.php?id=76419 - connection_aborted() under FPM doesn't work properly
-- **Feat**: fcgi - flag to allow missing content length
-  - https://github.com/php/php-src/pull/7509 - discussion
-- **Feat**: fcgi - spec update to no content length bytes
-  - https://bugs.php.net/bug.php?id=79723 - sapi_cgi_read_post() ignores EOF
-  - https://bugs.php.net/bug.php?id=51191 - Request body is 0-size when chunked requests are used 
-  - https://github.com/php/php-src/pull/7509 - Fixed reading in streamed body using fastcgi
-- **Feat**: fcgi - do not require any CGI parameters to allow overwriting on pool level
-  - https://bugs.php.net/bug.php?id=74995 - Control/set fastcgi parameters from pool config file
-- **Feat**: fcgi - spec update to allow using FCGI over TLS
-- **Feat**: fcgi - spec update to allow larger headers than 64k
-  - https://trac.nginx.org/nginx/ticket/239 - Support for large (> 64k) FastCGI requests
-- **Feat**: fcgi - implement TLS support with client cert auth
-
-
 ## Feedback required
 
+- https://github.com/php/php-src/issues/9792 - ALERT: oops, unknown child (103) exited with code 0
+- https://github.com/php/php-src/issues/9438 - ALERT: oops, unknown child (?) exited with code 32
 - https://github.com/php/php-src/issues/8646 - Core: Memory leak PHP FPM 8.1 ARM64
 - https://bugs.php.net/bug.php?id=73313 - over fpm does not respect in .user.ini engine off directive
 - https://bugs.php.net/bug.php?id=76224 - Error and shutdown handlers triggered on object destroy
@@ -266,8 +273,7 @@
 
 ## Testing
 
-- **Test**: tester - allow out of order log entries with some being optional and debug only collected (some sort of event based collector)
-- **Test**: tester - print all logs when error including some tracing info if possible (change log levels to debug)
+
 - **Test**: signals - Rename and clean up the signal reloading tests
   - bug74085-concurrent-reload.phpt
   - bug76601-reload-child-signals.phpt
@@ -293,6 +299,16 @@
 
 ## Changes
 
+### 2022-10
+
+- **Bug**: SaltStack no longer works for PHP-8.0
+  - https://github.com/php/php-src/issues/9754 - SaltStack (using Python subprocess) hangs when running php-fpm 8.1.11
+### 2022-09
+
+- **Test**: tester - Reworked logging for better debugging
+  - https://github.com/php/php-src/pull/9588 - Rework FPM tests logging for better debugging
+    - allow out of order log entries with some being optional and debug only collected (some sort of event based collector)
+    - print all logs when error including some tracing info if possible (change log levels to debug)
 ### 2022-08
 
 - **Bug**: main - incorrectly marking headers as sent when previous connection aborted
