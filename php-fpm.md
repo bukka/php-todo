@@ -54,15 +54,15 @@
   - https://bugs.php.net/bug.php?id=77482 - Wont bind to IPv4 if IPv6 enabled
 - **Feat**: socket - socket route option
   - https://github.com/php/php-src/pull/8470 - FPM add routing view global option (for FreeBSD for now).
+- **Feat**: socket - improve listen queue status info
+  - https://github.com/php/php-src/issues/9943 - FPM improve listen queue status info
+  - https://bugs.php.net/bug.php?id=76323 - FPM /status reports wrong number of listen queue len
+  - https://bugs.php.net/bug.php?id=80739 - PHP-FPM status page shows listen queue 0 (main details here)
 - **Feat**: socket - Consider re-enabling warning for non empty listening queue or remove commented out code in process ctl.
   - https://github.com/php/php-src/blob/2ac5948f5cbaf3351fe18ab1068422487c9c215f/sapi/fpm/fpm/fpm_process_ctl.c#L349-L359
 
 ### Status and config
 
-- **Bug**: scoreboard- listen queue len does not follow listen.backlog
-  - https://bugs.php.net/bug.php?id=76323 - FPM /status reports wrong number of listen queue len
-- **Bug**: scoreboard - correct listen queue len for UDS
-  - https://bugs.php.net/bug.php?id=80739 - PHP-FPM status page shows listen queue 0 (main details here)
 - **Bug**: scoreboard - inconsistent idle process count
   - https://bugs.php.net/bug.php?id=74542 - Inconsistent php-fpm status page
 - **Bug**: scoreboard - slow request causing counter reset
@@ -97,9 +97,14 @@
   - https://bugs.php.net/bug.php?id=68018 - php_value directive modifies "Changeable" context (patch)
   - https://bugs.php.net/bug.php?id=60387 - Problem with php_(admin)?_value/flag and load order
   - https://github.com/php/php-src/issues/8398 - php_value[xxx] in php-fpm pool - first declaration wins
+- **Bug**: conf - investigate issue with loading some extensions in pool config
+  - https://github.com/php/php-src/issues/9921 - php_admin_value[extension] = ext.so in fpm config does not register module handlers
+- **Feat**: conf - look to supporting zend_extension in php_admin_value
+  - https://bugs.php.net/bug.php?id=73408 - Loading Zend Extensions in FPM Pool Configuration
 - **Feat**: conf - Introduce ZEND_INI_ADMIN for PHP ini admin values and not overwrite some system ini that cannot be overriden
   - https://github.com/php/php-src/issues/8699 - Wrong value from ini_get() for shared files because of opcache optimization
   - https://github.com/php/php-src/issues/9722 - FPM is maliciously compliant when asked to set opcache.preload
+  - https://github.com/php/php-src/pull/8997 - Fix GH-8699: ini_get() opcache optimization in 8.1 (see discussion of the change)
 - **Feat**: main - PHP_ADMIN_VALUE and PHP_VALUE should be cleared on request end
   - https://bugs.php.net/bug.php?id=63965 - php-fpm site-specific settings go global
   - https://bugs.php.net/bug.php?id=53611 - fastcgi_param PHP_VALUE pollutes other sites
@@ -112,10 +117,6 @@
   - https://bugs.php.net/bug.php?id=78305 -	Injection of INI settings into FPM worker processes
   - https://bugs.php.net/bug.php?id=79417 - PHP-FPM: php_admin_value can be overwritten in .htaccess
   - https://bugs.php.net/bug.php?id=80385 - Response data preceded by post data
-- **Feat**: main / core - Introduce new INI type (e.g. ZEND_INI_ADMIN) for PHP_ADMIN_VALUE to not use ZEND_INI_SYSTEM
-  - https://github.com/php/php-src/pull/8997 - Fix GH-8699: ini_get() opcache optimization in 8.1 (see discussion of the change)
-- **Feat**: conf - look to supporting zend_extension in php_admin_value
-  - https://bugs.php.net/bug.php?id=73408 - Loading Zend Extensions in FPM Pool Configuration
 - **Bug**: conf - setting env[LC_MESSAGES] does not work as expected
   - https://bugs.php.net/bug.php?id=81253 - unexpected result of setting env[LC_MESSAGES] in php-fpm pool config
 - **Feat**: conf - add support for environment variables in configuration
@@ -129,6 +130,7 @@
   - https://github.com/php/php-src/pull/3563 - Introducing "pool:" prefix on [section] FPM ini configuration
 - **Feat**: conf - add compile option to set default FPM config path
   - https://bugs.php.net/bug.php?id=61073 - php-fpm config file path option lacking
+- **Feat**: conf - Review FPM_PHP_INI_TO_EXPAND list in fpm_php.h as some are outdated
 
 
 ### FastCGI, worker request handling
@@ -169,6 +171,8 @@
 - **Feat**: fcgi - spec update to allow larger headers than 64k
   - https://trac.nginx.org/nginx/ticket/239 - Support for large (> 64k) FastCGI requests
 - **Feat**: fcgi - implement TLS support with client cert auth
+- **Feat**: general - review return values in FPM code
+  - https://github.com/php/php-src/pull/9911 - Change return values to bool or void in FPM
 
 ### Process management and related
 
