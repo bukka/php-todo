@@ -67,6 +67,8 @@
   - https://bugs.php.net/bug.php?id=71050 - SubjectAltName (SAN) is Not included in openssl_csr_sign of a new CSR
 - **Bug**: CSR - Do not put extraattribs to Subject
   - https://bugs.php.net/bug.php?id=80269 - OpenSSL sets Subject wrong with extraattribs parameter
+- **Feat**: CSR - Extra param to openssl_csr_sign for hex serial string
+  - https://github.com/php/php-src/pull/9851 - Allow passing serial as string in openssl_csr_sign
 - **Feat**: Add function for more detailed parsing of CSR - php openssl csr parser ignores SANs
   - https://bugs.php.net/bug.php?id=55820 - php openssl csr parser ignores SANs
   - https://bugs.php.net/bug.php?id=29961 - an openssl_csr_parse function would be handy
