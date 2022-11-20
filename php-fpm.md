@@ -13,11 +13,6 @@
   - https://bugs.php.net/bug.php?id=62660 - PHP error logging with FPM fails to display an IP address and correct time
 - **Bug**: error log - Investigate why error goes to stderr instead of error log file
   - https://bugs.php.net/bug.php?id=63555 - errors outputed to stderr instead of logfile using fastcgi
-- **Feat**: error log - master logging should be separated from child logs (special option for master log)
-  - https://bugs.php.net/bug.php?id=69662 - PHP Startup errors are erroneously logged as master user in pool error log
-  - https://bugs.php.net/bug.php?id=72357 - Pool logs created with master owner:group
-- **Feat**: log - allow separation access and error log to stdout and stderr
-  - https://bugs.php.net/bug.php?id=73886 - Handle access log & error log on Docker
 - **Bug**: access log - fpm_log_format needs cleanup
   - https://bugs.php.net/bug.php?id=75635 - Memory leak in fpm log
 - **Bug**: access log - %t shows the first request and not the last request
@@ -35,6 +30,11 @@
   - https://github.com/php/php-src/pull/8214 - fpm: Implement access log filtering
 - **Feat**: access log - long lines support - using the same logic as zlog ideally
   - https://github.com/php/php-src/pull/5634 - PR to discussiong it and removing unused MAX_LINE_LENGTH
+- **Feat**: error log - master logging should be separated from child logs (special option for master log)
+  - https://bugs.php.net/bug.php?id=69662 - PHP Startup errors are erroneously logged as master user in pool error log
+  - https://bugs.php.net/bug.php?id=72357 - Pool logs created with master owner:group
+- **Feat**: log - allow separation access and error log to stdout and stderr
+  - https://bugs.php.net/bug.php?id=73886 - Handle access log & error log on Docker
 - **Feat**: trace - slowlog - the SIGSTOP and SIGCONT stop script connection in stream (fsockopen) or mysql
   - https://bugs.php.net/bug.php?id=67471 - fpm slow log && fsockopen :Operation now in progress
   - https://bugs.php.net/bug.php?id=67087 - slowlog kills mysql connection
@@ -153,7 +153,6 @@
   - https://bugs.php.net/bug.php?id=75712 - php-fpm's import_environment_variables impl should not copy $_ENV, $_SERVER
 - **Bug**: main - check handling of multiple headers
   - https://bugs.php.net/bug.php?id=78844 - FPM does not support multiple HTTP request headers with the same name
-- **Feat**: main - refactore processing of fcgi env vars
 - **Bug**: fcgi - Abort connection if CONTENT_LENGTH differs from input length
 - **Bug**: fcgi - FCGI_GET_VALUES does not seem to work
   - https://bugs.php.net/bug.php?id=76922 - FastCGI terminates connection immediately after FCGI_GET_VALUES
@@ -161,6 +160,7 @@
   - https://bugs.php.net/bug.php?id=76419 - connection_aborted() under FPM doesn't work properly
 - **Feat**: fcgi - flag to allow missing content length
   - https://github.com/php/php-src/pull/7509 - discussion
+- **Feat**: fcgi / main - refactore processing of fcgi env vars
 - **Feat**: fcgi - spec update to no content length bytes
   - https://bugs.php.net/bug.php?id=79723 - sapi_cgi_read_post() ignores EOF
   - https://bugs.php.net/bug.php?id=51191 - Request body is 0-size when chunked requests are used 
@@ -176,6 +176,38 @@
 
 ### Process management and related
 
+- **Bug**: proc - initgroups fails if user numeric (uid)
+  - https://bugs.php.net/bug.php?id=80669 - Can't initgroups() when specifying numeric user
+- **Bug**: proc - verify user existence when runnin `php-fpm -t`
+  - https://bugs.php.net/bug.php?id=68591 - Configuration test does not perform uid lookups
+  - https://bugs.php.net/bug.php?id=75057 - php-fpm -t doesn't verify does user exist (duplicate)
+- **Bug**: proc - fix the comment in www.conf to better clarify user, group, listen.user and listen.group (possibly also check docs correctness)
+  - https://bugs.php.net/bug.php?id=67244 - Wrong owner:group for listening unix socket
+- **Bug**: core - crash with Runkit extension - dangling pointer
+  - https://bugs.php.net/bug.php?id=72055 - php-fpm crashes on working with Runkit (contains patch)
+- **Bug**: core - huge pages enabled crash (might be opcache)
+  - https://bugs.php.net/bug.php?id=81444 - php-fpm crashes with bus error under kubernetes
+- **Bug**: core - opcache doesn't work with fpm chroot
+  - https://bugs.php.net/bug.php?id=67141 - PHP FPM vhost pollution
+- **Bug**: unix - validate extension_dir setting with chroot set
+  - https://bugs.php.net/bug.php?id=64151 - Invalid include extension_dir
+- **Bug**: unix - it should allow rewriting fcgi path envs if chroot enabled (should be probably optional)
+  - https://bugs.php.net/bug.php?id=62279 - PHP-FPM chroot never-solved problems (extends #55322)
+  - https://bugs.php.net/bug.php?id=55322 - Apache : TRANSLATED_PATH doesn't consider chroot
+- **Bug**: systemd - check how PrivateTmp should work with chroot
+  - https://bugs.php.net/bug.php?id=73466 - systemd option PrivateTmp= having no effect for a pool that is chrooted.
+- **Feat**: systemd - Add CapabilityBoundingSet
+  - https://github.com/php/php-src/pull/4960 - Add CapabilityBoundingSet to systemd unit file (my PR)
+- **Bug**: signal - sigpipe might cause fpm to be unresponsive
+  - https://bugs.php.net/bug.php?id=67320 - Ignored sigpipes in php-fpm cause php to become unresponsive
+- **Feat**: signal: consider changing SIGTERM for primary idle killing instead of SIGQUIT
+  - https://github.com/php/php-src/blob/8f02d7b7e499490312969cdfa9a3a81b9458595a/sapi/fpm/fpm/fpm_process_ctl.c#L138-L139
+- **Bug**: event - Check for the maximum file descriptors in devpoll
+  - https://bugs.php.net/bug.php?id=65774 - no max file descriptor check for events.mechanism = /dev/poll
+- **Bug**: event - FreeBSD kqueue time outs
+  - https://bugs.php.net/bug.php?id=76630 - php-fpm time outs unexpectedly
+- **Bug**: proc - process_control_timeout wakes up script in sleep
+  - https://bugs.php.net/bug.php?id=77603 - Unexpected behavior with reloading php-fpm and sleep method
 - **Bug**: proc - ondemand race condition
   - https://github.com/php/php-src/pull/1308 - pm.ondemand forks fewer child workers than it should
   - https://bugs.php.net/bug.php?id=69724 - pm.ondemand forks fewer child workers than it should (bug for the above PR - contains extra patches)
@@ -205,52 +237,18 @@
   - https://github.com/php/php-src/issues/9632 - FPM delayed process restarting
 - **Feat**: proc - add function to terminate child (this should be probably explicitly enabled in pool config)
   - https://bugs.php.net/bug.php?id=62948 - apache_child_terminate() for FPM
-- **Bug**: event - Check for the maximum file descriptors in devpoll
-  - https://bugs.php.net/bug.php?id=65774 - no max file descriptor check for events.mechanism = /dev/poll
-- **Bug**: event - FreeBSD kqueue time outs
-  - https://bugs.php.net/bug.php?id=76630 - php-fpm time outs unexpectedly
-- **Bug**: proc - process_control_timeout wakes up script in sleep
-  - https://bugs.php.net/bug.php?id=77603 - Unexpected behavior with reloading php-fpm and sleep method
 - **Feat**: event - make default timeout in event loop configurable (currently hard coded 1s)
   - https://bugs.php.net/bug.php?id=71854 - FPM: Please make epoll sleep interval configurable
 - **Feat**: proc - remove extra zeros in proc name
   - https://bugs.php.net/bug.php?id=77044 - Process Name has lots of null appended
-- **Bug**: proc - initgroups fails if user numeric (uid)
-  - https://bugs.php.net/bug.php?id=80669 - Can't initgroups() when specifying numeric user
-- **Bug**: proc - verify user existence when runnin `php-fpm -t`
-  - https://bugs.php.net/bug.php?id=68591 - Configuration test does not perform uid lookups
-  - https://bugs.php.net/bug.php?id=75057 - php-fpm -t doesn't verify does user exist (duplicate)
-- **Bug**: proc - fix the comment in www.conf to better clarify user, group, listen.user and listen.group (possibly also check docs correctness)
-  - https://bugs.php.net/bug.php?id=67244 - Wrong owner:group for listening unix socket
-- **Bug**: core - crash with Runkit extension - dangling pointer
-  - https://bugs.php.net/bug.php?id=72055 - php-fpm crashes on working with Runkit (contains patch)
-- **Bug**: core - huge pages enabled crash (might be opcache)
-  - https://bugs.php.net/bug.php?id=81444 - php-fpm crashes with bus error under kubernetes
-- **Bug**: core - opcache doesn't work with fpm chroot
-  - https://bugs.php.net/bug.php?id=67141 - PHP FPM vhost pollution
-- **Feat**: systemd - Add CapabilityBoundingSet
-  - https://github.com/php/php-src/pull/4960 - Add CapabilityBoundingSet to systemd unit file (my PR)
-- **Bug**: systemd - check how PrivateTmp should work with chroot
-  - https://bugs.php.net/bug.php?id=73466 - systemd option PrivateTmp= having no effect for a pool that is chrooted.
-- **Bug**: unix - validate extension_dir setting with chroot set
-  - https://bugs.php.net/bug.php?id=64151 - Invalid include extension_dir
-- **Bug**: unix - it should allow rewriting fcgi path envs if chroot enabled (should be probably optional)
-  - https://bugs.php.net/bug.php?id=62279 - PHP-FPM chroot never-solved problems (extends #55322)
-  - https://bugs.php.net/bug.php?id=55322 - Apache : TRANSLATED_PATH doesn't consider chroot
 - **Feat**: unix - extra check for selinux deny_ptrace
   - https://github.com/php/php-src/pull/7648 - fpm dumpable process setting extra check for SElinux based systems.
 - **Feat**: unix - middle ground between chrooted and non-chrooted env (ideas from suphp)
   - https://bugs.php.net/bug.php?id=68125 - FPM check if script is in specified path before execute (ie docroot)
-- **Bug**: reload - no failed return code on failed reload (e.g. if invalid config)
-  - https://bugs.php.net/bug.php?id=75953 -	Reload signal should return error code when PHP-FPM init failed
 - **Feat**: reload - consider using SIGHUP as another reload signal
   - https://bugs.php.net/bug.php?id=67553 - Add SIGHUP as a reload signal
 - **Feat**: reload - reduce number of reallocation or use buffering (stack or smart str) for sockets clean up env
   - https://github.com/php/php-src/blob/b0b416b705f5b535d95dc7d275347f89f3ef87ea/sapi/fpm/fpm/fpm_sockets.c#L71
-- **Bug**: signal - sigpipe might cause fpm to be unresponsive
-  - https://bugs.php.net/bug.php?id=67320 - Ignored sigpipes in php-fpm cause php to become unresponsive
-- **Feat**: signal: consider changing SIGTERM for primary idle killing instead of SIGQUIT
-  - https://github.com/php/php-src/blob/8f02d7b7e499490312969cdfa9a3a81b9458595a/sapi/fpm/fpm/fpm_process_ctl.c#L138-L139
 - **Feat**: pool - look to introducing pool manager process handlig - reduce load on master and better (possibly more secure) separation and reload
   - https://bugs.php.net/bug.php?id=75440 - Fpm reload should be graceful, not killing running processes (possibly master could just re-read config and let proc mangers deal with it
   - https://bugs.php.net/bug.php?id=60961 - Graceful Restart (USR2) isn't very graceful (similar to above bug listing problems with graceful reload)
@@ -303,10 +301,16 @@
 
 ## Changes
 
+### 2022-11
+
+- **Bug**: reload - no failed return code on failed reload (e.g. if invalid config)
+  - https://bugs.php.net/bug.php?id=75953 -	Reload signal should return error code when PHP-FPM init failed
+
 ### 2022-10
 
 - **Bug**: SaltStack no longer works for PHP-8.0
   - https://github.com/php/php-src/issues/9754 - SaltStack (using Python subprocess) hangs when running php-fpm 8.1.11
+
 ### 2022-09
 
 - **Test**: tester - Reworked logging for better debugging
