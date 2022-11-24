@@ -4,9 +4,6 @@
 
 ### Logging, tracing and socket
 
-- **Bug**: The fpm_stdio_child_said can happen after the child is deleted
-  - https://github.com/php/php-src/issues/8517 - Random crash of php8 - segfault...
-  - https://github.com/php/php-src/pull/9444 - Fix GH-8517: FPM child pointer can be possibly uninitialized
 - **Bug**: error log - missing new line
   - https://bugs.php.net/bug.php?id=77106 - Missing newlines between PHP messages
 - **Bug**: error log - check how changes is error log file permission impacts IP and time logged
@@ -23,18 +20,14 @@
   - https://bugs.php.net/bug.php?id=62951 - Log utime and stime (patch)
 - **Feat**: access log - fmt flag for path info or available env to use
   - https://bugs.php.net/bug.php?id=81670 - Access log contains wrong values for "%r" (request URI) format string
-- **Feat**: access log - filtering support (allow disabling ping and other requests)
-  - https://bugs.php.net/bug.php?id=80428 - PHP-FPM : Is there an option to suppress /ping from logs
-  - https://github.com/php/php-src/issues/8174 - PHP-FPM : Option to suppress "/ping" from logs -- patch file given
-  - https://github.com/php/php-src/pull/8184 - Feature "ping.dontlog" : See Issue #8174 (obsoleted by 8214)
-  - https://github.com/php/php-src/pull/8214 - fpm: Implement access log filtering
 - **Feat**: access log - long lines support - using the same logic as zlog ideally
   - https://github.com/php/php-src/pull/5634 - PR to discussiong it and removing unused MAX_LINE_LENGTH
+- **Feat**: log - allow separation access and error log to stdout and stderr
+  - https://bugs.php.net/bug.php?id=73886 - Handle access log & error log on Docker
+  - https://github.com/php/php-src/pull/2310 - Fix #73886: Handle access log & error log on Docker (discussion)
 - **Feat**: error log - master logging should be separated from child logs (special option for master log)
   - https://bugs.php.net/bug.php?id=69662 - PHP Startup errors are erroneously logged as master user in pool error log
   - https://bugs.php.net/bug.php?id=72357 - Pool logs created with master owner:group
-- **Feat**: log - allow separation access and error log to stdout and stderr
-  - https://bugs.php.net/bug.php?id=73886 - Handle access log & error log on Docker
 - **Feat**: trace - slowlog - the SIGSTOP and SIGCONT stop script connection in stream (fsockopen) or mysql
   - https://bugs.php.net/bug.php?id=67471 - fpm slow log && fsockopen :Operation now in progress
   - https://bugs.php.net/bug.php?id=67087 - slowlog kills mysql connection
@@ -61,6 +54,48 @@
 - **Feat**: socket - Consider re-enabling warning for non empty listening queue or remove commented out code in process ctl.
   - https://github.com/php/php-src/blob/2ac5948f5cbaf3351fe18ab1068422487c9c215f/sapi/fpm/fpm/fpm_process_ctl.c#L349-L359
 
+
+### FastCGI, worker request handling
+
+- **Bug**: main - fastcgi.error_header does not change the header for subsequent requests
+  - https://github.com/php/php-src/issues/9981 - FPM does not reset fastcgi.error_header
+- **Bug**: main / fcgi - investigate if file uploads can cause disk space exhaustion
+  - https://bugs.php.net/bug.php?id=75889 - Overloading disk with temporary files
+  - https://bugs.php.net/bug.php?id=70620 php-fpm can interrupt sapi_deactivate cleanup (Security bug - exposed by the #75889)
+- **Bug**: main - correctly decode path_info before comparing to comply with cgi spec
+  - https://bugs.php.net/bug.php?id=74129 - Incorrect SCRIPT_NAME with apache ProxyPassMatch when spaces are in path
+- **Bug**: main - verify the PATH_TRANSLATED logic with cgi.fix_pathinfo
+  - https://bugs.php.net/bug.php?id=68053 - PHP-FPM with cgi.fix_pathinfo 0 loads script from PATH_TRANSLATED
+- **Bug**: main - Look to the suggested changes for Apache and fcgi env vars (mainly verify if it's still issue with httpd)
+  - https://bugs.php.net/bug.php?id=51983 - [fpm sapi] pm.status_path not working when cgi.fix_pathinfo=1
+- **Test**: main - properly test the logic for processing env vars (especially the httpd logic) and verify it works with httpd balancer
+  - https://bugs.php.net/bug.php?id=71379 - Add support for Apache 2.4 mod_proxy_balancer to FPM
+  - https://bugs.php.net/bug.php?id=67998 - Wrong SCRIPT_FILENAME (check if this is still an issue or has been fixed)
+- **Bug**: main - argv and argc should not be included in env vars
+  - https://bugs.php.net/bug.php?id=75712 - php-fpm's import_environment_variables impl should not copy $_ENV, $_SERVER
+- **Bug**: main - check handling of multiple headers
+  - https://bugs.php.net/bug.php?id=78844 - FPM does not support multiple HTTP request headers with the same name
+- **Bug**: fcgi - Abort connection if CONTENT_LENGTH differs from input length
+- **Bug**: fcgi - FCGI_GET_VALUES does not seem to work
+  - https://bugs.php.net/bug.php?id=76922 - FastCGI terminates connection immediately after FCGI_GET_VALUES
+- **Bug**: fcgi - FCGI_ABORT_REQUEST from the client (web server) seems to be ignored
+  - https://bugs.php.net/bug.php?id=76419 - connection_aborted() under FPM doesn't work properly
+- **Feat**: fcgi - flag to allow missing content length
+  - https://github.com/php/php-src/pull/7509 - discussion
+- **Feat**: fcgi / main - refactore processing of fcgi env vars
+- **Feat**: fcgi - spec update to no content length bytes
+  - https://bugs.php.net/bug.php?id=79723 - sapi_cgi_read_post() ignores EOF
+  - https://bugs.php.net/bug.php?id=51191 - Request body is 0-size when chunked requests are used 
+  - https://github.com/php/php-src/pull/7509 - Fixed reading in streamed body using fastcgi
+- **Feat**: fcgi - do not require any CGI parameters to allow overwriting on pool level
+  - https://bugs.php.net/bug.php?id=74995 - Control/set fastcgi parameters from pool config file
+- **Feat**: fcgi - spec update to allow using FCGI over TLS
+- **Feat**: fcgi - spec update to allow larger headers than 64k
+  - https://trac.nginx.org/nginx/ticket/239 - Support for large (> 64k) FastCGI requests
+- **Feat**: fcgi - implement TLS support with client cert auth
+- **Feat**: general - review return values in FPM code
+  - https://github.com/php/php-src/pull/9911 - Change return values to bool or void in FPM
+- **Feat**: general - Convert worker pools and children list to continous array for fast look up in stdio 
 ### Status and config
 
 - **Bug**: scoreboard - inconsistent idle process count
@@ -132,52 +167,8 @@
   - https://bugs.php.net/bug.php?id=61073 - php-fpm config file path option lacking
 - **Feat**: conf - Review FPM_PHP_INI_TO_EXPAND list in fpm_php.h as some are outdated
 
-
-### FastCGI, worker request handling
-
-- **Bug**: main - fastcgi.error_header sets header after request is sent
-  - https://bugs.php.net/bug.php?id=68207 - Setting fastcgi.error_header can result in an E_WARNING being triggered
-- **Bug**: main / fcgi - investigate if file uploads can cause disk space exhaustion
-  - https://bugs.php.net/bug.php?id=75889 - Overloading disk with temporary files
-  - https://bugs.php.net/bug.php?id=70620 php-fpm can interrupt sapi_deactivate cleanup (Security bug - exposed by the #75889)
-- **Bug**: main - correctly decode path_info before comparing to comply with cgi spec
-  - https://bugs.php.net/bug.php?id=74129 - Incorrect SCRIPT_NAME with apache ProxyPassMatch when spaces are in path
-- **Bug**: main - verify the PATH_TRANSLATED logic with cgi.fix_pathinfo
-  - https://bugs.php.net/bug.php?id=68053 - PHP-FPM with cgi.fix_pathinfo 0 loads script from PATH_TRANSLATED
-- **Bug**: main - Look to the suggested changes for Apache and fcgi env vars (mainly verify if it's still issue with httpd)
-  - https://bugs.php.net/bug.php?id=51983 - [fpm sapi] pm.status_path not working when cgi.fix_pathinfo=1
-- **Test**: main - properly test the logic for processing env vars (especially the httpd logic) and verify it works with httpd balancer
-  - https://bugs.php.net/bug.php?id=71379 - Add support for Apache 2.4 mod_proxy_balancer to FPM
-  - https://bugs.php.net/bug.php?id=67998 - Wrong SCRIPT_FILENAME (check if this is still an issue or has been fixed)
-- **Bug**: main - argv and argc should not be included in env vars
-  - https://bugs.php.net/bug.php?id=75712 - php-fpm's import_environment_variables impl should not copy $_ENV, $_SERVER
-- **Bug**: main - check handling of multiple headers
-  - https://bugs.php.net/bug.php?id=78844 - FPM does not support multiple HTTP request headers with the same name
-- **Bug**: fcgi - Abort connection if CONTENT_LENGTH differs from input length
-- **Bug**: fcgi - FCGI_GET_VALUES does not seem to work
-  - https://bugs.php.net/bug.php?id=76922 - FastCGI terminates connection immediately after FCGI_GET_VALUES
-- **Bug**: fcgi - FCGI_ABORT_REQUEST from the client (web server) seems to be ignored
-  - https://bugs.php.net/bug.php?id=76419 - connection_aborted() under FPM doesn't work properly
-- **Feat**: fcgi - flag to allow missing content length
-  - https://github.com/php/php-src/pull/7509 - discussion
-- **Feat**: fcgi / main - refactore processing of fcgi env vars
-- **Feat**: fcgi - spec update to no content length bytes
-  - https://bugs.php.net/bug.php?id=79723 - sapi_cgi_read_post() ignores EOF
-  - https://bugs.php.net/bug.php?id=51191 - Request body is 0-size when chunked requests are used 
-  - https://github.com/php/php-src/pull/7509 - Fixed reading in streamed body using fastcgi
-- **Feat**: fcgi - do not require any CGI parameters to allow overwriting on pool level
-  - https://bugs.php.net/bug.php?id=74995 - Control/set fastcgi parameters from pool config file
-- **Feat**: fcgi - spec update to allow using FCGI over TLS
-- **Feat**: fcgi - spec update to allow larger headers than 64k
-  - https://trac.nginx.org/nginx/ticket/239 - Support for large (> 64k) FastCGI requests
-- **Feat**: fcgi - implement TLS support with client cert auth
-- **Feat**: general - review return values in FPM code
-  - https://github.com/php/php-src/pull/9911 - Change return values to bool or void in FPM
-
 ### Process management and related
 
-- **Bug**: proc - initgroups fails if user numeric (uid)
-  - https://bugs.php.net/bug.php?id=80669 - Can't initgroups() when specifying numeric user
 - **Bug**: proc - verify user existence when runnin `php-fpm -t`
   - https://bugs.php.net/bug.php?id=68591 - Configuration test does not perform uid lookups
   - https://bugs.php.net/bug.php?id=75057 - php-fpm -t doesn't verify does user exist (duplicate)
@@ -239,6 +230,8 @@
   - https://bugs.php.net/bug.php?id=62948 - apache_child_terminate() for FPM
 - **Feat**: event - make default timeout in event loop configurable (currently hard coded 1s)
   - https://bugs.php.net/bug.php?id=71854 - FPM: Please make epoll sleep interval configurable
+- **Feat**: event - Cleaning up child events when the child is killed
+  - https://github.com/php/php-src/pull/9817 - FPM delete child log event before child is killed
 - **Feat**: proc - remove extra zeros in proc name
   - https://bugs.php.net/bug.php?id=77044 - Process Name has lots of null appended
 - **Feat**: unix - extra check for selinux deny_ptrace
@@ -303,8 +296,14 @@
 
 ### 2022-11
 
-- **Bug**: reload - no failed return code on failed reload (e.g. if invalid config)
-  - https://bugs.php.net/bug.php?id=75953 -	Reload signal should return error code when PHP-FPM init failed
+- **Bug**: The fpm_stdio_child_said can happen after the child is deleted
+  - https://github.com/php/php-src/issues/8517 - Random crash of php8 - segfault...
+  - https://github.com/php/php-src/pull/9444 - Fix GH-8517: FPM child pointer can be possibly uninitialized
+- **Bug**: proc - initgroups fails if user numeric (uid)
+  - https://bugs.php.net/bug.php?id=80669 - Can't initgroups() when specifying numeric user
+- **Bug**: main - fastcgi.error_header sets header after request is sent
+  - https://bugs.php.net/bug.php?id=68207 - Setting fastcgi.error_header can result in an E_WARNING being triggered
+  - https://github.com/php/php-src/pull/9980 - Fix bug #68207: Setting fastcgi.error_header can result in a WARNING
 
 ### 2022-10
 
