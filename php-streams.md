@@ -2,9 +2,8 @@
 
 ## Source issues
 
-- **Bug**: fread blocking unpredictible
-  - https://bugs.php.net/bug.php?id=51056 - fread() on blocking stream will block even if data is available
-  - https://bugs.php.net/bug.php?id=52602 - fread is blocking even with the use of stream_select
+- **Bug**: Investigate issue with stream_copy_to_stream on accepted socket
+  - https://github.com/php/php-src/issues/9994 - stream_copy_to_stream() returns on socket timeout
 - **Bug**: Possible issue with pipes and select in fread and similar
   - https://bugs.php.net/bug.php?id=66232 - proc_open: Inconsistent handling of EOFs on pipes
 - **Bug**: Issue with stream_select ignoring proc_open streams
@@ -90,6 +89,11 @@
 
 ## Changes
 
+### 2022-10
+
+- **Bug**: fread blocking unpredictible
+  - https://bugs.php.net/bug.php?id=51056 - fread() on blocking stream will block even if data is available
+  - https://bugs.php.net/bug.php?id=52602 - fread is blocking even with the use of stream_select
 ### 2022-07
 - **Bug**: Fix open_basedir check in GlobIterator and glob:// stream
   - https://github.com/php/php-src/commit/1a9e6895f1d203f38655b52d5b6b823be7d14cbd

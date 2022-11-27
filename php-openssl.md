@@ -4,8 +4,6 @@
 
 ### TLS
 
-- **Bug**: OpenSSL 1.0.2 locking issues
-  - https://github.com/php/php-src/issues/8620 - Segmentation fault on exit when using ldap_bind() 
 - **Bug**: Check issue with TLS 1.3 in phpredis
   - https://bugs.php.net/bug.php?id=79501 - TLS connections freezing on 7.4 (all versions after 7.3.17)
 - **Bug**: Check and fix SAN IP validation
@@ -46,15 +44,15 @@
 
 ### Crypto
 
-- **Bug**: pkey - fix --no-ec build
-  - https://github.com/php/php-src/issues/9064 - PHP fails to build if openssl was built with --no-ec
-- **Bug**: pkey - Missing types supported by openssl_public_encrypt
-  - https://bugs.php.net/bug.php?id=76676 - OPENSSL_KEYTYPE_EC (and others) not supported by openssl_public_encrypt()
 - **Bug**: pkey - Incorrect returned array for SM2 key (DH key in it)
   - https://github.com/php/php-src/issues/9422#issuecomment-1229484671 - comment in openssl ext sm2 compatibility
 - **Feat**: pkey - SM2 support
   - https://github.com/php/php-src/issues/9422 - openssl ext sm2 compatibility
+  - https://github.com/php/php-src/pull/9991 - Improve ext-openssl generate EC keys under OpenSSL 3.0
 - **Feat**: pkey - Improve php_openssl_dh_compute_key to support ECDH before OpenSSL 3.0 and extend tests
+- **Feat**: pkey - Skip all usage of DH if OpenSSL compiled with no-dh (only works with OpenSSL 3.0+)
+- **Feat**: pkey - Skip all usage of DSA if OpenSSL compiled with no-dsa (only works with OpenSSL 3.0+)
+  - Also change CSR tests not to use it
 - **Feat**: pkey - Allow setting padding for openssl_verify
   - https://bugs.php.net/bug.php?id=80495 - Enable to set padding in openssl_verify
 - **Feat**: pkey - Consider adding PKCS#8 export format support
@@ -160,6 +158,17 @@
   - https://bugs.php.net/bug.php?id=79401 - --with-openssl no longer accepts a directory
 
 ## Changes
+
+### 2022-11
+
+- **Bug**: pkey - Missing types supported by openssl_public_encrypt
+  - https://bugs.php.net/bug.php?id=76676 - OPENSSL_KEYTYPE_EC (and others) not supported by openssl_public_encrypt()
+- **Bug**: pkey - Fix no-dsa build test failures
+  - https://github.com/php/php-src/issues/10000 - OpenSSL test failures when OpenSSL compiled with no-dsa
+- **Bug**: pkey - Fix --no-ec build
+  - https://github.com/php/php-src/issues/9064 - PHP fails to build if openssl was built with --no-ec
+- **Bug**: OpenSSL 1.0.2 locking issues
+  - https://github.com/php/php-src/issues/8620 - Segmentation fault on exit when using ldap_bind() 
 
 ### 2022-10
 
