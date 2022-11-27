@@ -11,6 +11,16 @@
   - https://bugs.php.net/bug.php?id=49169 - SoapServer calls wrong function, although "SOAP action" header is correct _(76 votes)_
 - **Bug**: Server - Report validation errors
   - https://bugs.php.net/bug.php?id=45966 - SoapServer does not report WSDL validation errors _(74 votes)_
+- **Bug**: Server - Look to better handle SOAP fatal errors
+  - https://bugs.php.net/bug.php?id=50547 - SoapServer Fatal errror in WSDL mode _(60 votes)_
+  - https://bugs.php.net/bug.php?id=81239 - use_soap_error_handler doesn't do anything
+- **Bug**: Server - Look to issue with error not used for from_xml callback
+  - https://bugs.php.net/bug.php?id=55348 - SoapServer (typemap related) "Error calling from_xml callback" _(7 votes)_
+- **Bug**: Servre - Check if persisting value still fails when using sessions
+  - https://bugs.php.net/bug.php?id=51561 - SoapServer with a extented class and using sessions, lost the setPersistence() _(48 votes)_
+  - https://bugs.php.net/bug.php?id=52058 - SOAP_PERSISTENCE_SESSION doesnt work if server class is included from external  _(1 vote)_
+- **Bug**: Server - Check if there is still issue with flushing output buffer when using SoapServer
+  - https://bugs.php.net/bug.php?id=54575 - SoapServer::handle some times does not call php_ob_end_buffer _(16 votes)_
 - **Bug**: Client/Server - Investigate what can be done about calling constructor for classmap
   - https://bugs.php.net/bug.php?id=45155 -	Constructors not called when using classmap option in SoapClient _(74 votes)_
 - **Bug**: Encoding - Proper DateTime object conversion
@@ -34,34 +44,79 @@
   - https://bugs.php.net/bug.php?id=48966 - namespace in soap headers not put into nested tags _(34 votes)_
 - **Bug**: Encoding - Look to the increased namespace alias - whether it would be possible to provide custom (more a feature maybe)
   - https://bugs.php.net/bug.php?id=48165 - SoapClient and external import in WSDL make ns1, ns2, ns3 alias _(17 votes)_
-- **Bug**: Client - Incorect respone for __getLastResponseHeader
-  - https://bugs.php.net/bug.php?id=49278 - SoapClient::__getLastResponseHeaders returns NULL if wsdl operation !has output _(12 votes)_
 - **Bug**: Encoding - Investigate if null values can still be omitted in encoding
   - https://bugs.php.net/bug.php?id=62378 - PHP incorrectly encodes null values in SOAP _(11 votes)_
 - **Bug**: Decoding - When attribute and node value is present, value is not decoded
   - https://bugs.php.net/bug.php?id=46616 - Value dropped when Soap response with nodes containing attributes and value _(10 votes)_
+- **Bug**: Decoding - Investigate failed decoding of complex types
+  - https://bugs.php.net/bug.php?id=50768 -	SoapClient parsing error on complex types _(12 votes)_
+- **Bug**: Decoding - Investigate why soap response is not fully populated
+  - https://bugs.php.net/bug.php?id=50298 -	SOAP response object returned from SoapClient call not fully populated _(7 votes)_
+- **Bug**: Decoding - Investiage problem with not loading some namespaces in the response
+  - https://bugs.php.net/bug.php?id=50064 - SOAP response by is not encoded _(3 votes)_
+- **Bug**: Encoding - Investiage why request is missing some values
+  - https://bugs.php.net/bug.php?id=50064 - SOAP response by is not encoded _(no vote)_
+- **Bug**: Encoding - Investigate wrapping element with function1Response tag when XSD_ANYTYPE used
+  - https://bugs.php.net/bug.php?id=51165 - Using XSD_ANYTYPE removes method response tags in SOAP response _(6 votes)_
+- **Bug**: Encoding - Investigate naming of arary elements (why item is added)
+  - https://bugs.php.net/bug.php?id=50917 - Array elements not named properly when serialized to SOAP XML _(2 votes)_
 - **Bug**: Encoding - Investigate why xsi:type is not included for the reported case
   - https://bugs.php.net/bug.php?id=45027 - __soapCall returns an object with missing fields _(2 votes)_
+- **Bug**: Encoding - Investigate why default argument values are not encoded
+  - https://bugs.php.net/bug.php?id=52319 - SOAPServer does not use default argument valuess _(2 votes)_
 - **Bug**: Streams - Look to support for multipart responses
   - https://bugs.php.net/bug.php?id=47810 - SoapClient and Multipart response _(44 votes)_
+- **Bug**: Streams - Investigate issues with chunked transfer encoding
+  - https://bugs.php.net/bug.php?id=55245 - soapclient doesn't process response with Transfer-Enconding chunked _(6 votes)_
+- **Bug**: Streams - Fix proxy support
+  - https://bugs.php.net/bug.php?id=48244 - SoapClient doRequest fails when proxy is used _(3 votes)_
+  - https://bugs.php.net/bug.php?id=52913 - Incorrect SNI (Server name indicator) when using a SoapClient through a proxy _(33 votes)_
+  - https://bugs.php.net/bug.php?id=53718 - "user_agent" not in HTTP requests for proxied requests, even if set in $options _(no vote)_
 - **Bug**: Streams - Better handling of connection timeout
   - https://bugs.php.net/bug.php?id=48584 - soapclient's option connection_timeout not respected while fetching wsdl _(23 votes)_
 - **Bug**: Streams - Problem with decompression using deflate
   - https://bugs.php.net/bug.php?id=47925 - PHPClient can't decompress response (transposed uncompress methods?) _(14 votes)_
 - **Bug**: Streams - Look to a better re-using of connection
   - https://bugs.php.net/bug.php?id=47314 - SoapClient leave tcp connections in "time_wait" _(19 votes)_
+- **Bug**: Streams - Look to using persistent connection keep a live
+  - https://bugs.php.net/bug.php?id=53776 - soap module does not allow to use underlying persistent connections _(1 vote)_
 - **Bug**: Streams - Support for digest auth
   - https://bugs.php.net/bug.php?id=47762 - SoapClient does not fetch WSDL requiring Digest auth _(13 votes)_
-- **Bug**: Streams - Fix proxy support
-  - https://bugs.php.net/bug.php?id=48244 - SoapClient doRequest fails when proxy is used _(3 votes)_
-- **Bug**: Streams - Fix ingnoring http wrapper in calls _(1 vote)_
-  - https://bugs.php.net/bug.php?id=44417 - call function ignore http wrapper
-- **Bug**: Errors - Look to better handle SOAP fatal errors
-  - https://bugs.php.net/bug.php?id=81239 - use_soap_error_handler doesn't do anything
-- **Bug**: Client - Look to handling of ignored user agents
+- **Bug**: Streams - Look into the current basic auth support / preferences
+  - https://bugs.php.net/bug.php?id=52893 - Authentication fails due to incorrect string comparison _(1 vote)_
+- **Bug**: Streams - Fix ingnoring http wrapper in calls
+  - https://bugs.php.net/bug.php?id=44417 - call function ignore http wrapper _(1 vote)_
+- **Bug**: Streams / Client - Look into the issue with ignoring include_path for wsdl path
+  - https://bugs.php.net/bug.php?id=53302 - SoapClient::SoapClient ignores include_path _(5 votes)_
+- **Bug**: Streams / Client - Look to potential issue with impoting schema
+  - https://bugs.php.net/bug.php?id=53293 - WSDL error when schemaLocation includes port number _(14 votes)_
+- **Bug**: Streams / Client - Look to potentially incorrect handling of executing if no endpoints specificed
+  - https://bugs.php.net/bug.php?id=52724 - SoapClient() with location param should work with WSDLs with all bad endpoints _(1 vote)_
+- **Bug**: Client - Look to handling of SoapFault HTTP Status code
   - https://bugs.php.net/bug.php?id=48777 - Option to control SoapFault HTTP Status return (Reopen of #43507) _(9 votes)_
+  - https://bugs.php.net/bug.php?id=52726 - getCode() from SoapFault thrown from call to AWS 3.0 returns HTTP not 410 _(no vote)_
+- **Bug**: Client - Investigate if there is anything to do about crashing on invalid wsdl when creating client
+  - https://bugs.php.net/bug.php?id=55206 - PHP / Apache crashes on creation of a SOAP client _(1 vote)_
+- **Bug**: Client - Incorect respone for __getLastResponseHeader
+  - https://bugs.php.net/bug.php?id=49278 - SoapClient::__getLastResponseHeaders returns NULL if wsdl operation !has output _(12 votes)_
+- **Bug**: Client - Missing attributes for SOAP header
+  - https://bugs.php.net/bug.php?id=53068 - Soap header object without attributes _(1 vote)_
+- **Bug**: Client - Check if setting headers in the client does not work in the reported example
+  - https://bugs.php.net/bug.php?id=51754 - SoapHeaders not set correctly _(no votes)_
+- **Bug**: Client - Investigate error in call when control character is used
+  - https://bugs.php.net/bug.php?id=55448 - Error at a Soap request _(5 votes)_
+- **Bug**: Client - Look to failed call of the function with complex type parameter
+  - https://bugs.php.net/bug.php?id=51074 - Cannot access the extension base _(4 votes)_
+- **Bug**: Client - Investigate complex object nested array issue causing error in fetching http header
+  - https://bugs.php.net/bug.php?id=54133 - Complex Object nested array problem _(1 vote)_
 - **Bug**: Client - Fix ordering of parameter in assoc array
   - https://bugs.php.net/bug.php?id=49013 - SOAPClient interprets the parameters array incorrectly _(2 votes)_
+- **Bug**: Server - Check if there is anything that could be done about using serialized objects
+  - https://bugs.php.net/bug.php?id=52791 - SoapServer doesn't convert objects into SOAP Response _(2 votes)_
+- **Bug**: Server - Check why adding headers does not work when __call used
+  - https://bugs.php.net/bug.php?id=54928 - SoapServer handling SoapHeader and __call method
+- **Bug**: Client - Check if SPL interfaces should work when serialized or if it is a more feature request
+  - https://bugs.php.net/bug.php?id=54953 - Implemented SPL Interfaces wont work on mapped classes
 - **Feat**: Client - helper for signed messages
   - https://github.com/php/php-src/pull/8035 - SoapClient feature: Helper function to signed SOAP messages
 
