@@ -2,14 +2,58 @@
 
 ## Source issues
 
+### FastCGI, worker request handling
+
+- **Bug**: main / fcgi - investigate if file uploads can cause disk space exhaustion
+  - https://bugs.php.net/bug.php?id=75889 - Overloading disk with temporary files
+  - https://bugs.php.net/bug.php?id=70620 php-fpm can interrupt sapi_deactivate cleanup (Security bug - exposed by the #75889)
+- **Bug**: main - correctly decode path_info before comparing to comply with cgi spec
+  - https://bugs.php.net/bug.php?id=74129 - Incorrect SCRIPT_NAME with apache ProxyPassMatch when spaces are in path
+- **Bug**: main - verify the PATH_TRANSLATED logic with cgi.fix_pathinfo
+  - https://bugs.php.net/bug.php?id=68053 - PHP-FPM with cgi.fix_pathinfo 0 loads script from PATH_TRANSLATED
+- **Bug**: main - Look to the suggested changes for Apache and fcgi env vars (mainly verify if it's still issue with httpd)
+  - https://bugs.php.net/bug.php?id=51983 - [fpm sapi] pm.status_path not working when cgi.fix_pathinfo=1
+- **Test**: main - properly test the logic for processing env vars (especially the httpd logic) and verify it works with httpd balancer
+  - https://bugs.php.net/bug.php?id=71379 - Add support for Apache 2.4 mod_proxy_balancer to FPM
+  - https://bugs.php.net/bug.php?id=67998 - Wrong SCRIPT_FILENAME (check if this is still an issue or has been fixed)
+- **Bug**: main - argv and argc should not be included in env vars
+  - https://bugs.php.net/bug.php?id=75712 - php-fpm's import_environment_variables impl should not copy $_ENV, $_SERVER
+- **Bug**: main - check handling of multiple headers
+  - https://bugs.php.net/bug.php?id=78844 - FPM does not support multiple HTTP request headers with the same name
+- **Bug**: fcgi - Abort connection if CONTENT_LENGTH differs from input length
+- **Bug**: fcgi - FCGI_GET_VALUES does not seem to work
+  - https://bugs.php.net/bug.php?id=76922 - FastCGI terminates connection immediately after FCGI_GET_VALUES
+- **Bug**: fcgi - FCGI_ABORT_REQUEST from the client (web server) seems to be ignored
+  - https://bugs.php.net/bug.php?id=76419 - connection_aborted() under FPM doesn't work properly
+- **Feat**: fcgi - flag to allow missing content length
+  - https://github.com/php/php-src/pull/7509 - discussion
+- **Feat**: fcgi / main - refactore processing of fcgi env vars
+- **Feat**: fcgi - spec update to no content length bytes
+  - https://bugs.php.net/bug.php?id=79723 - sapi_cgi_read_post() ignores EOF
+  - https://bugs.php.net/bug.php?id=51191 - Request body is 0-size when chunked requests are used 
+  - https://github.com/php/php-src/pull/7509 - Fixed reading in streamed body using fastcgi
+- **Feat**: fcgi - do not require any CGI parameters to allow overwriting on pool level
+  - https://bugs.php.net/bug.php?id=74995 - Control/set fastcgi parameters from pool config file
+- **Feat**: fcgi - spec update to allow using FCGI over TLS
+- **Feat**: fcgi - spec update to allow larger headers than 64k
+  - https://trac.nginx.org/nginx/ticket/239 - Support for large (> 64k) FastCGI requests
+- **Feat**: fcgi - implement TLS support with client cert auth
+- **Feat**: general - review return values in FPM code
+  - https://github.com/php/php-src/pull/9911 - Change return values to bool or void in FPM
+- **Feat**: general - Convert worker pools and children list to continous array for fast look up in stdio 
+
 ### Logging, tracing and socket
 
-- **Bug**: error log - missing new line
-  - https://bugs.php.net/bug.php?id=77106 - Missing newlines between PHP messages
+- **Bug**: access log - Investigate why supress path on /status does not work
+  - https://github.com/php/php-src/issues/10116 - /status is not suppressed effectively when using access.suppress_path
+- **Bug**: access log - fpm_log_format needs cleanup
+  - https://bugs.php.net/bug.php?id=75635 - Memory leak in fpm log
 - **Bug**: error log - check how changes is error log file permission impacts IP and time logged
   - https://bugs.php.net/bug.php?id=62660 - PHP error logging with FPM fails to display an IP address and correct time
 - **Bug**: error log - Investigate why error goes to stderr instead of error log file
   - https://bugs.php.net/bug.php?id=63555 - errors outputed to stderr instead of logfile using fastcgi
+- **Bug**: stdio - Nodaemonized FPM in Bash background process hangs
+  - https://github.com/php/php-src/issues/10058 - If "php-fpm --nodaemonize" is called to be sent into background it hangs the calling process 
 - **Bug**: access log - fpm_log_format needs cleanup
   - https://bugs.php.net/bug.php?id=75635 - Memory leak in fpm log
 - **Bug**: access log - %t shows the first request and not the last request
@@ -54,52 +98,8 @@
 - **Feat**: socket - Consider re-enabling warning for non empty listening queue or remove commented out code in process ctl.
   - https://github.com/php/php-src/blob/2ac5948f5cbaf3351fe18ab1068422487c9c215f/sapi/fpm/fpm/fpm_process_ctl.c#L349-L359
 
-
-### FastCGI, worker request handling
-
-- **Bug**: main - fastcgi.error_header does not change the header for subsequent requests
-  - https://github.com/php/php-src/issues/9981 - FPM does not reset fastcgi.error_header
-- **Bug**: main / fcgi - investigate if file uploads can cause disk space exhaustion
-  - https://bugs.php.net/bug.php?id=75889 - Overloading disk with temporary files
-  - https://bugs.php.net/bug.php?id=70620 php-fpm can interrupt sapi_deactivate cleanup (Security bug - exposed by the #75889)
-- **Bug**: main - correctly decode path_info before comparing to comply with cgi spec
-  - https://bugs.php.net/bug.php?id=74129 - Incorrect SCRIPT_NAME with apache ProxyPassMatch when spaces are in path
-- **Bug**: main - verify the PATH_TRANSLATED logic with cgi.fix_pathinfo
-  - https://bugs.php.net/bug.php?id=68053 - PHP-FPM with cgi.fix_pathinfo 0 loads script from PATH_TRANSLATED
-- **Bug**: main - Look to the suggested changes for Apache and fcgi env vars (mainly verify if it's still issue with httpd)
-  - https://bugs.php.net/bug.php?id=51983 - [fpm sapi] pm.status_path not working when cgi.fix_pathinfo=1
-- **Test**: main - properly test the logic for processing env vars (especially the httpd logic) and verify it works with httpd balancer
-  - https://bugs.php.net/bug.php?id=71379 - Add support for Apache 2.4 mod_proxy_balancer to FPM
-  - https://bugs.php.net/bug.php?id=67998 - Wrong SCRIPT_FILENAME (check if this is still an issue or has been fixed)
-- **Bug**: main - argv and argc should not be included in env vars
-  - https://bugs.php.net/bug.php?id=75712 - php-fpm's import_environment_variables impl should not copy $_ENV, $_SERVER
-- **Bug**: main - check handling of multiple headers
-  - https://bugs.php.net/bug.php?id=78844 - FPM does not support multiple HTTP request headers with the same name
-- **Bug**: fcgi - Abort connection if CONTENT_LENGTH differs from input length
-- **Bug**: fcgi - FCGI_GET_VALUES does not seem to work
-  - https://bugs.php.net/bug.php?id=76922 - FastCGI terminates connection immediately after FCGI_GET_VALUES
-- **Bug**: fcgi - FCGI_ABORT_REQUEST from the client (web server) seems to be ignored
-  - https://bugs.php.net/bug.php?id=76419 - connection_aborted() under FPM doesn't work properly
-- **Feat**: fcgi - flag to allow missing content length
-  - https://github.com/php/php-src/pull/7509 - discussion
-- **Feat**: fcgi / main - refactore processing of fcgi env vars
-- **Feat**: fcgi - spec update to no content length bytes
-  - https://bugs.php.net/bug.php?id=79723 - sapi_cgi_read_post() ignores EOF
-  - https://bugs.php.net/bug.php?id=51191 - Request body is 0-size when chunked requests are used 
-  - https://github.com/php/php-src/pull/7509 - Fixed reading in streamed body using fastcgi
-- **Feat**: fcgi - do not require any CGI parameters to allow overwriting on pool level
-  - https://bugs.php.net/bug.php?id=74995 - Control/set fastcgi parameters from pool config file
-- **Feat**: fcgi - spec update to allow using FCGI over TLS
-- **Feat**: fcgi - spec update to allow larger headers than 64k
-  - https://trac.nginx.org/nginx/ticket/239 - Support for large (> 64k) FastCGI requests
-- **Feat**: fcgi - implement TLS support with client cert auth
-- **Feat**: general - review return values in FPM code
-  - https://github.com/php/php-src/pull/9911 - Change return values to bool or void in FPM
-- **Feat**: general - Convert worker pools and children list to continous array for fast look up in stdio 
 ### Status and config
 
-- **Bug**: scoreboard - inconsistent idle process count
-  - https://bugs.php.net/bug.php?id=74542 - Inconsistent php-fpm status page
 - **Bug**: scoreboard - slow request causing counter reset
   - https://bugs.php.net/bug.php?id=70645 - Resetting counters on status page
 - **Bug**: status - JSON and XML output is not escaped and can be invalid
@@ -139,6 +139,7 @@
 - **Feat**: conf - Introduce ZEND_INI_ADMIN for PHP ini admin values and not overwrite some system ini that cannot be overriden
   - https://github.com/php/php-src/issues/8699 - Wrong value from ini_get() for shared files because of opcache optimization
   - https://github.com/php/php-src/issues/9722 - FPM is maliciously compliant when asked to set opcache.preload
+  - https://github.com/php/php-src/issues/10117 - php_admin_[flag|value] falsely applies config changes
   - https://github.com/php/php-src/pull/8997 - Fix GH-8699: ini_get() opcache optimization in 8.1 (see discussion of the change)
 - **Feat**: main - PHP_ADMIN_VALUE and PHP_VALUE should be cleared on request end
   - https://bugs.php.net/bug.php?id=63965 - php-fpm site-specific settings go global
@@ -169,9 +170,6 @@
 
 ### Process management and related
 
-- **Bug**: proc - verify user existence when runnin `php-fpm -t`
-  - https://bugs.php.net/bug.php?id=68591 - Configuration test does not perform uid lookups
-  - https://bugs.php.net/bug.php?id=75057 - php-fpm -t doesn't verify does user exist (duplicate)
 - **Bug**: proc - fix the comment in www.conf to better clarify user, group, listen.user and listen.group (possibly also check docs correctness)
   - https://bugs.php.net/bug.php?id=67244 - Wrong owner:group for listening unix socket
 - **Bug**: core - crash with Runkit extension - dangling pointer
@@ -293,6 +291,18 @@
 
 
 ## Changes
+
+### 2022-12
+
+- **Bug**: proc - verify user existence when runnin `php-fpm -t`
+  - https://bugs.php.net/bug.php?id=68591 - Configuration test does not perform uid lookups
+  - https://bugs.php.net/bug.php?id=75057 - php-fpm -t doesn't verify does user exist (duplicate)
+- **Bug**: main - fastcgi.error_header does not change the header for subsequent requests
+  - https://github.com/php/php-src/issues/9981 - FPM does not reset fastcgi.error_header
+- **Bug**: scoreboard - inconsistent idle process count
+  - https://bugs.php.net/bug.php?id=74542 - Inconsistent php-fpm status page
+- **Bug**: error log - missing new line
+  - https://bugs.php.net/bug.php?id=77106 - Missing newlines between PHP messages
 
 ### 2022-11
 
