@@ -2,8 +2,6 @@
 
 ## Source issues
 
-- **Bug**: Issue with stream_select ignoring proc_open streams
-  - https://bugs.php.net/bug.php?id=75584 - Docs?: stream_select() ignores proc_open() streams for buffered fopen() streams
 - **Bug**: Investigate stream_select after fork issue
   - https://bugs.php.net/bug.php?id=75749 - pcntl_fork does not duplicate stream_sockets
 - **Bug**: stream_select on freebsd possibly incorrect
@@ -79,6 +77,9 @@
   - https://bugs.php.net/bug.php?id=69163 - `fopen(__DIR__, 'r')` succeeds _(1 vote)_
 - **Feat**: Support fwrite buffering
   - https://bugs.php.net/bug.php?id=61168 - fwrite() should allow for buffering _(5 votes)_
+- **Feat**: Impleemnt stream_select checking of other streams when read buffered stream present
+  - https://github.com/php/php-src/issues/10177 - stream_select checking of other streams when read buffered stream present
+  - https://bugs.php.net/bug.php?id=75584 - Docs?: stream_select() ignores proc_open() streams for buffered fopen() streams
 - **Feat**: Look to support for select on filtered streams
   - https://github.com/php/php-src/pull/6926 - Allow to cast filtered streams to PHP_STREAM_AS_FD_FOR_SELECT
 - **Feat**: Support filters on STDOUT
