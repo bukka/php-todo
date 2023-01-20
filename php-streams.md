@@ -58,6 +58,7 @@
   - https://bugs.php.net/bug.php?id=42387 - Streams layer has no error notification facility _(2 votes)_
   - https://bugs.php.net/bug.php?id=34380 - need stream equivalent to socket_last_error _(12 votes)_
   - https://github.com/php/php-src/pull/838 - preserve errno for stream_select and stream_socket_pair
+  - https://github.com/php/php-src/issues/10109 - Change error code of fsockopen from E_WARNING to EXCEPTION
 - **Feat**: Consider some additional socket functions
   - https://bugs.php.net/bug.php?id=49416 - Add stream_socket_listen() and stream_socket_set_option() functions
 - **Feat**: Changing pipes streams logic to match logic for sockets

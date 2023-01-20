@@ -7,9 +7,11 @@
 - **Bug**: Check issue with TLS 1.3 in phpredis
   - https://bugs.php.net/bug.php?id=79501 - TLS connections freezing on 7.4 (all versions after 7.3.17)
 - **Bug**: Check and fix SAN IP validation
-  https://github.com/php/php-src/issues/9356 - Incomplete validation of IP Address fields in subjectAltNames
+  - https://github.com/php/php-src/issues/9356 - Incomplete validation of IP Address fields in subjectAltNames
 - **Bug**: Roundcube peer veryfication issue
   - https://bugs.php.net/bug.php?id=79909 - verify_peer => true, connection "Error: Login failed ... Unknown reason"
+- **Bug**: Check why mysqlnd still checks CN when peer veryfication disabled
+  - https://github.com/php/php-src/issues/8577 - PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT still checking CN
 - **Bug**: Check issue with connection to server with chain containing 3 intermediates wiht RabbitMQ
   - https://bugs.php.net/bug.php?id=78414 - TLS handshake fails when the certificate chain has more than 2 certificates
 - **Bug**: Issue with proxied file_get_contents with https
@@ -30,6 +32,8 @@
   - https://github.com/php/php-src/pull/2605 - Avoid triggering SIGPIPE after stream_socket_shutdown(SHUT_WR) of a SSL stream (bug report containing discussion)
   - https://bugs.php.net/bug.php?id=68732 - Unchecked return value (this should be addressed as part of refactoring)
   - https://bugs.php.net/bug.php?id=75288 - stream_socket_enable_crypto() blocks during handshake
+- **Feat**: Check if PHP_STREAM_AS_FD_FOR_SELECT should fail if ssl is not active
+  - https://github.com/php/php-src/pull/10093#issuecomment-1367316224 - discussion about casting logic
 - **Feat**: Check if liveness poll skipping improvement is worth it
   - https://github.com/php/php-src/pull/8829 - Improve php_openssl_sockop_set_option logic for liveness poll skipping
 - **Feat**: Add option to not add SSL_OP_IGNORE_UNEXPECTED_EOF (opt in protection for truncation attack) - create a proper test with proxy and TCP FIN
@@ -46,6 +50,7 @@
 
 - **Bug**: pkey - Incorrect returned array for SM2 key (DH key in it)
   - https://github.com/php/php-src/issues/9422#issuecomment-1229484671 - comment in openssl ext sm2 compatibility
+  - https://github.com/php/php-src/pull/10194 - OpenSSL: Do not use empty switch in getting PKEY details
 - **Feat**: pkey - SM2 support
   - https://github.com/php/php-src/issues/9422 - openssl ext sm2 compatibility
   - https://github.com/php/php-src/pull/9991 - Improve ext-openssl generate EC keys under OpenSSL 3.0

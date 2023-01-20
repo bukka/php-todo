@@ -116,6 +116,7 @@
   - https://github.com/php/php-src/issues/8880 - Support fastcgi parameter in FPM for status page to display request meta data
   - https://github.com/php/php-src/pull/2713 - Enhancement: php-fpm status page shows ip address of the client (closed but idea is there)
   - https://bugs.php.net/bug.php?id=72319 - FPM status page shows wrong request_uri (generic solution for this bug - would be worth to do path info as well)
+- **Feat**: status / ping - healtcheck support based on metrics similar to https://github.com/renatomefi/php-fpm-healthcheck
 - **Feat**: ping - integrate ping.listen similar to pm.status_listen
   - https://bugs.php.net/bug.php?id=68678 - FPM Ping should use a reserved worker
 - **Feat**: scoreboard - track number of terminated requests
@@ -170,8 +171,6 @@
 
 ### Process management and related
 
-- **Bug**: proc - fix the comment in www.conf to better clarify user, group, listen.user and listen.group (possibly also check docs correctness)
-  - https://bugs.php.net/bug.php?id=67244 - Wrong owner:group for listening unix socket
 - **Bug**: core - crash with Runkit extension - dangling pointer
   - https://bugs.php.net/bug.php?id=72055 - php-fpm crashes on working with Runkit (contains patch)
 - **Bug**: core - huge pages enabled crash (might be opcache)
@@ -291,6 +290,12 @@
 
 
 ## Changes
+
+### 2023-01
+
+- **Bug**: proc - fix the comment in www.conf to better clarify user, group, listen.user and listen.group (possibly also check docs correctness)
+  - https://bugs.php.net/bug.php?id=67244 - Wrong owner:group for listening unix socket
+- **Bug**: main - ASAN fixes
 
 ### 2022-12
 
