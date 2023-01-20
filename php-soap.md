@@ -35,6 +35,8 @@
   - https://bugs.php.net/bug.php?id=66150 - SOAP WSDL cache race condition causes Segmentation Fault _(6 votes)_
 - **Bug**: Client - Check if the reported segfault during request can be recreated
   - https://bugs.php.net/bug.php?id=65928 - Segfault when working with Soap _(6 votes)_
+- **Bug**: Client - Investigate incomplete cache file issue causing segfault
+  - https://bugs.php.net/bug.php?id=67617 - SOAP leaves incomplete cache file on ENOSPC _(no vote)_
 - **Bug**: Client - Investigate segfault when using WSDL_CACHE_BOTH in soap.wsdl_cache
   - https://bugs.php.net/bug.php?id=63516 - The Process exits random with SEGV _(1 vote)_
 - **Bug**: Client - Investigate why client return null even thout response is returned
@@ -51,6 +53,8 @@
   - http://wssie.eau-loire-bretagne.fr/AELB-IWS-MONITORING/services/MonitoringService?wsdl (stored locally just in case)
 - **Bug**: Encoding/SDL - Parameter ignored if special SOAP name used (seems like some sort of reserved words issue)
   - https://bugs.php.net/bug.php?id=49155 - SoapServer passes parameters as null if one has special wsdl definition _(7 votes)_
+- **Bug**: Encoding/SDL - Investiage why use=literal is ignored
+  - https://bugs.php.net/bug.php?id=67533 - SoapClient does not honor use=literal _(1 vote)_
 - **Bug**: Encoding/SDL - Investiage incorrectly reported namespace in schema error
   - https://bugs.php.net/bug.php?id=62900 - Wrong namespace on xsd import error message _(2 votes)_
 - **Bug**: Encoding/SDL - Investigate whether array to string conversion error for non enumerated array converted to xsd sequence
@@ -133,6 +137,8 @@
   - https://bugs.php.net/bug.php?id=53302 - SoapClient::SoapClient ignores include_path _(5 votes)_
 - **Bug**: Streams / Client - Look to potential issue with impoting schema
   - https://bugs.php.net/bug.php?id=53293 - WSDL error when schemaLocation includes port number _(14 votes)_
+- **Bug**: Streams / Client - Investigate if data should no longer be sent on closed connection
+ -  https://bugs.php.net/bug.php?id=67292 - SoapClient posts on connection closed by server _(2 votes)_
 - **Bug**: Streams / Client - Look to potentially incorrect handling of executing if no endpoints specificed
   - https://bugs.php.net/bug.php?id=52724 - SoapClient() with location param should work with WSDLs with all bad endpoints _(1 vote)_
 - **Bug**: Client - Look to handling of SoapFault HTTP Status code
@@ -147,8 +153,12 @@
   - https://bugs.php.net/bug.php?id=55206 - PHP / Apache crashes on creation of a SOAP client _(1 vote)_
 - **Bug**: Client - Incorect respone for __getLastResponseHeader
   - https://bugs.php.net/bug.php?id=49278 - SoapClient::__getLastResponseHeaders returns NULL if wsdl operation !has output _(12 votes)_
+- **Bug**: Client - The __getLastRequest show request before sending the actual request
+  - https://bugs.php.net/bug.php?id=66768 - SoapClient::__getLastRequest invalid output if SoapClient::__doRequest used _(6 votes)_
 - **Bug**: Client - Missing attributes for SOAP header
   - https://bugs.php.net/bug.php?id=53068 - Soap header object without attributes _(1 vote)_
+- **Bug**: Client - Investigate issue with reading SoapHeader
+  - https://bugs.php.net/bug.php?id=66508 - The function executes error _(1 vote)_
 - **Bug**: Client - Check if setting headers in the client does not work in the reported example
   - https://bugs.php.net/bug.php?id=51754 - SoapHeaders not set correctly _(no votes)_
 - **Bug**: Client - Investigate error in call when control character is used
@@ -165,6 +175,8 @@
   - https://bugs.php.net/bug.php?id=66042 - Reponse Mapping with column name "count" _(no vote)_
 - **Bug**: Server - Check why server hangs with dynamic wsdl
   - https://bugs.php.net/bug.php?id=62563 - SoapServer constructor hangs if using dynamic wsdl url _(6 votes)_
+- **Bug**: Server - Check why server fails to read more than 32kb of data - it is on Solaris
+  - https://bugs.php.net/bug.php?id=66226 - WSDL-based SOAP server fails to receive more than 32kb of data _(1 vote)_
 - **Bug**: Server - Check if there is anything that could be done about using serialized objects
   - https://bugs.php.net/bug.php?id=52791 - SoapServer doesn't convert objects into SOAP Response _(2 votes)_
 - **Bug**: Server - Check why adding headers does not work when __call used
