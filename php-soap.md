@@ -2,6 +2,8 @@
 
 ## Source issues
 
+- **Bug**: Client/SDL - Schema parser issue with attributes in multiple namespaces
+  - https://bugs.php.net/bug.php?id=68576 - Namespaces in schema php_schema.c
 - **Bug**: SDL - Allow the same names if namespace is different
   - https://bugs.php.net/bug.php?id=45282 - SoapClient has namespace issues when WSDL is distributed _(136 votes)_
   - https://bugs.php.net/bug.php?id=46878 - my wsdl is not loaded correctly _(4 votes)_
@@ -25,6 +27,8 @@
   - https://bugs.php.net/bug.php?id=54575 - SoapServer::handle some times does not call php_ob_end_buffer _(16 votes)_
 - **Bug**: Client/Server - Investigate what can be done about calling constructor for classmap
   - https://bugs.php.net/bug.php?id=45155 -	Constructors not called when using classmap option in SoapClient _(74 votes)_
+- **Bug**: Client/Server - Investigate why fully qualified namespace in classmap does not work
+  - https://bugs.php.net/bug.php?id=69280 - SoapClient classmap doesn't support fully qualified class name _(8 votes)_
 - **Bug**: Client/Server - Check why client ignores faults from server
   - https://bugs.php.net/bug.php?id=64420 - SoapClient ignores faults sent by SoapServer _(no vote)_
 - **Bug**: Client - Check if the non string value can still crash setting faultstring
@@ -37,8 +41,25 @@
   - https://bugs.php.net/bug.php?id=65928 - Segfault when working with Soap _(6 votes)_
 - **Bug**: Client - Investigate incomplete cache file issue causing segfault
   - https://bugs.php.net/bug.php?id=67617 - SOAP leaves incomplete cache file on ENOSPC _(no vote)_
+  - https://bugs.php.net/bug.php?id=70951 - Segmentation fault on invalid WSDL cache _(4 votes)_
+  - https://bugs.php.net/bug.php?id=55206 - PHP / Apache crashes on creation of a SOAP client _(1 vote)_
 - **Bug**: Client - Investigate segfault when using WSDL_CACHE_BOTH in soap.wsdl_cache
-  - https://bugs.php.net/bug.php?id=63516 - The Process exits random with SEGV _(1 vote)_
+  - https://bugs.php.net/bug.php?id=63516 - The Process exits random with SEGV _(1 vote)
+- **Bug**: Client - Investigate different requests being produced when using WSDL_CACHE_BOTH
+  - https://bugs.php.net/bug.php?id=69620 - Wrong request message with cache mode WSDL_CACHE_BOTH _(1 vote)_
+- **Bug**: Clinet - Investigate issue with wsdl cache and proxy 
+  - https://bugs.php.net/bug.php?id=69783 - Webservice wsdl cache and proxy causes "Could not connect to host" error
+- **Bug**: Client / Streams - Fix proxy support
+  - https://bugs.php.net/bug.php?id=48244 - SoapClient doRequest fails when proxy is used _(3 votes)_
+  - https://bugs.php.net/bug.php?id=52913 - Incorrect SNI (Server name indicator) when using a SoapClient through a proxy _(33 votes)_
+  - https://bugs.php.net/bug.php?id=53718 - "user_agent" not in HTTP requests for proxied requests, even if set in $options _(no vote)_
+  - https://bugs.php.net/bug.php?id=61463 - cant import schema when using https soapservice _(29 votes)_
+  - https://bugs.php.net/bug.php?id=69417 - "can't import schema" error when WSDL contains import and using a proxy _(7 votes)_
+- **Bug**: Client - Investigate why __getLastResponse() is empty if SoapFault raised
+  - https://bugs.php.net/bug.php?id=73747 - SoapClient::__getLastResponse() is empty if SoapFault raised _(4 votes)_
+  - https://bugs.php.net/bug.php?id=73090 -  	__getLastResponse() returns NULL if HTTP status > 200 and not XML _(14 votes)_
+- **Bug**: Client - Investigate failing loading of WSDL
+  - https://bugs.php.net/bug.php?id=71984 - SOAP-ERROR: Parsing WSDL: Couldn't load from... _(61 votes)_
 - **Bug**: Client - Investigate why client return null even thout response is returned
   - https://bugs.php.net/bug.php?id=64140 - SOAPClient returns null without any bug or exception thrown _(35 votes)_
 - **Bug**: Encoding - Proper DateTime object conversion
@@ -66,6 +87,7 @@
 - **Bug**: Encoding - Incorrect int and float types conversion
   - https://bugs.php.net/bug.php?id=47624 - SOAP response has int type for a key value that is out of range _(14 votes)_
   - https://bugs.php.net/bug.php?id=48717 - Cannot pass datatype long (> 2147483647) in SOAP requests _(23 votes)_
+  - https://bugs.php.net/bug.php?id=73431 - Loss of precision with xsd:integer and other huge integer types _(2 votes)_ - contains patch
 - **Bug**: Encoding - Check a way to put namespaces to the nested tags
   - https://bugs.php.net/bug.php?id=48966 - namespace in soap headers not put into nested tags _(34 votes)_
 - **Bug**: Encoding - Look to the increased namespace alias - whether it would be possible to provide custom (more a feature maybe)
@@ -86,6 +108,10 @@
   - https://bugs.php.net/bug.php?id=62231 - Tag attributes missing in SOAP Response in non-WSDL mode _(7 votes)_
 - **Bug**: Decoding - Investiage problem with not loading some namespaces in the response
   - https://bugs.php.net/bug.php?id=50064 - SOAP response by is not encoded _(3 votes)_
+- **Bug**: Decoding - Investigate choice element issue when decoding
+  - https://bugs.php.net/bug.php?id=70756 - Choice elements aren't working as expected _(6 votes)_
+- **Bug**: Encoding - Investigate error when trying 2nd element of the choice - complex type
+  - https://bugs.php.net/bug.php?id=68891 - SOAP Error when trying to submit 2nd Element of a choice _(4 votes)_
 - **Bug**: Encoding - Investigate missing complex type parameters during encoding
   - https://bugs.php.net/bug.php?id=64426 - SOAP request remove the params I put _(6 votes)_
 - **Bug**: Encoding - Investigate report of missing wsdl parameters
@@ -110,11 +136,10 @@
   - https://bugs.php.net/bug.php?id=47810 - SoapClient and Multipart response _(44 votes)_
 - **Bug**: Streams - Investigate issues with chunked transfer encoding
   - https://bugs.php.net/bug.php?id=55245 - soapclient doesn't process response with Transfer-Enconding chunked _(6 votes)_
-- **Bug**: Streams - Fix proxy support
-  - https://bugs.php.net/bug.php?id=48244 - SoapClient doRequest fails when proxy is used _(3 votes)_
-  - https://bugs.php.net/bug.php?id=52913 - Incorrect SNI (Server name indicator) when using a SoapClient through a proxy _(33 votes)_
-  - https://bugs.php.net/bug.php?id=53718 - "user_agent" not in HTTP requests for proxied requests, even if set in $options _(no vote)_
-  - https://bugs.php.net/bug.php?id=61463 - cant import schema when using https soapservice _(29 votes)_
+- **Bug**: Streams - Investigate why body over 4MB hangs
+  - https://bugs.php.net/bug.php?id=69603 - php SoapClient hanging on outbound requests over ~4MB in size _(5 votes)_
+- **Bug**: Streams - HTTPS connection issue with local cert
+  - https://bugs.php.net/bug.php?id=68855 - Soap Could not connect to host _(44 votes)_
 - **Bug**: Streams - Better handling of connection timeout
   - https://bugs.php.net/bug.php?id=48584 - soapclient's option connection_timeout not respected while fetching wsdl _(23 votes)_
 - **Bug**: Streams - Problem with decompression using deflate
@@ -137,6 +162,10 @@
   - https://bugs.php.net/bug.php?id=53302 - SoapClient::SoapClient ignores include_path _(5 votes)_
 - **Bug**: Streams / Client - Look to potential issue with impoting schema
   - https://bugs.php.net/bug.php?id=53293 - WSDL error when schemaLocation includes port number _(14 votes)_
+- **Bug**: Streams / Client - Overwritting headers does not work
+  - https://bugs.php.net/bug.php?id=68069 - Overwriting HTTP headers with stream_context_create _(2 votes)_
+  - https://bugs.php.net/bug.php?id=68431 - Error Fetching http headers _(6 votes)_
+  - https://bugs.php.net/bug.php?id=73182 - PHP SOAPClient does not support stream context HTTP headers in array form _(no vote)_
 - **Bug**: Streams / Client - Investigate if data should no longer be sent on closed connection
  -  https://bugs.php.net/bug.php?id=67292 - SoapClient posts on connection closed by server _(2 votes)_
 - **Bug**: Streams / Client - Look to potentially incorrect handling of executing if no endpoints specificed
@@ -149,8 +178,6 @@
   - https://bugs.php.net/bug.php?id=61525 - SOAP functions require at least one space after HTTP header colon _(2 votes)_
 - **Bug**: Client - Check if there is any potential issue with getting HTTP headers when connecting
   - https://bugs.php.net/bug.php?id=61938 - SoapClient Error Fetching http headers _(1 vote)_
-- **Bug**: Client - Investigate if there is anything to do about crashing on invalid wsdl when creating client
-  - https://bugs.php.net/bug.php?id=55206 - PHP / Apache crashes on creation of a SOAP client _(1 vote)_
 - **Bug**: Client - Incorect respone for __getLastResponseHeader
   - https://bugs.php.net/bug.php?id=49278 - SoapClient::__getLastResponseHeaders returns NULL if wsdl operation !has output _(12 votes)_
 - **Bug**: Client - The __getLastRequest show request before sending the actual request
@@ -163,6 +190,8 @@
   - https://bugs.php.net/bug.php?id=51754 - SoapHeaders not set correctly _(no votes)_
 - **Bug**: Client - Investigate error in call when control character is used
   - https://bugs.php.net/bug.php?id=55448 - Error at a Soap request _(5 votes)_
+- **Bug**: Client - Look to why one_way=1 returns error
+  - https://bugs.php.net/bug.php?id=70462 - SOAP call with one_way=1 always returns "SoapClient::__doRequest() returned no" _(3 votes)_
 - **Bug**: Client - Look to failed call of the function with complex type parameter
   - https://bugs.php.net/bug.php?id=51074 - Cannot access the extension base _(4 votes)_
 - **Bug**: Client - Check why call with a complex type fails
