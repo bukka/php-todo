@@ -2,8 +2,6 @@
 
 ## Source issues
 
-- **Bug**: Investigate stream_select after fork issue
-  - https://bugs.php.net/bug.php?id=75749 - pcntl_fork does not duplicate stream_sockets
 - **Bug**: stream_select on freebsd possibly incorrect
   - https://bugs.php.net/bug.php?id=60186 - stream_select ignores the timeout on freebsd
 - **Bug**: Polling should stop on EINTR
@@ -158,6 +156,11 @@
 
 
 ## Changes
+
+### 2023-02
+
+- **Bug**: Investigate stream_select after fork issue
+  - https://bugs.php.net/bug.php?id=75749 - pcntl_fork does not duplicate stream_sockets
 
 ### 2022-10
 
