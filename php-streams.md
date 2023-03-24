@@ -2,11 +2,6 @@
 
 ## Source issues
 
-- **Bug**: stream_select on freebsd possibly incorrect
-  - https://bugs.php.net/bug.php?id=60186 - stream_select ignores the timeout on freebsd
-- **Bug**: Polling should stop on EINTR
-  - https://bugs.php.net/bug.php?id=79564 - poll() cannot be interrupted
-  - https://github.com/php/php-src/pull/5521 - Don't continue polling on EINTR
 - **Bug**: Not able to identify error for stream_socket_client with STREAM_CLIENT_ASYNC_CONNECT
   - https://bugs.php.net/bug.php?id=64803 - async stream_socket_client return
 - **Bug**: Look to potentially incorrect seeking of stream wrappers
@@ -48,6 +43,11 @@
   - https://github.com/php/php-src/pull/6177 - Fix #67351: copy() should handle HTTP 304 response
 - **Bug**: Issue with user stream filter after destruction
   - https://bugs.php.net/bug.php?id=75931 - User stream filter is used after destruction
+- **Bug**: Polling should stop on EINTR
+  - https://bugs.php.net/bug.php?id=79564 - poll() cannot be interrupted
+  - https://github.com/php/php-src/pull/5521 - Don't continue polling on EINTR
+- **Bug**: stream_select on freebsd possibly incorrect
+  - https://bugs.php.net/bug.php?id=60186 - stream_select ignores the timeout on freebsd
 - **Bug**: Socket metadata are inherited
   - https://github.com/php/php-src/issues/8472 - The resource returned by stream_socket_accept may have incorrect metadata
 - **Bug**: Look to a proper fix for socket name
@@ -97,6 +97,7 @@
   - https://bugs.php.net/bug.php?id=63293 - Add support to establish > 1 persistent connection to the same UNIX socket _(7 votes)_
 - **Bug**: Look to the issue with occasionally missing STREAM_NOTIFY_PROGRESS on Win
   - https://github.com/php/php-src/issues/10031 - STREAM_NOTIFY_PROGRESS over HTTP emitted irregularly for last chunk of data
+  - https://github.com/php/php-src/pull/10492 - Fix GH-10031: [Stream] STREAM_NOTIFY_PROGRESS over HTTP emitted irregularly for last chunk of data
 - **Feat**: Make stream notifications properly work on TCP
   - https://bugs.php.net/bug.php?id=52811 - the notification callback method never gets call when using socket streams _(9 votes)_
   - https://bugs.php.net/bug.php?id=63556 - stream_notification_callback _(1 vote)_
@@ -111,6 +112,8 @@
   - https://bugs.php.net/bug.php?id=42929 - Cannot access the old stream wrapper from a wrapper class _(2 votes)_
 - **Feat**: Glob stream wrapper support
   - https://github.com/php/php-src/issues/9224 - StreamWrapper support for glob()
+- **Feat**: Implement set of interfaces for user stream wrapper
+  - https://github.com/php/php-src/issues/10506 - Add StreamWrapperInterface
 - **Feat**: Allow colon only scheme (not requiring //)
   - https://bugs.php.net/bug.php?id=36678 - Use of URL like about:config in streams _(2 votes)_
 - **Feat**: Consider ability to set default context options from ini
