@@ -9,6 +9,7 @@
   - https://bugs.php.net/bug.php?id=46878 - my wsdl is not loaded correctly _(4 votes)_
 - **Bug**: Client/SDL - Investigate missing nested types in SoapClient.__getTypes (possibly related to namespaces)
   - https://bugs.php.net/bug.php?id=45404 - SoapClient.__getTypes don't care about inheritance _(32 votes)_
+  - https://bugs.php.net/bug.php?id=75747 - Types have missing properties on SoapClient::__getTypes _(2 votes)_ - pr attached
 - **Bug**: Server - Incorrect method called
   - https://bugs.php.net/bug.php?id=49169 - SoapServer calls wrong function, although "SOAP action" header is correct _(76 votes)_
 - **Bug**: Server - Report validation errors
@@ -18,6 +19,8 @@
   - https://bugs.php.net/bug.php?id=60780 - Fatal Error instead of Exception if function does not exist _(6 votes)_
   - https://bugs.php.net/bug.php?id=63474 - Fatal errors may be thrown when turning off exceptions _(2 votes)_
   - https://bugs.php.net/bug.php?id=81239 - use_soap_error_handler doesn't do anything _(no vote)_
+  - https://bugs.php.net/bug.php?id=75586 - WSDL parsing issue throws a fatal error instead of a SOAPFault exception _(8 votes)_
+  - https://bugs.php.net/bug.php?id=76070 - SoapServer::handle() catches some exceptions, but not all _(4 votes)_
 - **Bug**: Server - Look to issue with error not used for from_xml callback
   - https://bugs.php.net/bug.php?id=55348 - SoapServer (typemap related) "Error calling from_xml callback" _(7 votes)_
 - **Bug**: Servre - Check if persisting value still fails when using sessions
@@ -33,6 +36,8 @@
   - https://bugs.php.net/bug.php?id=64420 - SoapClient ignores faults sent by SoapServer _(no vote)_
 - **Bug**: Client - Check if the non string value can still crash setting faultstring
   - https://bugs.php.net/bug.php?id=66049 - Typemap can break parsing in parse_packet_soap leading to a segfault
+- **Bug**: Client - Check memory for SoapClient creation
+  - https://bugs.php.net/bug.php?id=75306 - Memleak in SoapClient _(2 votes)_
 - **Bug**: Client - Check memory leak when parsing wsdl fails
   - https://bugs.php.net/bug.php?id=66151 - Memory leak when SOAP fails to process a WSDL file _(16 votes)_
 - **Bug**: Client - Check wsdl cache race condition segfault
@@ -55,6 +60,10 @@
   - https://bugs.php.net/bug.php?id=53718 - "user_agent" not in HTTP requests for proxied requests, even if set in $options _(no vote)_
   - https://bugs.php.net/bug.php?id=61463 - cant import schema when using https soapservice _(29 votes)_
   - https://bugs.php.net/bug.php?id=69417 - "can't import schema" error when WSDL contains import and using a proxy _(7 votes)_
+- **Bug**: Server - Segfault on multipart response
+  - https://bugs.php.net/bug.php?id=73906 - multi part response leads to segfault in Soapserver _(8 votes)_
+- **Bug**: Streams - Look to support for multipart responses
+  - https://bugs.php.net/bug.php?id=47810 - SoapClient and Multipart response _(44 votes)_
 - **Bug**: Client - Investigate why __getLastResponse() is empty if SoapFault raised
   - https://bugs.php.net/bug.php?id=73747 - SoapClient::__getLastResponse() is empty if SoapFault raised _(4 votes)_
   - https://bugs.php.net/bug.php?id=73090 -  	__getLastResponse() returns NULL if HTTP status > 200 and not XML _(14 votes)_
@@ -132,8 +141,6 @@
   - https://bugs.php.net/bug.php?id=52319 - SOAPServer does not use default argument valuess _(2 votes)_
 - **Bug**: Encoding - Investigate issue with violation of encoding rules
   - https://bugs.php.net/bug.php?id=66165 - SOAP-ERROR: Encoding: Violation of encoding rules
-- **Bug**: Streams - Look to support for multipart responses
-  - https://bugs.php.net/bug.php?id=47810 - SoapClient and Multipart response _(44 votes)_
 - **Bug**: Streams - Investigate issues with chunked transfer encoding
   - https://bugs.php.net/bug.php?id=55245 - soapclient doesn't process response with Transfer-Enconding chunked _(6 votes)_
 - **Bug**: Streams - Investigate why body over 4MB hangs
@@ -150,6 +157,8 @@
   - https://bugs.php.net/bug.php?id=47314 - SoapClient leave tcp connections in "time_wait" _(19 votes)_
 - **Bug**: Streams - Look to using persistent connection keep a live
   - https://bugs.php.net/bug.php?id=53776 - soap module does not allow to use underlying persistent connections _(1 vote)_
+- **Bug**: Streams - Look to possible regression with too many TCP frames produced
+  - https://bugs.php.net/bug.php?id=75085 - SoapClient - Bad performance - Too many reassembled tcp packets
 - **Bug**: Streams - Support for digest auth
   - https://bugs.php.net/bug.php?id=47762 - SoapClient does not fetch WSDL requiring Digest auth _(13 votes)_
   - https://bugs.php.net/bug.php?id=55639 - Digest autentication dont work _(10 votes)_
@@ -198,6 +207,8 @@
   - https://bugs.php.net/bug.php?id=62817 - elementFormDefault="qualified" without uri fails _(3 votes)_
 - **Bug**: Client - Investigate complex object nested array issue causing error in fetching http header
   - https://bugs.php.net/bug.php?id=54133 - Complex Object nested array problem _(1 vote)_
+- **Bug**: Client - Investigate nested object error
+  - https://bugs.php.net/bug.php?id=73782 - returning nested standard class functions more then 2 layers deep fails _(1 vote)_
 - **Bug**: Client - Fix ordering of parameter in assoc array
   - https://bugs.php.net/bug.php?id=49013 - SOAPClient interprets the parameters array incorrectly _(2 votes)_
 - **Bug**: Client - Investigate why mapping parameter to count field does not work
