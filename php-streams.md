@@ -162,6 +162,12 @@
 
 ### 2023-02
 
+- **Bug**: feof() behavior change for UNIX based socket resources
+  - https://github.com/php/php-src/issues/10406 - feof() behavior change for UNIX based socket resources in PHP 8.2
+  - https://github.com/php/php-src/pull/10877 - Fix GH-10406: feof() behavior change for UNIX based socket resources
+
+### 2023-02
+
 - **Bug**: Investigate stream_select after fork issue
   - https://bugs.php.net/bug.php?id=75749 - pcntl_fork does not duplicate stream_sockets
 
