@@ -4,17 +4,15 @@
 
 ### FastCGI, worker request handling
 
-- **Bug**: main - correctly decode path_info before comparing to comply with cgi spec
-  - https://bugs.php.net/bug.php?id=74129 - Incorrect SCRIPT_NAME with apache ProxyPassMatch when spaces are in path
-- **Bug**: main - verify the PATH_TRANSLATED logic with cgi.fix_pathinfo
-  - https://bugs.php.net/bug.php?id=68053 - PHP-FPM with cgi.fix_pathinfo 0 loads script from PATH_TRANSLATED
-- **Bug**: main - Look to the suggested changes for Apache and fcgi env vars (mainly verify if it's still issue with httpd)
-  - https://bugs.php.net/bug.php?id=51983 - [fpm sapi] pm.status_path not working when cgi.fix_pathinfo=1
-- **Test**: main - properly test the logic for processing env vars (especially the httpd logic) and verify it works with httpd balancer
+- **Bug**: main - Check query logic for Apache load balancer
   - https://bugs.php.net/bug.php?id=71379 - Add support for Apache 2.4 mod_proxy_balancer to FPM
-  - https://bugs.php.net/bug.php?id=67998 - Wrong SCRIPT_FILENAME (check if this is still an issue or has been fixed)
+- **Test**: main - properly test the logic for processing env vars (especially the httpd logic) and verify it works with httpd balancer
+- **Feat**: main - Change PHP_SELF to SCRIPT_NAME without pathinfo fix and enabled path discard
+  - FPM: Always use script name in PHP_SELF if cgi.discard_path = 1 and cgi.fix_pathinfo = 0
 - **Bug**: main - argv and argc should not be included in env vars
   - https://bugs.php.net/bug.php?id=75712 - php-fpm's import_environment_variables impl should not copy $_ENV, $_SERVER
+- **Bug**: main - run config test just once in daemonised mode
+  - https://github.com/php/php-src/issues/11086 - FPM: config test runs twice in daemonised mode
 - **Bug**: fcgi - Abort connection if CONTENT_LENGTH differs from input length
 - **Bug**: fcgi - FCGI_GET_VALUES does not seem to work
   - https://bugs.php.net/bug.php?id=76922 - FastCGI terminates connection immediately after FCGI_GET_VALUES
@@ -45,8 +43,6 @@
 
 ### Logging, tracing and socket
 
-- **Bug**: error log - check how changes is error log file permission impacts IP and time logged
-  - https://bugs.php.net/bug.php?id=62660 - PHP error logging with FPM fails to display an IP address and correct time
 - **Bug**: error log - Investigate why error goes to stderr instead of error log file
   - https://bugs.php.net/bug.php?id=63555 - errors outputed to stderr instead of logfile using fastcgi
 - **Bug**: stdio - Nodaemonized FPM in Bash background process hangs
@@ -71,6 +67,10 @@
 - **Feat**: error log - master logging should be separated from child logs (special option for master log)
   - https://bugs.php.net/bug.php?id=69662 - PHP Startup errors are erroneously logged as master user in pool error log
   - https://bugs.php.net/bug.php?id=72357 - Pool logs created with master owner:group
+- **Feat**: error log - Customizable decoration / log_message output
+  - https://github.com/php/php-src/issues/10671 - php-fpm decorate_workers_output = no removes timestamp
+- **Feat**: error log - SAPI log message does not split logs in Apache logs
+  - https://github.com/php/php-src/issues/10890 - FPM: error_log entries all on same line
 - **Feat**: trace - slowlog - the SIGSTOP and SIGCONT stop script connection in stream (fsockopen) or mysql
   - https://bugs.php.net/bug.php?id=67471 - fpm slow log && fsockopen :Operation now in progress
   - https://bugs.php.net/bug.php?id=67087 - slowlog kills mysql connection
@@ -113,6 +113,8 @@
   - https://github.com/php/php-src/issues/8880 - Support fastcgi parameter in FPM for status page to display request meta data
   - https://github.com/php/php-src/pull/2713 - Enhancement: php-fpm status page shows ip address of the client (closed but idea is there)
   - https://bugs.php.net/bug.php?id=72319 - FPM status page shows wrong request_uri (generic solution for this bug - would be worth to do path info as well)
+- **Feat**: status - Report proc memory and possibly other proc stats
+  - https://github.com/php/php-src/issues/10600 - php-fpm status page - full view - show current worker memory usage
 - **Feat**: status / ping - healtcheck support based on metrics similar to https://github.com/renatomefi/php-fpm-healthcheck
 - **Feat**: ping - integrate ping.listen similar to pm.status_listen
   - https://bugs.php.net/bug.php?id=68678 - FPM Ping should use a reserved worker
@@ -168,8 +170,8 @@
 
 ### Process management and related
 
-- **Bug**: core - crash with Runkit extension - dangling pointer
-  - https://bugs.php.net/bug.php?id=72055 - php-fpm crashes on working with Runkit (contains patch)
+- **Bug**: events - Prevent freeing child before accessing stdio pipe
+  - https://github.com/php/php-src/pull/11084 - FPM: Postpone child freeing in event loop
 - **Bug**: core - huge pages enabled crash (might be opcache)
   - https://bugs.php.net/bug.php?id=81444 - php-fpm crashes with bus error under kubernetes
 - **Bug**: core - opcache doesn't work with fpm chroot
@@ -259,6 +261,8 @@
 ## Feedback required
 
 
+- **Bug**: error log - check how changes is error log file permission impacts IP and time logged
+  - https://bugs.php.net/bug.php?id=62660 - PHP error logging with FPM fails to display an IP address and correct time
 - https://github.com/php/php-src/issues/8646 - Core: Memory leak PHP FPM 8.1 ARM64
 - https://bugs.php.net/bug.php?id=73313 - over fpm does not respect in .user.ini engine off directive
 - https://bugs.php.net/bug.php?id=76224 - Error and shutdown handlers triggered on object destroy
@@ -267,7 +271,7 @@
 
 ## Testing
 
-
+- **Test**: status - Rewrite status check to better inform about errors and support full output
 - **Test**: signals - Rename and clean up the signal reloading tests
   - bug74085-concurrent-reload.phpt
   - bug76601-reload-child-signals.phpt
@@ -282,6 +286,29 @@
 - **Test**: fcgi - Rename and clean up HTTP Status header truncation
 - **Test**: binary - better integrate exit code test - bug78323.phpt
 
+### Testing notes
+
+Status fields
+```php
+    /**
+     * @var array
+     */
+    private $defaultProcFields = [
+        'pid'                 => '\d+',
+        'state'               => 'Running',
+        'start time'          => '\d+',
+        'start since'         => '\d+',
+        'requests'            => '\d+',
+        'request duration'    => '\d+',
+        'request method'      => '(GET|HEAD|PUT|POST|PATCH)',
+        'request uri'         => '\s+',
+        'content length'      => '\d+',
+        'user'                => '\s+',
+        'script'              => '\s+',
+        'last request cpu'    => '\d+.\d+',
+        'last request memory' => '\d+',
+    ];
+```
 
 ## Docs
 
@@ -292,6 +319,22 @@
 
 
 ## Changes
+
+### 2023-04
+
+- **Bug**: core - crash with Runkit extension - dangling pointer
+  - https://bugs.php.net/bug.php?id=72055 - php-fpm crashes on working with Runkit (contains patch)
+- **Bug**: main - Apache sets extra leading slash in SCRIPT_FILENAME for UDS 
+  - https://bugs.php.net/bug.php?id=67998 - Wrong SCRIPT_FILENAME
+- **Bug**: main - verify the PATH_TRANSLATED logic with cgi.fix_pathinfo
+  - https://bugs.php.net/bug.php?id=68053 - PHP-FPM with cgi.fix_pathinfo 0 loads script from PATH_TRANSLATED
+- **Bug**: main - Look to the suggested changes for Apache and fcgi env vars
+  - https://bugs.php.net/bug.php?id=51983 - [fpm sapi] pm.status_path not working when cgi.fix_pathinfo=1
+
+### 2023-03
+
+- **Bug**: main - correctly decode path_info before comparing to comply with cgi spec
+  - https://bugs.php.net/bug.php?id=74129 - Incorrect SCRIPT_NAME with apache ProxyPassMatch when spaces are in path
 
 ### 2023-02
 
