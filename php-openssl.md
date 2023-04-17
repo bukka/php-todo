@@ -4,6 +4,8 @@
 
 ### TLS
 
+- **Bug**: Investigate why feof hangs on ssl stream
+  - https://github.com/php/php-src/issues/10495 - feof hangs indefinitely
 - **Bug**: Check issue with TLS 1.3 in phpredis
   - https://bugs.php.net/bug.php?id=79501 - TLS connections freezing on 7.4 (all versions after 7.3.17)
 - **Bug**: Check and fix SAN IP validation
@@ -62,6 +64,8 @@
   - https://bugs.php.net/bug.php?id=80495 - Enable to set padding in openssl_verify
 - **Feat**: pkey - Consider adding PKCS#8 export format support
   - https://bugs.php.net/bug.php?id=77602 - OpenSSL extension lacks PKCS#8 support
+- **Feat**: pkey - Support for additional keys with use of OQS
+  - https://github.com/php/php-src/issues/10857 - Support for other algorithms other than DSA, DH, RSA and EC?
 - **Feat**: seal/open - Allow AEAD
   - https://github.com/php/php-src/issues/7737 - openssl_seal()/_open() is not able to handle gcm cipers, e.g. aes-256-gcm
 - **Bug**: CSR Allow multiple fields in openssl_csr_new for distinguished_names argument

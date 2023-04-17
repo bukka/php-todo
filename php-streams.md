@@ -20,6 +20,8 @@
   - https://bugs.php.net/bug.php?id=75708 - getimagesize with "&$imageinfo" fails on StreamWrappers
 - **Bug**: fopencookie issue visible in imagecreatefrompng
   - https://bugs.php.net/bug.php?id=79945 - using php wrappers in imagecreatefrompng causes segmentation fault
+- **Bug**: Investigate custom stream wrappers segfault when used in CURLOPT_INFILE
+  - https://github.com/php/php-src/issues/11078 - PHP Fatal error triggers pointer being freed was not allocated and malloc: double free for ptr errors
 - **Bug**: Investigate custom stream wrappers issue with dynamic properties and FFI
   - https://github.com/php/php-src/issues/9698 - stream_wrapper_register crashes with FFI\CData provided as class
 - **Bug**: File existence check should be false for unsupported protocol
@@ -46,6 +48,8 @@
 - **Bug**: Polling should stop on EINTR
   - https://bugs.php.net/bug.php?id=79564 - poll() cannot be interrupted
   - https://github.com/php/php-src/pull/5521 - Don't continue polling on EINTR
+- **Bug**: Investigate ASAN issue in stream_select test
+  - https://github.com/php/php-src/issues/11077 - ext/standard/tests/streams/bug46024.phpt ASAN leak
 - **Bug**: stream_select on freebsd possibly incorrect
   - https://bugs.php.net/bug.php?id=60186 - stream_select ignores the timeout on freebsd
 - **Bug**: Socket metadata are inherited
@@ -110,6 +114,8 @@
   - https://bugs.php.net/bug.php?id=61201 - LOCK_EX in file_put_contents with custom streamwrapper fails _(4 votes)_
 - **Feat**: Look to the ways of restoring of origin wrapper
   - https://bugs.php.net/bug.php?id=42929 - Cannot access the old stream wrapper from a wrapper class _(2 votes)_
+- **Feat**: Streams wrappers autoloading
+  - https://github.com/php/php-src/issues/11087 - autoloader for custom stream wrappers
 - **Feat**: Glob stream wrapper support
   - https://github.com/php/php-src/issues/9224 - StreamWrapper support for glob()
 - **Feat**: Implement set of interfaces for user stream wrapper
