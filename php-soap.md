@@ -3,7 +3,9 @@
 ## Source issues
 
 - **Bug**: Client/SDL - Schema parser issue with attributes in multiple namespaces
-  - https://bugs.php.net/bug.php?id=68576 - Namespaces in schema php_schema.c
+  - https://bugs.php.net/bug.php?id=68576 - Namespaces in schema php_schema.c _(13 votes)_
+- **Bug**: Client/SDL - Only one namespace pulled to the envelope
+  - https://bugs.php.net/bug.php?id=77481 - SoapClient not pulling in all namespaces to soapEnvelope _(6 votes)_
 - **Bug**: SDL - Allow the same names if namespace is different
   - https://bugs.php.net/bug.php?id=45282 - SoapClient has namespace issues when WSDL is distributed _(136 votes)_
   - https://bugs.php.net/bug.php?id=46878 - my wsdl is not loaded correctly _(4 votes)_
@@ -18,9 +20,9 @@
   - https://bugs.php.net/bug.php?id=50547 - SoapServer Fatal errror in WSDL mode _(60 votes)_
   - https://bugs.php.net/bug.php?id=60780 - Fatal Error instead of Exception if function does not exist _(6 votes)_
   - https://bugs.php.net/bug.php?id=63474 - Fatal errors may be thrown when turning off exceptions _(2 votes)_
-  - https://bugs.php.net/bug.php?id=81239 - use_soap_error_handler doesn't do anything _(no vote)_
   - https://bugs.php.net/bug.php?id=75586 - WSDL parsing issue throws a fatal error instead of a SOAPFault exception _(8 votes)_
   - https://bugs.php.net/bug.php?id=76070 - SoapServer::handle() catches some exceptions, but not all _(4 votes)_
+  - https://bugs.php.net/bug.php?id=81239 - use_soap_error_handler doesn't do anything _(1 vote)_
 - **Bug**: Server - Look to issue with error not used for from_xml callback
   - https://bugs.php.net/bug.php?id=55348 - SoapServer (typemap related) "Error calling from_xml callback" _(7 votes)_
 - **Bug**: Servre - Check if persisting value still fails when using sessions
@@ -52,7 +54,9 @@
   - https://bugs.php.net/bug.php?id=63516 - The Process exits random with SEGV _(1 vote)
 - **Bug**: Client - Investigate different requests being produced when using WSDL_CACHE_BOTH
   - https://bugs.php.net/bug.php?id=69620 - Wrong request message with cache mode WSDL_CACHE_BOTH _(1 vote)_
-- **Bug**: Clinet - Investigate issue with wsdl cache and proxy 
+- **Bug**: Client - Segfault in WSDL cache when changing architecture (possibly just doc issue)
+  - https://bugs.php.net/bug.php?id=76421 - Buffer overflow in WSDL cache when switching architectures _(no vote)_
+- **Bug**: Client - Investigate issue with wsdl cache and proxy
   - https://bugs.php.net/bug.php?id=69783 - Webservice wsdl cache and proxy causes "Could not connect to host" error
 - **Bug**: Client / Streams - Fix proxy support
   - https://bugs.php.net/bug.php?id=48244 - SoapClient doRequest fails when proxy is used _(3 votes)_
@@ -60,6 +64,8 @@
   - https://bugs.php.net/bug.php?id=53718 - "user_agent" not in HTTP requests for proxied requests, even if set in $options _(no vote)_
   - https://bugs.php.net/bug.php?id=61463 - cant import schema when using https soapservice _(29 votes)_
   - https://bugs.php.net/bug.php?id=69417 - "can't import schema" error when WSDL contains import and using a proxy _(7 votes)_
+- **Bug**: Client / SDL - Segfault on receing response
+  - https://bugs.php.net/bug.php?id=78021 - SegFault in response of remote Soap server _(2 votes)_
 - **Bug**: Server - Segfault on multipart response
   - https://bugs.php.net/bug.php?id=73906 - multi part response leads to segfault in Soapserver _(8 votes)_
 - **Bug**: Streams - Look to support for multipart responses
@@ -87,6 +93,10 @@
   - https://bugs.php.net/bug.php?id=67533 - SoapClient does not honor use=literal _(1 vote)_
 - **Bug**: Encoding/SDL - Investiage incorrectly reported namespace in schema error
   - https://bugs.php.net/bug.php?id=62900 - Wrong namespace on xsd import error message _(2 votes)_
+- **Bug**: Encoding/SDL - Wrong message when maxOccurs in xsd exceeded _(no vote)_
+  - https://bugs.php.net/bug.php?id=78749 - Wrong error message when maxOccurs is exceeded
+- **Bug**: Encoding/SDL - Ignoring xsd maxOccurs when used with sequence
+  - https://bugs.php.net/bug.php?id=79210 - WSDL maxOccurs/minOccurs attributes are ignored when set in 'sequence' node
 - **Bug**: Encoding/SDL - Investigate whether array to string conversion error for non enumerated array converted to xsd sequence
   - https://bugs.php.net/bug.php?id=63357 - Notice: Array to string conversion _(8 votes)_
 - **Bug**: Encoding - Investigate if null parameters are sent when it should not be
@@ -117,12 +127,17 @@
   - https://bugs.php.net/bug.php?id=62231 - Tag attributes missing in SOAP Response in non-WSDL mode _(7 votes)_
 - **Bug**: Decoding - Investiage problem with not loading some namespaces in the response
   - https://bugs.php.net/bug.php?id=50064 - SOAP response by is not encoded _(3 votes)_
+- **Bug**: Include issue with not adopting the included schema
+  - https://bugs.php.net/bug.php?id=78315 - Included schemas don't adopt the targetNamespace of includer _(3 votes)_
 - **Bug**: Decoding - Investigate choice element issue when decoding
   - https://bugs.php.net/bug.php?id=70756 - Choice elements aren't working as expected _(6 votes)_
 - **Bug**: Encoding - Investigate error when trying 2nd element of the choice - complex type
   - https://bugs.php.net/bug.php?id=68891 - SOAP Error when trying to submit 2nd Element of a choice _(4 votes)_
+  - https://bugs.php.net/bug.php?id=77457 - soap generated request does not work with `<choice>` tag _(2 votes)_
 - **Bug**: Encoding - Investigate missing complex type parameters during encoding
   - https://bugs.php.net/bug.php?id=64426 - SOAP request remove the params I put _(6 votes)_
+- **Bug**: Encoding - Complex type encoded to params instead of directly
+  - https://bugs.php.net/bug.php?id=76142 - Error generating request when /definitions/types/schema.targetNamespace not set _(1 vote)_
 - **Bug**: Encoding - Investigate report of missing wsdl parameters
    - https://bugs.php.net/bug.php?id=63661 - missing parameters in soap request _(1 vote)_
 - **Bug**: Encoding - Investiage why request is missing some values
@@ -155,8 +170,9 @@
   - https://bugs.php.net/bug.php?id=55453 - SoapClient out of memory when SOAP_COMPRESSION_GZIP enabled _(5 votes)_
 - **Bug**: Streams - Look to a better re-using of connection
   - https://bugs.php.net/bug.php?id=47314 - SoapClient leave tcp connections in "time_wait" _(19 votes)_
-- **Bug**: Streams - Look to using persistent connection keep a live
+- **Bug**: Streams - Look to using persistent connection keep a live without leaving the connection open
   - https://bugs.php.net/bug.php?id=53776 - soap module does not allow to use underlying persistent connections _(1 vote)_
+  - https://bugs.php.net/bug.php?id=81029 - SOAP HTTP socket not closing on object destruction _(6 votes)_
 - **Bug**: Streams - Look to possible regression with too many TCP frames produced
   - https://bugs.php.net/bug.php?id=75085 - SoapClient - Bad performance - Too many reassembled tcp packets
 - **Bug**: Streams - Support for digest auth
@@ -175,6 +191,8 @@
   - https://bugs.php.net/bug.php?id=68069 - Overwriting HTTP headers with stream_context_create _(2 votes)_
   - https://bugs.php.net/bug.php?id=68431 - Error Fetching http headers _(6 votes)_
   - https://bugs.php.net/bug.php?id=73182 - PHP SOAPClient does not support stream context HTTP headers in array form _(no vote)_
+- **Bug**: Streams / Client - Do not append trailing semicolon to the cookies
+  - https://bugs.php.net/bug.php?id=76232 - SoapClient Cookie Header Semicolon
 - **Bug**: Streams / Client - Investigate if data should no longer be sent on closed connection
  -  https://bugs.php.net/bug.php?id=67292 - SoapClient posts on connection closed by server _(2 votes)_
 - **Bug**: Streams / Client - Look to potentially incorrect handling of executing if no endpoints specificed
@@ -221,6 +239,8 @@
   - https://bugs.php.net/bug.php?id=52791 - SoapServer doesn't convert objects into SOAP Response _(2 votes)_
 - **Bug**: Server - Check why adding headers does not work when __call used
   - https://bugs.php.net/bug.php?id=54928 - SoapServer handling SoapHeader and __call method _(1 votes)_
+- **Bug**: Server - SoapServer desn not work with Document/Literal style
+  - https://bugs.php.net/bug.php?id=79167 - SoapServer doesn't work with document/literal (Procedure '' not present) _(3 votes)_
 - **Bug**: Client - Check if SPL interfaces should work when serialized or if it is a more feature request
   - https://bugs.php.net/bug.php?id=54953 - Implemented SPL Interfaces wont work on mapped classes _(no vote)_
 - **Feat**: Client - helper for signed messages
