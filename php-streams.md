@@ -2,10 +2,8 @@
 
 ## Source issues
 
-- **Bug**: Not able to identify error for stream_socket_client with STREAM_CLIENT_ASYNC_CONNECT
-  - https://bugs.php.net/bug.php?id=64803 - async stream_socket_client return
 - **Bug**: Look to potentially incorrect seeking of stream wrappers
-  - https://bugs.php.net/bug.php?id=72561 - https://bugs.php.net/bug.php?id=72561
+  - https://bugs.php.net/bug.php?id=72561 - 5.2.2 regressed with incorrect seeking in stream wrappers
 - **Bug**: Seeking past the end on memory stream does not work
   - https://bugs.php.net/bug.php?id=52335  - fseek() on memory stream behavior different then file
   - https://github.com/php/php-src/issues/9441 - fseek does not work with php://input even though the stream is advertised as seekable
@@ -59,6 +57,8 @@
 - **Feat**: Look to addition solution for preserving socket errors and error notifications in general
   - https://bugs.php.net/bug.php?id=42387 - Streams layer has no error notification facility _(2 votes)_
   - https://bugs.php.net/bug.php?id=34380 - need stream equivalent to socket_last_error _(12 votes)_
+  - https://bugs.php.net/bug.php?id=63793 - Provide direct access to socket errors without php_sockets _(9 votes)_
+  - https://bugs.php.net/bug.php?id=64803 - async stream_socket_client return _(2 votes)_
   - https://github.com/php/php-src/pull/838 - preserve errno for stream_select and stream_socket_pair
   - https://github.com/php/php-src/issues/10109 - Change error code of fsockopen from E_WARNING to EXCEPTION
 - **Feat**: Consider some additional socket functions

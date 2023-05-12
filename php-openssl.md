@@ -4,12 +4,11 @@
 
 ### TLS
 
-- **Bug**: Investigate why feof hangs on ssl stream
-  - https://github.com/php/php-src/issues/10495 - feof hangs indefinitely
-- **Bug**: Check issue with TLS 1.3 in phpredis
-  - https://bugs.php.net/bug.php?id=79501 - TLS connections freezing on 7.4 (all versions after 7.3.17)
 - **Bug**: Check and fix SAN IP validation
   - https://github.com/php/php-src/issues/9356 - Incomplete validation of IP Address fields in subjectAltNames
+  - https://github.com/php/php-src/pull/11145 - Fix GH-9356: Incomplete validation of IPv6 Address fields in subjectAltNames
+- **Bug**: Investigate why feof hangs on ssl stream
+  - https://github.com/php/php-src/issues/10495 - feof hangs indefinitely
 - **Bug**: Roundcube peer veryfication issue
   - https://bugs.php.net/bug.php?id=79909 - verify_peer => true, connection "Error: Login failed ... Unknown reason"
 - **Bug**: Check why mysqlnd still checks CN when peer veryfication disabled
@@ -28,6 +27,8 @@
   - https://bugs.php.net/bug.php?id=81213 - Stream crypto methods SSLv2 and v3 switch to TLS1.0
 - **Bug**: The `SSL: Success` warning in failed connection does not make much sense
   - https://github.com/php/php-src/issues/9261#issuecomment-1218471408 - Problem with enabling crypto on stream socket connection
+- **Bug**: Make liveness check if socket is also writable - switch to nonblocking socket - related to issue mainly visible with TLS 1.3 
+  - https://bugs.php.net/bug.php?id=79501 - TLS connections freezing on 7.4 (all versions after 7.3.17)
 - **Bug**: Check stream_socket_client async issue
   - https://bugs.php.net/bug.php?id=49295 - stream_socket_client() fails on SSL+async
 - **Feat**: Refactore async code and provide info about WANT_READ and WANT_WRITE to PHP code
@@ -37,7 +38,7 @@
 - **Feat**: Check if PHP_STREAM_AS_FD_FOR_SELECT should fail if ssl is not active
   - https://github.com/php/php-src/pull/10093#issuecomment-1367316224 - discussion about casting logic
 - **Feat**: Check if liveness poll skipping improvement is worth it
-  - https://github.com/php/php-src/pull/8829 - Improve php_openssl_sockop_set_option logic for liveness poll skipping
+  - https://github.com/php/php-src/pull/8829  - Improve php_openssl_sockop_set_option logic for liveness poll skipping
 - **Feat**: Add option to not add SSL_OP_IGNORE_UNEXPECTED_EOF (opt in protection for truncation attack) - create a proper test with proxy and TCP FIN
   - https://github.com/php/php-src/issues/8369#issuecomment-1126940364 - note about that in the bug
 - **Feat**: Allow multiple peer fingerprints in the context
