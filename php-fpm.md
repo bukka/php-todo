@@ -43,8 +43,6 @@
 
 ### Logging, tracing and socket
 
-- **Bug**: error log - Investigate why error goes to stderr instead of error log file
-  - https://bugs.php.net/bug.php?id=63555 - errors outputed to stderr instead of logfile using fastcgi
 - **Bug**: stdio - Nodaemonized FPM in Bash background process hangs
   - https://github.com/php/php-src/issues/10058 - If "php-fpm --nodaemonize" is called to be sent into background it hangs the calling process 
 - **Bug**: access log - fpm_log_format needs cleanup
@@ -99,9 +97,8 @@
 
 ### Status and config
 
-- **Bug**: status - JSON and XML output is not escaped and can be invalid
+- **Bug**: status - Check correctness of the XML escaping and whether it should be in CDATA
   - https://bugs.php.net/bug.php?id=69250 - PHP FPM status report produces invalid JSON and XML
-  - https://bugs.php.net/bug.php?id=64539 - FPM status page: query_string not properly JSON encoded
 - **Bug**: status - start time invalid on Solaris
   - https://bugs.php.net/bug.php?id=69289 - fpm_status uses wrong time_format for json and xml output
 - **Feat**: status - support full parameter for openmetrics
@@ -170,8 +167,6 @@
 
 ### Process management and related
 
-- **Bug**: events - Prevent freeing child before accessing stdio pipe
-  - https://github.com/php/php-src/pull/11084 - FPM: Postpone child freeing in event loop
 - **Bug**: core - huge pages enabled crash (might be opcache)
   - https://bugs.php.net/bug.php?id=81444 - php-fpm crashes with bus error under kubernetes
 - **Bug**: core - opcache doesn't work with fpm chroot
@@ -224,6 +219,7 @@
   - https://bugs.php.net/bug.php?id=62630 - issues with starting FPM in conditions of high load
 - **Feat**: proc - consider defining timeout when no children available
   - https://bugs.php.net/bug.php?id=65503 - Timeout when max_children reached
+  - https://github.com/php/php-src/issues/11260 - Timeout when max-childrens reached
 - **Feat**: proc and main - Bootstrapping mode
   - https://github.com/php/php-src/pull/6772 - Add FPM early bootstrapping mode
 - **Feat**: proc - Introduce delay for process restarts to prevent CPU exhaustion
@@ -319,6 +315,15 @@ Status fields
 
 
 ## Changes
+
+#### 2023-05
+
+- **Bug**: error log - Investigate why error goes to stderr instead of error log file
+  - https://bugs.php.net/bug.php?id=63555 - errors outputed to stderr instead of logfile using fastcgi
+- **Bug**: status - JSON is not escaped and can be invalid
+  - https://bugs.php.net/bug.php?id=64539 - FPM status page: query_string not properly JSON encoded
+- **Bug**: events - Prevent freeing child before accessing stdio pipe
+  - https://github.com/php/php-src/pull/11084 - FPM: Postpone child freeing in event loop
 
 ### 2023-04
 
