@@ -2,8 +2,6 @@
 
 ## Source issues
 
-- **Bug**: Look to potentially incorrect seeking of stream wrappers
-  - https://bugs.php.net/bug.php?id=72561 - 5.2.2 regressed with incorrect seeking in stream wrappers
 - **Bug**: Seeking past the end on memory stream does not work
   - https://bugs.php.net/bug.php?id=52335  - fseek() on memory stream behavior different then file
   - https://github.com/php/php-src/issues/9441 - fseek does not work with php://input even though the stream is advertised as seekable
@@ -118,6 +116,8 @@
   - https://github.com/php/php-src/issues/11087 - autoloader for custom stream wrappers
 - **Feat**: Glob stream wrapper support
   - https://github.com/php/php-src/issues/9224 - StreamWrapper support for glob()
+- **Feat**: Look to the way how to get stream resource in called stream wrapper method
+  - https://bugs.php.net/bug.php?id=72561 - 5.2.2 regressed with incorrect seeking in stream wrappers (comment with use case for seek)
 - **Feat**: Implement set of interfaces for user stream wrapper
   - https://github.com/php/php-src/issues/10506 - Add StreamWrapperInterface
 - **Feat**: Allow colon only scheme (not requiring //)
@@ -165,6 +165,11 @@
 
 
 ## Changes
+
+### 2023-07
+
+- **Bug**: Look to potentially incorrect seeking of stream wrappers
+  - https://bugs.php.net/bug.php?id=72561 - 5.2.2 regressed with incorrect seeking in stream wrappers
 
 ### 2023-02
 

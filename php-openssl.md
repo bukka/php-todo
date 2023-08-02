@@ -57,6 +57,7 @@
 - **Feat**: pkey - SM2 support
   - https://github.com/php/php-src/issues/9422 - openssl ext sm2 compatibility
   - https://github.com/php/php-src/pull/9991 - Improve ext-openssl generate EC keys under OpenSSL 3.0
+  - https://github.com/php/php-src/commit/0dadd6616a491418871fb0b41590a73b128aa212#commitcomment-122069972 - follow up check for fedora
 - **Feat**: pkey - Improve php_openssl_dh_compute_key to support ECDH before OpenSSL 3.0 and extend tests
 - **Feat**: pkey - Skip all usage of DH if OpenSSL compiled with no-dh (only works with OpenSSL 3.0+)
 - **Feat**: pkey - Skip all usage of DSA if OpenSSL compiled with no-dsa (only works with OpenSSL 3.0+)
