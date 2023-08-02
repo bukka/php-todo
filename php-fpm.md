@@ -8,7 +8,7 @@
   - https://bugs.php.net/bug.php?id=71379 - Add support for Apache 2.4 mod_proxy_balancer to FPM
 - **Test**: main - properly test the logic for processing env vars (especially the httpd logic) and verify it works with httpd balancer
 - **Feat**: main - Change PHP_SELF to SCRIPT_NAME without pathinfo fix and enabled path discard
-  - FPM: Always use script name in PHP_SELF if cgi.discard_path = 1 and cgi.fix_pathinfo = 0
+  - https://github.com/php/php-src/issues/11025 - FPM: Always use script name in PHP_SELF if cgi.discard_path = 1 and cgi.fix_pathinfo = 0
 - **Bug**: main - argv and argc should not be included in env vars
   - https://bugs.php.net/bug.php?id=75712 - php-fpm's import_environment_variables impl should not copy $_ENV, $_SERVER
 - **Bug**: main - run config test just once in daemonised mode
@@ -24,7 +24,7 @@
   - https://github.com/php/php-src/issues/10335 - FPM: keepalived connection with fastcgi_finish_request causes dead lock
 - **Feat**: fcgi / main - look to support for close parameter in fastcgi_finish_request
   - https://github.com/php/php-src/pull/10273 - FPM: fastcgi_finish_request supports force close connection param
-- **Feat**: fcgi - flag to allow missing content length
+- **Feat**: fcgi - flag tautoo allow missing content length
   - https://github.com/php/php-src/pull/7509 - discussion
 - **Feat**: fcgi / main - refactore processing of fcgi env vars
 - **Feat**: fcgi - spec update to no content length bytes
@@ -43,16 +43,26 @@
 
 ### Logging, tracing and socket
 
+- **Bug**: socket - Add FD_CLOSEXEC on listening socket so it is not iherited by proc_open
+  - https://bugs.php.net/bug.php?id=67383 - exec() leaks file and socket descriptors to called program (general for all parts of PHP - not good idea)
+  - https://bugs.php.net/bug.php?id=76067 - system() function call leaks php-fpm listening sockets
+  - https://bugs.php.net/bug.php?id=80992 - fork() don't close fpm_globals.listening_socket
+  - https://github.com/php/php-src/pull/11708/ - Set CLOEXEC on listened sockets when forking FPM children
+- **Bug**: socket - non portable socket binding on FreeBSD
+  - https://bugs.php.net/bug.php?id=77501 - listen = 9000 only listens on one interface
+  - https://bugs.php.net/bug.php?id=77482 - Wont bind to IPv4 if IPv6 enabled
+- **Feat**: socket - socket route option
+  - https://github.com/php/php-src/pull/8470 - FPM add routing view global option (for FreeBSD for now).
+- **Feat**: socket - improve listen queue status info
+  - https://github.com/php/php-src/issues/9943 - FPM improve listen queue status info
+  - https://bugs.php.net/bug.php?id=76323 - FPM /status reports wrong number of listen queue len
+  - https://bugs.php.net/bug.php?id=80739 - PHP-FPM status page shows listen queue 0 (main details here)
+- **Feat**: socket - Consider re-enabling warning for non empty listening queue or remove commented out code in process ctl.
+  - https://github.com/php/php-src/blob/2ac5948f5cbaf3351fe18ab1068422487c9c215f/sapi/fpm/fpm/fpm_process_ctl.c#L349-L359
 - **Bug**: stdio - Nodaemonized FPM in Bash background process hangs
   - https://github.com/php/php-src/issues/10058 - If "php-fpm --nodaemonize" is called to be sent into background it hangs the calling process 
-- **Bug**: access log - fpm_log_format needs cleanup
-  - https://bugs.php.net/bug.php?id=75635 - Memory leak in fpm log
-- **Bug**: access log - %t shows the first request and not the last request
-  - https://bugs.php.net/bug.php?id=69367 - access.log invalid time request
 - **Feat**: access log - respect locale for time - consider logging afte after request shutdown
   - https://bugs.php.net/bug.php?id=69561 - FPM access.log strftime locale not configurable
-- **Feat**: access log - add support stime and utime options
-  - https://bugs.php.net/bug.php?id=62951 - Log utime and stime (patch)
 - **Feat**: access log - fmt flag for path info or available env to use
   - https://bugs.php.net/bug.php?id=81670 - Access log contains wrong values for "%r" (request URI) format string
 - **Feat**: access log - Allow suppression of queries
@@ -68,7 +78,7 @@
 - **Feat**: error log - Customizable decoration / log_message output
   - https://github.com/php/php-src/issues/10671 - php-fpm decorate_workers_output = no removes timestamp
 - **Feat**: error log - SAPI log message does not split logs in Apache logs
-  - https://github.com/php/php-src/issues/10890 - FPM: error_log entries all on same line
+  - https://github.com/php/php-src/issues/1089  0 - FPM: error_log entries all on same line
 - **Feat**: trace - slowlog - the SIGSTOP and SIGCONT stop script connection in stream (fsockopen) or mysql
   - https://bugs.php.net/bug.php?id=67471 - fpm slow log && fsockopen :Operation now in progress
   - https://bugs.php.net/bug.php?id=67087 - slowlog kills mysql connection
@@ -79,26 +89,11 @@
 - **Feat**: trace - slowlog - add request information - maybe some custom configurable fmt
   - https://bugs.php.net/bug.php?id=81501 - Log request information in slowlog
   - https://bugs.php.net/bug.php?id=79137 - Add request parameters to slow log script report
-- **Bug**: socket - Add FD_CLOSEXEC on listening socket so it is not iherited by proc_open
-  - https://bugs.php.net/bug.php?id=67383 - exec() leaks file and socket descriptors to called program (general for all parts of PHP - not good idea)
-  - https://bugs.php.net/bug.php?id=76067 - system() function call leaks php-fpm listening sockets
-  - https://bugs.php.net/bug.php?id=80992 - fork() don't close fpm_globals.listening_socket
-- **Bug**: socket - non portable socket binding on FreeBSD
-  - https://bugs.php.net/bug.php?id=77501 - listen = 9000 only listens on one interface
-  - https://bugs.php.net/bug.php?id=77482 - Wont bind to IPv4 if IPv6 enabled
-- **Feat**: socket - socket route option
-  - https://github.com/php/php-src/pull/8470 - FPM add routing view global option (for FreeBSD for now).
-- **Feat**: socket - improve listen queue status info
-  - https://github.com/php/php-src/issues/9943 - FPM improve listen queue status info
-  - https://bugs.php.net/bug.php?id=76323 - FPM /status reports wrong number of listen queue len
-  - https://bugs.php.net/bug.php?id=80739 - PHP-FPM status page shows listen queue 0 (main details here)
-- **Feat**: socket - Consider re-enabling warning for non empty listening queue or remove commented out code in process ctl.
-  - https://github.com/php/php-src/blob/2ac5948f5cbaf3351fe18ab1068422487c9c215f/sapi/fpm/fpm/fpm_process_ctl.c#L349-L359
 
 ### Status and config
 
-- **Bug**: status - Check correctness of the XML escaping and whether it should be in CDATA
-  - https://bugs.php.net/bug.php?id=69250 - PHP FPM status report produces invalid JSON and XML
+- **Bug**: status - Consider escaping script in status
+  - https://github.com/php/php-src/issues/11464 - FPM: Consider escaping script in status
 - **Bug**: status - start time invalid on Solaris
   - https://bugs.php.net/bug.php?id=69289 - fpm_status uses wrong time_format for json and xml output
 - **Feat**: status - support full parameter for openmetrics
@@ -167,6 +162,19 @@
 
 ### Process management and related
 
+- **Bug**: proc - process_control_timeout wakes up script in sleep
+  - https://bugs.php.net/bug.php?id=77603 - Unexpected behavior with reloading php-fpm and sleep method
+- **Bug**: proc - ondemand race condition
+  - https://github.com/php/php-src/pull/1308 - pm.ondemand forks fewer child workers than it should
+  - https://bugs.php.net/bug.php?id=69724 - pm.ondemand forks fewer child workers than it should (bug for the above PR - contains extra patches)
+  - https://bugs.php.net/bug.php?id=72935 - ONDEMAND: Race condition causes incoming connections hang
+- **Feat**: proc - alternative for process idle for better scaling in ondemend mode - might need some refactoring:
+  - https://bugs.php.net/bug.php?id=78405 - Fpm keeps killing idle children claiming they timed out
+  - https://bugs.php.net/bug.php?id=77060 - PHP-FPM pm.process_idle_timeout behaviour (doc bug confusion asking about this behaviour)
+- **Feat**: proc - stage redefinition to consider children idle if in reading header stage
+  - https://bugs.php.net/bug.php?id=78405 - FPM with keepalive: Kills worker when no request is seen for $terminate_timeout
+  - https://github.com/php/php-src/pull/8163 - Fix #78405: FPM with keepalive kills workers after $terminate_timeout
+  - https://bugs.php.net/bug.php?id=69367 - access.log invalid time request
 - **Bug**: core - huge pages enabled crash (might be opcache)
   - https://bugs.php.net/bug.php?id=81444 - php-fpm crashes with bus error under kubernetes
 - **Bug**: core - opcache doesn't work with fpm chroot
@@ -194,20 +202,8 @@
   - https://bugs.php.net/bug.php?id=65774 - no max file descriptor check for events.mechanism = /dev/poll
 - **Bug**: event - FreeBSD kqueue time outs
   - https://bugs.php.net/bug.php?id=76630 - php-fpm time outs unexpectedly
-- **Bug**: proc - process_control_timeout wakes up script in sleep
-  - https://bugs.php.net/bug.php?id=77603 - Unexpected behavior with reloading php-fpm and sleep method
-- **Bug**: proc - ondemand race condition
-  - https://github.com/php/php-src/pull/1308 - pm.ondemand forks fewer child workers than it should
-  - https://bugs.php.net/bug.php?id=69724 - pm.ondemand forks fewer child workers than it should (bug for the above PR - contains extra patches)
-  - https://bugs.php.net/bug.php?id=72935 - ONDEMAND: Race condition causes incoming connections hang
-- **Feat**: proc - alternative for process idle for better scaling in ondemend mode - might need some refactoring:
-  - https://bugs.php.net/bug.php?id=78405 - Fpm keeps killing idle children claiming they timed out
-  - https://bugs.php.net/bug.php?id=77060 - PHP-FPM pm.process_idle_timeout behaviour (doc bug confusion asking about this behaviour)
 - **Feat**: proc - look to some option in ondemand for killing inactive connections
   - https://bugs.php.net/bug.php?id=69890 - pm.ondemand does not kill children after reaching max limit
-- **Feat**: proc - stage redefinition to consider children idle if in reading header stage
-  - https://bugs.php.net/bug.php?id=78405 - FPM with keepalive: Kills worker when no request is seen for $terminate_timeout
-  - https://github.com/php/php-src/pull/8163 - Fix #78405: FPM with keepalive kills workers after $terminate_timeout
 - **Feat**: proc - look to ondemand scheduling issues / improvements - using epoll (optionally for all modes)
   - https://bugs.php.net/bug.php?id=77959 - Scheduling of PHP-FPM processes in "ondemand"
   - https://github.com/php/php-src/pull/4101 - epoll discussion
@@ -226,6 +222,9 @@
   - https://github.com/php/php-src/issues/9632 - FPM delayed process restarting
 - **Feat**: proc - add function to terminate child (this should be probably explicitly enabled in pool config)
   - https://bugs.php.net/bug.php?id=62948 - apache_child_terminate() for FPM
+- **Feat**: proc - free child allocated data on child termination
+  - https://github.com/php/php-src/issues/11461 - FPM: Freeing child allocated data
+  - https://bugs.php.net/bug.php?id=75635 - Memory leak in fpm log
 - **Feat**: event - make default timeout in event loop configurable (currently hard coded 1s)
   - https://bugs.php.net/bug.php?id=71854 - FPM: Please make epoll sleep interval configurable
 - **Feat**: event - Cleaning up child events when the child is killed
@@ -241,6 +240,7 @@
 - **Feat**: reload - reduce number of reallocation or use buffering (stack or smart str) for sockets clean up env
   - https://github.com/php/php-src/blob/b0b416b705f5b535d95dc7d275347f89f3ef87ea/sapi/fpm/fpm/fpm_sockets.c#L71
 - **Feat**: pool - look to introducing pool manager process handlig - reduce load on master and better (possibly more secure) separation and reload
+  - https://github.com/php/php-src/issues/11723 - FPM pool manager
   - https://bugs.php.net/bug.php?id=75440 - Fpm reload should be graceful, not killing running processes (possibly master could just re-read config and let proc mangers deal with it
   - https://bugs.php.net/bug.php?id=60961 - Graceful Restart (USR2) isn't very graceful (similar to above bug listing problems with graceful reload)
   - https://github.com/php/php-src/pull/3758 - php-fpm: graceful restart without blocking/losing requests (Mike's old PR with some useful discussion about reload)
@@ -250,6 +250,8 @@
 - **Feat**: pool - look to the alternative way of dynamically loading pool configuration and restarting it
   - https://bugs.php.net/bug.php?id=61595 - implement dynamic loading of pools config via file or SQL
   - https://bugs.php.net/bug.php?id=51973 - a way to restart single pools, enable/disable modules per pool
+- **Feat**: pool / access log - add support stime and utime options to the pool manager
+  - https://bugs.php.net/bug.php?id=62951 - Log utime and stime (patch)
 - **Feat**: pool / proc - control group (;linux namespace) support
   - https://bugs.php.net/bug.php?id=80657 - Linux namespace support
   - https://bugs.php.net/bug.php?id=70605 - Option to attach a pool to a cgroup
@@ -315,6 +317,11 @@ Status fields
 
 
 ## Changes
+
+#### 2023-06
+
+- **Bug**: status - Check correctness of the XML escaping and whether it should be in CDATA
+  - https://bugs.php.net/bug.php?id=69250 - PHP FPM status report produces invalid JSON and XML
 
 #### 2023-05
 
