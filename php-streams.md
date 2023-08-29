@@ -2,16 +2,6 @@
 
 ## Source issues
 
-- **Bug**: Seeking past the end on memory stream does not work
-  - https://bugs.php.net/bug.php?id=52335  - fseek() on memory stream behavior different then file
-  - https://github.com/php/php-src/issues/9441 - fseek does not work with php://input even though the stream is advertised as seekable
-- **Feat**: Check correctness of updating position on the stream if it works for all streams
-  - https://github.com/php/php-src/pull/7354 - Fix #81302: Stream position after stream filter removed 
-  - https://github.com/php/php-src/pull/7356 - Fix #81346: Non-seekable streams don't update position after write
-- **Feat**: Look to refactoring fd seeking related to new changes
-  - https://github.com/php/php-src/pull/8540 - main/streams/plain_wrapper: skip lseek(SEEK_CUR) for newly opened files
-- **Bug**: Detection IO error in php_fopen_wrapper_for_zend
-  - https://bugs.php.net/bug.php?id=71385 - require* and include* do not detect input/output error
 - **Bug**: Issue with reading image info in getimagesize with StreamWrappers
   - https://bugs.php.net/bug.php?id=75708 - getimagesize with "&$imageinfo" fails on StreamWrappers
 - **Bug**: fopencookie issue visible in imagecreatefrompng
@@ -20,12 +10,6 @@
   - https://github.com/php/php-src/issues/11078 - PHP Fatal error triggers pointer being freed was not allocated and malloc: double free for ptr errors
 - **Bug**: Investigate custom stream wrappers issue with dynamic properties and FFI
   - https://github.com/php/php-src/issues/9698 - stream_wrapper_register crashes with FFI\CData provided as class
-- **Bug**: File existence check should be false for unsupported protocol
-  - https://bugs.php.net/bug.php?id=76857 - Can read “non-existant” files
-- **Bug**: Investigate data loss warning correctnes for supported stream wrappers
-  - https://github.com/php/php-src/pull/10093 - Fix GH-10092 (Internal stream casting should not emit lost bytes warning twice)
-- **Bug**: Possibly incorrect return value from fclose and similar
-  - https://bugs.php.net/bug.php?id=60110 - fclose(), file_put_contents(), copy() do not return false properly
 - **Bug**: Look to the clearing stat cache after touch()
   - https://bugs.php.net/bug.php?id=72666 - touch(): stat cache clearing inconsistent between file:// paths and plain paths
 - **Feat**: Option to disable stat cache
@@ -66,6 +50,12 @@
   - https://bugs.php.net/bug.php?id=33781 - add "stream_set_timeout" support for pipes
   - https://bugs.php.net/bug.php?id=54717 - stream_set_timeout doesn't work for STDIO streams
   - https://bugs.php.net/bug.php?id=66232 - proc_open: Inconsistent handling of EOFs on pipes
+- **Feat**: Look to support for closing socket on exec (might be better do it optionally)
+  - https://bugs.php.net/bug.php?id=43290 - Proposed new socket function: socket_set_close_on_exec
+  - https://bugs.php.net/bug.php?id=67383 - exec() leaks file and socket descriptors to called program (general for all parts of PHP - not good idea)
+- **Feat**: Look more to incorrect return value from fclose and similar - specifically in relation to exec
+  - https://bugs.php.net/bug.php?id=60110 - fclose(), file_put_contents(), copy() do not return false properly
+  - https://github.com/php/php-src/pull/12067 - Fix bug #60110 (fclose(), file_put_contents(), copy() do not return false properly)
 - **Feat**: Look to improving support for descriptors
   - https://github.com/php/php-src/issues/9551 - File descriptors / some procfs entries not openable by php
 - **Feat**: Look to the fopen wrapper better support for FTP SIZE command
@@ -165,6 +155,14 @@
 
 
 ## Changes
+
+### 2023-08
+
+- **Bug**: File existence check should be false for unsupported protocol
+  - https://bugs.php.net/bug.php?id=76857 - Can read “non-existant” files
+- **Bug**: Seeking past the end on memory stream does not work
+  - https://bugs.php.net/bug.php?id=52335  - fseek() on memory stream behavior different then file
+  - https://github.com/php/php-src/issues/9441 - fseek does not work with php://input even though the stream is advertised as seekable
 
 ### 2023-07
 
