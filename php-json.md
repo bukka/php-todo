@@ -2,10 +2,6 @@
 
 ## Source issues
 
-- **Bug**: encoding serialization - var_dump inside jsonSerialize issue
-  - https://bugs.php.net/bug.php?id=81524 - json_encode() on JsonSerializable populates the properties HashTable
-  - https://github.com/php/php-src/pull/7589 - Use HT for recursion protection in JSON encode (perf issue fix)
-  - https://github.com/php/php-src/pull/9703 - Don't build prop table during json_encode(JsonSerializable) (breaking attempt)
 - **Feat**: encoding serialization - serializable generators
   - https://bugs.php.net/bug.php?id=72238 - Make Generator class serialisable in JSON
 - **Feat**: encoding - Check and possibly close JSON_NUMERIC_CHECK change request
@@ -34,6 +30,13 @@
 
 
 ## Changes
+
+### 2023-08
+
+- **Bug**: encoding serialization - var_dump inside jsonSerialize issue
+  - https://bugs.php.net/bug.php?id=81524 - json_encode() on JsonSerializable populates the properties HashTable
+  - https://github.com/php/php-src/pull/7589 - Use HT for recursion protection in JSON encode (perf issue fix)
+  - https://github.com/php/php-src/pull/9703 - Don't build prop table during json_encode(JsonSerializable) (breaking attempt)
 
 ### 2022-03
 
