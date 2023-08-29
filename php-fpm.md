@@ -43,11 +43,6 @@
 
 ### Logging, tracing and socket
 
-- **Bug**: socket - Add FD_CLOSEXEC on listening socket so it is not iherited by proc_open
-  - https://bugs.php.net/bug.php?id=67383 - exec() leaks file and socket descriptors to called program (general for all parts of PHP - not good idea)
-  - https://bugs.php.net/bug.php?id=76067 - system() function call leaks php-fpm listening sockets
-  - https://bugs.php.net/bug.php?id=80992 - fork() don't close fpm_globals.listening_socket
-  - https://github.com/php/php-src/pull/11708/ - Set CLOEXEC on listened sockets when forking FPM children
 - **Bug**: socket - non portable socket binding on FreeBSD
   - https://bugs.php.net/bug.php?id=77501 - listen = 9000 only listens on one interface
   - https://bugs.php.net/bug.php?id=77482 - Wont bind to IPv4 if IPv6 enabled
@@ -61,6 +56,15 @@
   - https://github.com/php/php-src/blob/2ac5948f5cbaf3351fe18ab1068422487c9c215f/sapi/fpm/fpm/fpm_process_ctl.c#L349-L359
 - **Bug**: stdio - Nodaemonized FPM in Bash background process hangs
   - https://github.com/php/php-src/issues/10058 - If "php-fpm --nodaemonize" is called to be sent into background it hangs the calling process 
+- **Feat**: stdio - Use non blocking pipe for stderr
+  - https://github.com/php/php-src/issues/11447 - fpm: some workers get stuck on "\0fscf\0" write to master process over time
+- **Feat**: error log - master logging should be separated from child logs (special option for master log)
+  - https://bugs.php.net/bug.php?id=69662 - PHP Startup errors are erroneously logged as master user in pool error log
+  - https://bugs.php.net/bug.php?id=72357 - Pool logs created with master owner:group
+- **Feat**: error log - SAPI log message does not split logs in Apache logs
+  - https://github.com/php/php-src/issues/1089  0 - FPM: error_log entries all on same line
+- **Feat**: error log - Customizable decoration / log_message output
+  - https://github.com/php/php-src/issues/10671 - php-fpm decorate_workers_output = no removes timestamp
 - **Feat**: access log - respect locale for time - consider logging afte after request shutdown
   - https://bugs.php.net/bug.php?id=69561 - FPM access.log strftime locale not configurable
 - **Feat**: access log - fmt flag for path info or available env to use
@@ -72,13 +76,6 @@
 - **Feat**: log - allow separation access and error log to stdout and stderr
   - https://bugs.php.net/bug.php?id=73886 - Handle access log & error log on Docker
   - https://github.com/php/php-src/pull/2310 - Fix #73886: Handle access log & error log on Docker (discussion)
-- **Feat**: error log - master logging should be separated from child logs (special option for master log)
-  - https://bugs.php.net/bug.php?id=69662 - PHP Startup errors are erroneously logged as master user in pool error log
-  - https://bugs.php.net/bug.php?id=72357 - Pool logs created with master owner:group
-- **Feat**: error log - Customizable decoration / log_message output
-  - https://github.com/php/php-src/issues/10671 - php-fpm decorate_workers_output = no removes timestamp
-- **Feat**: error log - SAPI log message does not split logs in Apache logs
-  - https://github.com/php/php-src/issues/1089  0 - FPM: error_log entries all on same line
 - **Feat**: trace - slowlog - the SIGSTOP and SIGCONT stop script connection in stream (fsockopen) or mysql
   - https://bugs.php.net/bug.php?id=67471 - fpm slow log && fsockopen :Operation now in progress
   - https://bugs.php.net/bug.php?id=67087 - slowlog kills mysql connection
@@ -162,15 +159,7 @@
 
 ### Process management and related
 
-- **Bug**: proc - process_control_timeout wakes up script in sleep
-  - https://bugs.php.net/bug.php?id=77603 - Unexpected behavior with reloading php-fpm and sleep method
-- **Bug**: proc - ondemand race condition
-  - https://github.com/php/php-src/pull/1308 - pm.ondemand forks fewer child workers than it should
-  - https://bugs.php.net/bug.php?id=69724 - pm.ondemand forks fewer child workers than it should (bug for the above PR - contains extra patches)
-  - https://bugs.php.net/bug.php?id=72935 - ONDEMAND: Race condition causes incoming connections hang
-- **Feat**: proc - alternative for process idle for better scaling in ondemend mode - might need some refactoring:
-  - https://bugs.php.net/bug.php?id=78405 - Fpm keeps killing idle children claiming they timed out
-  - https://bugs.php.net/bug.php?id=77060 - PHP-FPM pm.process_idle_timeout behaviour (doc bug confusion asking about this behaviour)
+
 - **Feat**: proc - stage redefinition to consider children idle if in reading header stage
   - https://bugs.php.net/bug.php?id=78405 - FPM with keepalive: Kills worker when no request is seen for $terminate_timeout
   - https://github.com/php/php-src/pull/8163 - Fix #78405: FPM with keepalive kills workers after $terminate_timeout
@@ -202,6 +191,14 @@
   - https://bugs.php.net/bug.php?id=65774 - no max file descriptor check for events.mechanism = /dev/poll
 - **Bug**: event - FreeBSD kqueue time outs
   - https://bugs.php.net/bug.php?id=76630 - php-fpm time outs unexpectedly
+- **Bug**: proc - process_control_timeout wakes up script in sleep
+  - https://bugs.php.net/bug.php?id=77603 - Unexpected behavior with reloading php-fpm and sleep method
+- **Bug**: proc - ondemand race condition
+  - https://github.com/php/php-src/pull/1308 - pm.ondemand forks fewer child workers than it should
+  - https://bugs.php.net/bug.php?id=69724 - pm.ondemand forks fewer child workers than it should (bug for the above PR - contains extra patches)
+  - https://bugs.php.net/bug.php?id=72935 - ONDEMAND: Race condition causes incoming connections hang
+- **Feat**: proc - alternative for process idle for better scaling in ondemend mode - might need some refactoring:
+  - https://bugs.php.net/bug.php?id=77060 - PHP-FPM pm.process_idle_timeout behaviour (doc bug confusion asking about this behaviour)
 - **Feat**: proc - look to some option in ondemand for killing inactive connections
   - https://bugs.php.net/bug.php?id=69890 - pm.ondemand does not kill children after reaching max limit
 - **Feat**: proc - look to ondemand scheduling issues / improvements - using epoll (optionally for all modes)
@@ -317,6 +314,13 @@ Status fields
 
 
 ## Changes
+
+#### 2023-08
+
+- **Bug**: socket - Add FD_CLOSEXEC on listening socket so it is not iherited by proc_open
+  - https://bugs.php.net/bug.php?id=76067 - system() function call leaks php-fpm listening sockets
+  - https://bugs.php.net/bug.php?id=80992 - fork() don't close fpm_globals.listening_socket
+  - https://github.com/php/php-src/pull/11708/ - Set CLOEXEC on listened sockets when forking FPM children
 
 #### 2023-06
 
