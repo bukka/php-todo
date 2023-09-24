@@ -4,11 +4,11 @@
 
 ### TLS
 
+- **Bug**: Investigate why feof hangs on ssl stream
+  - https://github.com/php/php-src/issues/10495 - feof hangs indefinitely
 - **Bug**: Check and fix SAN IP validation
   - https://github.com/php/php-src/issues/9356 - Incomplete validation of IP Address fields in subjectAltNames
   - https://github.com/php/php-src/pull/11145 - Fix GH-9356: Incomplete validation of IPv6 Address fields in subjectAltNames
-- **Bug**: Investigate why feof hangs on ssl stream
-  - https://github.com/php/php-src/issues/10495 - feof hangs indefinitely
 - **Bug**: Roundcube peer veryfication issue
   - https://bugs.php.net/bug.php?id=79909 - verify_peer => true, connection "Error: Login failed ... Unknown reason"
 - **Bug**: Check why mysqlnd still checks CN when peer veryfication disabled
@@ -51,6 +51,31 @@
 
 ### Crypto
 
+- **Bug**: PKCS12 - Unable to read the cert store when Using openssl_pkcs12_read with OpenSSL 3.x
+  - https://github.com/php/php-src/issues/12128 - Unable to read the cert store when Using openssl_pkcs12_read with OpenSSL 3.x
+- **Bug**: PKCS12 - openssl_pkcs12_read should check file path - investigate how it actually read the file
+- **Bug**: CMS - openssl_cms_read should check file path - investigate how it actually read the file (uses PEM_read_bio_CMS)
+  - should apply for PKCS7 as well
+- **Bug**: CMS - openssl_cms_verify should clean exit if sigbio is NULL
+- **Bug**: PKCS7 - Add test for PR to fix openssl_pkcs7_verify with signers_certificates_filename
+  - https://github.com/php/php-src/pull/6927 - openssl_pkcs7_verify() may ignore untrusted CAs
+  - https://bugs.php.net/bug.php?id=50713 - openssl_pkcs7_verify() may ignore untrusted CAs
+- **Bug**: PKCS7 - Investigate why envelope encrypted with cert created using openssl_csr_sign is not decrypted
+  - https://bugs.php.net/bug.php?id=66122 - Certification cannot be used directly after openssl_csr_sign
+- **Feat**: PKCS7 - Add constants for all PKCS7 flags
+  - https://bugs.php.net/bug.php?id=47728 - openssl_pkcs7_sign ignores new openssl flags
+- **Feat**: PKCS7 - New function to retrieve signer certificates (using PKCS7_get_signer_info)
+  - https://bugs.php.net/bug.php?id=72249 - Add Support for PKCS7_get_signer_info
+- **Feat**: PKCS7 - Allow adding a signature with custom digest (using PKCS7_add_signature)
+  - https://bugs.php.net/bug.php?id=68366 - Does not use certificate's signing algorithm
+- **Feat**: PKCS7 - Look to the non file arg variants for openssl_pkcs7_(sign|verify|encrypt|decrypt) (if not addressed by #50718)
+  - https://bugs.php.net/bug.php?id=55045 - openssl_pkcs7_sign() & openssl_pkcs7_encrypt()
+  - https://bugs.php.net/bug.php?id=52356 - In memory support for openssl_pkcs7_*
+  - https://bugs.php.net/bug.php?id=22978 - (openssl_pkcs7_verify) pem saved into variable
+- **Feat**: CMS - Extend with some new features in PKCS7 if applicable
+- **Feat**: CMS - Add AES GCM constant
+  - https://bugs.php.net/bug.php?id=81724 - openssl_cms/pkcs7_encrypt only allows specific ciphers
+- **Feat**: CMS - Try to reuse CMS and PKCS7 code - reduce duplications
 - **Bug**: pkey - Incorrect returned array for SM2 key (DH key in it)
   - https://github.com/php/php-src/issues/9422#issuecomment-1229484671 - comment in openssl ext sm2 compatibility
   - https://github.com/php/php-src/pull/10194 - OpenSSL: Do not use empty switch in getting PKEY details
@@ -98,29 +123,6 @@
 - **Feat**: X509 - Extend openssl_x509_parse with more info about pub key if possible
   - https://bugs.php.net/bug.php?id=77761 - openssl_x509_parse does not create entries for public key type and size
 - **Feat**: X509 - Optimize order of operations in php_openssl_load_all_certs_from_file
-- **Bug**: PKCS7 - Add test for PR to fix openssl_pkcs7_verify with signers_certificates_filename
-  - https://github.com/php/php-src/pull/6927 - openssl_pkcs7_verify() may ignore untrusted CAs
-  - https://bugs.php.net/bug.php?id=50713 - openssl_pkcs7_verify() may ignore untrusted CAs
-- **Bug**: PKCS7 - Investigate why envelope encrypted with cert created using openssl_csr_sign is not decrypted
-  - https://bugs.php.net/bug.php?id=66122 - Certification cannot be used directly after openssl_csr_sign
-- **Feat**: PKCS7 - Add constants for all PKCS7 flags
-  - https://bugs.php.net/bug.php?id=47728 - openssl_pkcs7_sign ignores new openssl flags
-- **Feat**: PKCS7 - New function to retrieve signer certificates (using PKCS7_get_signer_info)
-  - https://bugs.php.net/bug.php?id=72249 - Add Support for PKCS7_get_signer_info
-- **Feat**: PKCS7 - Allow adding a signature with custom digest (using PKCS7_add_signature)
-  - https://bugs.php.net/bug.php?id=68366 - Does not use certificate's signing algorithm
-- **Feat**: PKCS7 - Look to the non file arg variants for openssl_pkcs7_(sign|verify|encrypt|decrypt) (if not addressed by #50718)
-  - https://bugs.php.net/bug.php?id=55045 - openssl_pkcs7_sign() & openssl_pkcs7_encrypt()
-  - https://bugs.php.net/bug.php?id=52356 - In memory support for openssl_pkcs7_*
-  - https://bugs.php.net/bug.php?id=22978 - (openssl_pkcs7_verify) pem saved into variable
-- **Bug**: PKCS12 - openssl_pkcs12_read should check file path - investigate how it actually read the file
-- **Bug**: CMS - openssl_cms_read should check file path - investigate how it actually read the file (uses PEM_read_bio_CMS)
-  - should apply for PKCS7 as well
-- **Bug**: CMS - openssl_cms_verify should clean exit if sigbio is NULL
-- **Feat**: CMS - Extend with some new features in PKCS7 if applicable
-- **Feat**: CMS - Add AES GCM constant
-  - https://bugs.php.net/bug.php?id=81724 - openssl_cms/pkcs7_encrypt only allows specific ciphers
-- **Feat**: CMS - Try to reuse CMS and PKCS7 code - reduce duplications
 - **Bug**: config - add path check for config filename (possible break so only master probably)
   - https://github.com/php/php-src/issues/9317
   - php_openssl_parse_config function
