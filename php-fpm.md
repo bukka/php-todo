@@ -73,6 +73,8 @@
   - https://github.com/php/php-src/issues/10116 - /status?json&full is not suppressed when access.suppress_path used
 - **Feat**: access log - long lines support - using the same logic as zlog ideally
   - https://github.com/php/php-src/pull/5634 - PR to discussiong it and removing unused MAX_LINE_LENGTH
+- **Feat**: error log - allow setting format with variables for zlog errors
+  - https://github.com/php/php-src/pull/11939 - Add URI in FPM logs (comment with suggestion)
 - **Feat**: log - allow separation access and error log to stdout and stderr
   - https://bugs.php.net/bug.php?id=73886 - Handle access log & error log on Docker
   - https://github.com/php/php-src/pull/2310 - Fix #73886: Handle access log & error log on Docker (discussion)
@@ -89,26 +91,8 @@
 
 ### Status and config
 
-- **Bug**: status - Consider escaping script in status
-  - https://github.com/php/php-src/issues/11464 - FPM: Consider escaping script in status
-- **Bug**: status - start time invalid on Solaris
-  - https://bugs.php.net/bug.php?id=69289 - fpm_status uses wrong time_format for json and xml output
-- **Feat**: status - support full parameter for openmetrics
-  - https://github.com/php/php-src/issues/9494 - FPM status with OpenMetrics format and FULL parameter
-  - https://github.com/php/php-src/pull/9646 - expose per process metrics in fpm status
-- **Feat**: status - value queries and v2 openmetrics
-  - https://github.com/php/php-src/pull/7291#discussion_r676184017
-- **Feat**: status - add parameters to list extra fields for fcgi envs
-  - https://github.com/php/php-src/issues/8880 - Support fastcgi parameter in FPM for status page to display request meta data
-  - https://github.com/php/php-src/pull/2713 - Enhancement: php-fpm status page shows ip address of the client (closed but idea is there)
-  - https://bugs.php.net/bug.php?id=72319 - FPM status page shows wrong request_uri (generic solution for this bug - would be worth to do path info as well)
-- **Feat**: status - Report proc memory and possibly other proc stats
-  - https://github.com/php/php-src/issues/10600 - php-fpm status page - full view - show current worker memory usage
-- **Feat**: status / ping - healtcheck support based on metrics similar to https://github.com/renatomefi/php-fpm-healthcheck
-- **Feat**: ping - integrate ping.listen similar to pm.status_listen
-  - https://bugs.php.net/bug.php?id=68678 - FPM Ping should use a reserved worker
-- **Feat**: scoreboard - track number of terminated requests
-  - https://bugs.php.net/bug.php?id=78789 - Count number of request_terminate_timeout reached + killed in scoreboard
+- **Bug**: conf - investigate issue with loading some extensions in pool config
+  - https://github.com/php/php-src/issues/9921 - php_admin_value[extension] = ext.so in fpm config does not register module handlers
 - **Bug**: conf - possibly incorrect order of ini setting
   - https://bugs.php.net/bug.php?id=75741 - enable_post_data_reading not working on PHP-FPM
   - https://github.com/php/php-src/issues/8157 - post_max_size evaluates .user.ini too late in php-fpm?
@@ -121,8 +105,6 @@
   - https://bugs.php.net/bug.php?id=68018 - php_value directive modifies "Changeable" context (patch)
   - https://bugs.php.net/bug.php?id=60387 - Problem with php_(admin)?_value/flag and load order
   - https://github.com/php/php-src/issues/8398 - php_value[xxx] in php-fpm pool - first declaration wins
-- **Bug**: conf - investigate issue with loading some extensions in pool config
-  - https://github.com/php/php-src/issues/9921 - php_admin_value[extension] = ext.so in fpm config does not register module handlers
 - **Feat**: conf - look to supporting zend_extension in php_admin_value
   - https://bugs.php.net/bug.php?id=73408 - Loading Zend Extensions in FPM Pool Configuration
 - **Feat**: conf - Introduce ZEND_INI_ADMIN for PHP ini admin values and not overwrite some system ini that cannot be overriden
@@ -156,20 +138,29 @@
 - **Feat**: conf - add compile option to set default FPM config path
   - https://bugs.php.net/bug.php?id=61073 - php-fpm config file path option lacking
 - **Feat**: conf - Review FPM_PHP_INI_TO_EXPAND list in fpm_php.h as some are outdated
+- **Bug**: status - Consider escaping script in status
+  - https://github.com/php/php-src/issues/11464 - FPM: Consider escaping script in status
+- **Bug**: status - start time invalid on Solaris
+  - https://bugs.php.net/bug.php?id=69289 - fpm_status uses wrong time_format for json and xml output
+- **Feat**: status - support full parameter for openmetrics
+  - https://github.com/php/php-src/issues/9494 - FPM status with OpenMetrics format and FULL parameter
+  - https://github.com/php/php-src/pull/9646 - expose per process metrics in fpm status
+- **Feat**: status - value queries and v2 openmetrics
+  - https://github.com/php/php-src/pull/7291#discussion_r676184017
+- **Feat**: status - add parameters to list extra fields for fcgi envs
+  - https://github.com/php/php-src/issues/8880 - Support fastcgi parameter in FPM for status page to display request meta data
+  - https://github.com/php/php-src/pull/2713 - Enhancement: php-fpm status page shows ip address of the client (closed but idea is there)
+  - https://bugs.php.net/bug.php?id=72319 - FPM status page shows wrong request_uri (generic solution for this bug - would be worth to do path info as well)
+- **Feat**: status - Report proc memory and possibly other proc stats
+  - https://github.com/php/php-src/issues/10600 - php-fpm status page - full view - show current worker memory usage
+- **Feat**: status / ping - healtcheck support based on metrics similar to https://github.com/renatomefi/php-fpm-healthcheck
+- **Feat**: ping - integrate ping.listen similar to pm.status_listen
+  - https://bugs.php.net/bug.php?id=68678 - FPM Ping should use a reserved worker
+- **Feat**: scoreboard - track number of terminated requests
+  - https://bugs.php.net/bug.php?id=78789 - Count number of request_terminate_timeout reached + killed in scoreboard
 
 ### Process management and related
 
-
-- **Feat**: proc - stage redefinition to consider children idle if in reading header stage
-  - https://bugs.php.net/bug.php?id=78405 - FPM with keepalive: Kills worker when no request is seen for $terminate_timeout
-  - https://github.com/php/php-src/pull/8163 - Fix #78405: FPM with keepalive kills workers after $terminate_timeout
-  - https://bugs.php.net/bug.php?id=69367 - access.log invalid time request
-- **Bug**: core - huge pages enabled crash (might be opcache)
-  - https://bugs.php.net/bug.php?id=81444 - php-fpm crashes with bus error under kubernetes
-- **Bug**: core - opcache doesn't work with fpm chroot
-  - https://bugs.php.net/bug.php?id=67141 - PHP FPM vhost pollution
-- **Bug**: unix - validate extension_dir setting with chroot set
-  - https://bugs.php.net/bug.php?id=64151 - Invalid include extension_dir
 - **Bug**: unix - it should allow rewriting fcgi path envs if chroot enabled (should be probably optional)
   - https://bugs.php.net/bug.php?id=62279 - PHP-FPM chroot never-solved problems (extends #55322)
   - https://bugs.php.net/bug.php?id=55322 - Apache : TRANSLATED_PATH doesn't consider chroot
@@ -191,12 +182,18 @@
   - https://bugs.php.net/bug.php?id=65774 - no max file descriptor check for events.mechanism = /dev/poll
 - **Bug**: event - FreeBSD kqueue time outs
   - https://bugs.php.net/bug.php?id=76630 - php-fpm time outs unexpectedly
+- **Bug**: proc - FreeBSD issue with pinging master
+  - https://github.com/php/php-src/issues/12157 - php-fpm master processes runs 100% CPU and keeps spawning new ones
 - **Bug**: proc - process_control_timeout wakes up script in sleep
   - https://bugs.php.net/bug.php?id=77603 - Unexpected behavior with reloading php-fpm and sleep method
 - **Bug**: proc - ondemand race condition
   - https://github.com/php/php-src/pull/1308 - pm.ondemand forks fewer child workers than it should
   - https://bugs.php.net/bug.php?id=69724 - pm.ondemand forks fewer child workers than it should (bug for the above PR - contains extra patches)
   - https://bugs.php.net/bug.php?id=72935 - ONDEMAND: Race condition causes incoming connections hang
+- **Feat**: proc - stage redefinition to consider children idle if in reading header stage
+  - https://bugs.php.net/bug.php?id=78405 - FPM with keepalive: Kills worker when no request is seen for $terminate_timeout
+  - https://github.com/php/php-src/pull/8163 - Fix #78405: FPM with keepalive kills workers after $terminate_timeout
+  - https://bugs.php.net/bug.php?id=69367 - access.log invalid time request
 - **Feat**: proc - alternative for process idle for better scaling in ondemend mode - might need some refactoring:
   - https://bugs.php.net/bug.php?id=77060 - PHP-FPM pm.process_idle_timeout behaviour (doc bug confusion asking about this behaviour)
 - **Feat**: proc - look to some option in ondemand for killing inactive connections
@@ -219,6 +216,8 @@
   - https://github.com/php/php-src/issues/9632 - FPM delayed process restarting
 - **Feat**: proc - add function to terminate child (this should be probably explicitly enabled in pool config)
   - https://bugs.php.net/bug.php?id=62948 - apache_child_terminate() for FPM
+- **Feat**: proc - kill grand children on the child request end
+  - https://github.com/php/php-src/issues/12155 - https://github.com/php/php-src/issues/12155#issuecomment-1712492065
 - **Feat**: proc - free child allocated data on child termination
   - https://github.com/php/php-src/issues/11461 - FPM: Freeing child allocated data
   - https://bugs.php.net/bug.php?id=75635 - Memory leak in fpm log
@@ -244,6 +243,7 @@
   - https://bugs.php.net/bug.php?id=74778 - opcache_clear() puts php-fpm master in a cpu loop
   - https://bugs.php.net/bug.php?id=74709 - PHP-FPM process eating 100% CPU attempting to use kill_all_lockers (separating opache MINIT)
   - https://github.com/php/php-src/issues/8072 - php-fpm trying to kill another user's pool results in an infinite loop and 99% cpu usage (separating opache MINIT)
+  - https://bugs.php.net/bug.php?id=67141 - PHP FPM vhost pollution
 - **Feat**: pool - look to the alternative way of dynamically loading pool configuration and restarting it
   - https://bugs.php.net/bug.php?id=61595 - implement dynamic loading of pools config via file or SQL
   - https://bugs.php.net/bug.php?id=51973 - a way to restart single pools, enable/disable modules per pool
@@ -252,6 +252,8 @@
 - **Feat**: pool / proc - control group (;linux namespace) support
   - https://bugs.php.net/bug.php?id=80657 - Linux namespace support
   - https://bugs.php.net/bug.php?id=70605 - Option to attach a pool to a cgroup
+- **Feat**: core - look to proper handling of huge pages to also handle reported crashes (might require some opcache work)
+  - https://bugs.php.net/bug.php?id=81444 - php-fpm crashes with bus error under kubernetes
 
 ## Feedback required
 
@@ -314,6 +316,11 @@ Status fields
 
 
 ## Changes
+
+#### 2023-09
+
+- **Bug**: unix - validate extension_dir setting with chroot set
+  - https://bugs.php.net/bug.php?id=64151 - Invalid include extension_dir
 
 #### 2023-08
 
