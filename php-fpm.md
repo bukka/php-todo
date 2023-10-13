@@ -2,58 +2,34 @@
 
 ## Source issues
 
-### FastCGI, worker request handling
+### Worker request handling, unix, logging and tracing
 
+- **Bug**: unix - it should allow rewriting fcgi path envs if chroot enabled (should be probably optional)
+  - https://bugs.php.net/bug.php?id=62279 - PHP-FPM chroot never-solved problems (extends #55322)
+  - https://bugs.php.net/bug.php?id=55322 - Apache : TRANSLATED_PATH doesn't consider chroot
+- **Bug**: systemd - check how PrivateTmp should work with chroot
+  - https://bugs.php.net/bug.php?id=73466 - systemd option PrivateTmp= having no effect for a pool that is chrooted.
+- **Bug**: systemd - check strange output of the fpm process line in systemd (only some version of it)
+  - https://github.com/php/php-src/issues/10204 - Weird systemctl status phpX.Y-fpm output on Ubuntu 22.04
+- **Feat**: systemd - Add CapabilityBoundingSet
+  - https://github.com/php/php-src/pull/4960 - Add CapabilityBoundingSet to systemd unit file (my PR)
+- **Test**: main - properly test the logic for processing env vars (especially the httpd logic) and verify it works with httpd balancer
 - **Bug**: main - Check query logic for Apache load balancer
   - https://bugs.php.net/bug.php?id=71379 - Add support for Apache 2.4 mod_proxy_balancer to FPM
-- **Test**: main - properly test the logic for processing env vars (especially the httpd logic) and verify it works with httpd balancer
-- **Feat**: main - Change PHP_SELF to SCRIPT_NAME without pathinfo fix and enabled path discard
-  - https://github.com/php/php-src/issues/11025 - FPM: Always use script name in PHP_SELF if cgi.discard_path = 1 and cgi.fix_pathinfo = 0
 - **Bug**: main - argv and argc should not be included in env vars
   - https://bugs.php.net/bug.php?id=75712 - php-fpm's import_environment_variables impl should not copy $_ENV, $_SERVER
 - **Bug**: main - run config test just once in daemonised mode
   - https://github.com/php/php-src/issues/11086 - FPM: config test runs twice in daemonised mode
-- **Bug**: fcgi - Abort connection if CONTENT_LENGTH differs from input length
-- **Bug**: fcgi - FCGI_GET_VALUES does not seem to work
-  - https://bugs.php.net/bug.php?id=76922 - FastCGI terminates connection immediately after FCGI_GET_VALUES
-- **Bug**: fcgi - FCGI_ABORT_REQUEST from the client (web server) seems to be ignored
-  - https://bugs.php.net/bug.php?id=76419 - connection_aborted() under FPM doesn't work properly
-- **Bug**: fcgi / main - Check logic around flushing after using fastcgi_finish_request()
-  - https://github.com/php/php-src/issues/9741 - flush() halts script after fastcgi_finish_request()
-- **Bug**: fcgi - Investigate deadlock for keepalive connection after fastcgi_finish_request()
-  - https://github.com/php/php-src/issues/10335 - FPM: keepalived connection with fastcgi_finish_request causes dead lock
-- **Feat**: fcgi / main - look to support for close parameter in fastcgi_finish_request
-  - https://github.com/php/php-src/pull/10273 - FPM: fastcgi_finish_request supports force close connection param
-- **Feat**: fcgi - flag tautoo allow missing content length
-  - https://github.com/php/php-src/pull/7509 - discussion
-- **Feat**: fcgi / main - refactore processing of fcgi env vars
-- **Feat**: fcgi - spec update to no content length bytes
-  - https://bugs.php.net/bug.php?id=79723 - sapi_cgi_read_post() ignores EOF
-  - https://bugs.php.net/bug.php?id=51191 - Request body is 0-size when chunked requests are used 
-  - https://github.com/php/php-src/pull/7509 - Fixed reading in streamed body using fastcgi
-- **Feat**: fcgi - do not require any CGI parameters to allow overwriting on pool level
-  - https://bugs.php.net/bug.php?id=74995 - Control/set fastcgi parameters from pool config file
-- **Feat**: fcgi - spec update to allow using FCGI over TLS
-- **Feat**: fcgi - spec update to allow larger headers than 64k
-  - https://trac.nginx.org/nginx/ticket/239 - Support for large (> 64k) FastCGI requests
-- **Feat**: fcgi - implement TLS support with client cert auth
-- **Feat**: general - review return values in FPM code
-  - https://github.com/php/php-src/pull/9911 - Change return values to bool or void in FPM
-- **Feat**: general - Convert worker pools and children list to continous array for fast look up in stdio 
-
-### Logging, tracing and socket
-
-- **Bug**: socket - non portable socket binding on FreeBSD
-  - https://bugs.php.net/bug.php?id=77501 - listen = 9000 only listens on one interface
-  - https://bugs.php.net/bug.php?id=77482 - Wont bind to IPv4 if IPv6 enabled
-- **Feat**: socket - socket route option
-  - https://github.com/php/php-src/pull/8470 - FPM add routing view global option (for FreeBSD for now).
-- **Feat**: socket - improve listen queue status info
-  - https://github.com/php/php-src/issues/9943 - FPM improve listen queue status info
-  - https://bugs.php.net/bug.php?id=76323 - FPM /status reports wrong number of listen queue len
-  - https://bugs.php.net/bug.php?id=80739 - PHP-FPM status page shows listen queue 0 (main details here)
-- **Feat**: socket - Consider re-enabling warning for non empty listening queue or remove commented out code in process ctl.
-  - https://github.com/php/php-src/blob/2ac5948f5cbaf3351fe18ab1068422487c9c215f/sapi/fpm/fpm/fpm_process_ctl.c#L349-L359
+- **Feat**: main - Change PHP_SELF to SCRIPT_NAME without pathinfo fix and enabled path discard
+  - https://github.com/php/php-src/issues/11025 - FPM: Always use script name in PHP_SELF if cgi.discard_path = 1 and cgi.fix_pathinfo = 0
+- **Feat**: proc - remove extra zeros in proc name
+  - https://bugs.php.net/bug.php?id=77044 - Process Name has lots of null appended
+- **Feat**: unix - look more to setting CPU affinity and test it
+  - https://github.com/php/php-src/pull/10075 - fpm binding master and children processes to specific core(s)
+- **Feat**: unix - extra check for selinux deny_ptrace
+  - https://github.com/php/php-src/pull/7648 - fpm dumpable process setting extra check for SElinux based systems.
+- **Feat**: unix - middle ground between chrooted and non-chrooted env (ideas from suphp)
+  - https://bugs.php.net/bug.php?id=68125 - FPM check if script is in specified path before execute (ie docroot)
 - **Bug**: stdio - Nodaemonized FPM in Bash background process hangs
   - https://github.com/php/php-src/issues/10058 - If "php-fpm --nodaemonize" is called to be sent into background it hangs the calling process 
 - **Feat**: stdio - Use non blocking pipe for stderr
@@ -89,7 +65,49 @@
   - https://bugs.php.net/bug.php?id=81501 - Log request information in slowlog
   - https://bugs.php.net/bug.php?id=79137 - Add request parameters to slow log script report
 
-### Status and config
+
+### FastCGI, networking and general things
+
+- **Bug**: fcgi - FCGI_GET_VALUES does not seem to work
+  - https://bugs.php.net/bug.php?id=76922 - FastCGI terminates connection immediately after FCGI_GET_VALUES
+- **Bug**: fcgi - FCGI_ABORT_REQUEST from the client (web server) seems to be ignored
+  - https://bugs.php.net/bug.php?id=76419 - connection_aborted() under FPM doesn't work properly
+- **Bug**: fcgi - Abort connection if CONTENT_LENGTH differs from input length
+- **Bug**: fcgi / main - Check logic around flushing after using fastcgi_finish_request()
+  - https://github.com/php/php-src/issues/9741 - flush() halts script after fastcgi_finish_request()
+- **Bug**: fcgi - Investigate deadlock for keepalive connection after fastcgi_finish_request()
+  - https://github.com/php/php-src/issues/10335 - FPM: keepalived connection with fastcgi_finish_request causes dead lock
+- **Feat**: fcgi / main - look to support for close parameter in fastcgi_finish_request
+  - https://github.com/php/php-src/pull/10273 - FPM: fastcgi_finish_request supports force close connection param
+- **Feat**: fcgi - flag tautoo allow missing content length
+  - https://github.com/php/php-src/pull/7509 - discussion
+- **Feat**: fcgi / main - refactore processing of fcgi env vars
+- **Feat**: fcgi - spec update to no content length bytes
+  - https://bugs.php.net/bug.php?id=79723 - sapi_cgi_read_post() ignores EOF
+  - https://bugs.php.net/bug.php?id=51191 - Request body is 0-size when chunked requests are used 
+  - https://github.com/php/php-src/pull/7509 - Fixed reading in streamed body using fastcgi
+- **Feat**: fcgi - do not require any CGI parameters to allow overwriting on pool level
+  - https://bugs.php.net/bug.php?id=74995 - Control/set fastcgi parameters from pool config file
+- **Feat**: fcgi - spec update to allow using FCGI over TLS
+- **Feat**: fcgi - spec update to allow larger headers than 64k
+  - https://trac.nginx.org/nginx/ticket/239 - Support for large (> 64k) FastCGI requests
+- **Feat**: fcgi - implement TLS support with client cert auth
+- **Bug**: socket - non portable socket binding on FreeBSD
+  - https://bugs.php.net/bug.php?id=77501 - listen = 9000 only listens on one interface
+  - https://bugs.php.net/bug.php?id=77482 - Wont bind to IPv4 if IPv6 enabled
+- **Feat**: socket - socket route option
+  - https://github.com/php/php-src/pull/8470 - FPM add routing view global option (for FreeBSD for now).
+- **Feat**: socket - improve listen queue status info
+  - https://github.com/php/php-src/issues/9943 - FPM improve listen queue status info
+  - https://bugs.php.net/bug.php?id=76323 - FPM /status reports wrong number of listen queue len
+  - https://bugs.php.net/bug.php?id=80739 - PHP-FPM status page shows listen queue 0 (main details here)
+- **Feat**: socket - Consider re-enabling warning for non empty listening queue or remove commented out code in process ctl.
+  - https://github.com/php/php-src/blob/2ac5948f5cbaf3351fe18ab1068422487c9c215f/sapi/fpm/fpm/fpm_process_ctl.c#L349-L359
+- **Feat**: general - review return values in FPM code
+  - https://github.com/php/php-src/pull/9911 - Change return values to bool or void in FPM
+- **Feat**: general - Convert worker pools and children list to continous array for fast look up in stdio 
+
+### Config and status
 
 - **Bug**: conf - investigate issue with loading some extensions in pool config
   - https://github.com/php/php-src/issues/9921 - php_admin_value[extension] = ext.so in fpm config does not register module handlers
@@ -161,23 +179,12 @@
 
 ### Process management and related
 
-- **Bug**: unix - it should allow rewriting fcgi path envs if chroot enabled (should be probably optional)
-  - https://bugs.php.net/bug.php?id=62279 - PHP-FPM chroot never-solved problems (extends #55322)
-  - https://bugs.php.net/bug.php?id=55322 - Apache : TRANSLATED_PATH doesn't consider chroot
-- **Bug**: systemd - check how PrivateTmp should work with chroot
-  - https://bugs.php.net/bug.php?id=73466 - systemd option PrivateTmp= having no effect for a pool that is chrooted.
-- **Bug**: systemd - check strange output of the fpm process line in systemd (only some version of it)
-  - https://github.com/php/php-src/issues/10204 - Weird systemctl status phpX.Y-fpm output on Ubuntu 22.04
-- **Feat**: systemd - Add CapabilityBoundingSet
-  - https://github.com/php/php-src/pull/4960 - Add CapabilityBoundingSet to systemd unit file (my PR)
-- **Bug**: signal - sigpipe might cause fpm to be unresponsive
-  - https://bugs.php.net/bug.php?id=67320 - Ignored sigpipes in php-fpm cause php to become unresponsive
 - **Bug**: signal - look to the signal and zts issues
   - https://github.com/php/php-src/pull/10219 - Properly forward the signal to the original handler if TSRM is shutdown
   - https://github.com/php/php-src/pull/10193 - fix: disable Zend Signals by default for ZTS builds
   - https://github.com/php/php-src/pull/10141 - fix: support for timeouts with ZTS on Linux
-- **Feat**: signal: consider changing SIGTERM for primary idle killing instead of SIGQUIT
-  - https://github.com/php/php-src/blob/8f02d7b7e499490312969cdfa9a3a81b9458595a/sapi/fpm/fpm/fpm_process_ctl.c#L138-L139
+- **Bug**: signal - sigpipe might cause fpm to be unresponsive
+  - https://bugs.php.net/bug.php?id=67320 - Ignored sigpipes in php-fpm cause php to become unresponsive
 - **Bug**: event - check for the maximum file descriptors in devpoll
   - https://bugs.php.net/bug.php?id=65774 - no max file descriptor check for events.mechanism = /dev/poll
 - **Bug**: event - FreeBSD kqueue time outs
@@ -217,7 +224,7 @@
 - **Feat**: proc - add function to terminate child (this should be probably explicitly enabled in pool config)
   - https://bugs.php.net/bug.php?id=62948 - apache_child_terminate() for FPM
 - **Feat**: proc - kill grand children on the child request end
-  - https://github.com/php/php-src/issues/12155 - https://github.com/php/php-src/issues/12155#issuecomment-1712492065
+  - https://github.com/php/php-src/issues/12155#issuecomment-1712492065 - PHP 8.2 FPM Leaks processes on pcntl_fork
 - **Feat**: proc - free child allocated data on child termination
   - https://github.com/php/php-src/issues/11461 - FPM: Freeing child allocated data
   - https://bugs.php.net/bug.php?id=75635 - Memory leak in fpm log
@@ -225,8 +232,12 @@
   - https://bugs.php.net/bug.php?id=71854 - FPM: Please make epoll sleep interval configurable
 - **Feat**: event - Cleaning up child events when the child is killed
   - https://github.com/php/php-src/pull/9817 - FPM delete child log event before child is killed
+- **Feat**: signal: consider changing SIGTERM for primary idle killing instead of SIGQUIT
+  - https://github.com/php/php-src/blob/8f02d7b7e499490312969cdfa9a3a81b9458595a/sapi/fpm/fpm/fpm_process_ctl.c#L138-L139
 - **Feat**: proc - remove extra zeros in proc name
   - https://bugs.php.net/bug.php?id=77044 - Process Name has lots of null appended
+- **Feat**: unix - look more to setting CPU affinity and test it
+  - https://github.com/php/php-src/pull/10075 - fpm binding master and children processes to specific core(s)
 - **Feat**: unix - extra check for selinux deny_ptrace
   - https://github.com/php/php-src/pull/7648 - fpm dumpable process setting extra check for SElinux based systems.
 - **Feat**: unix - middle ground between chrooted and non-chrooted env (ideas from suphp)
@@ -252,6 +263,8 @@
 - **Feat**: pool / proc - control group (;linux namespace) support
   - https://bugs.php.net/bug.php?id=80657 - Linux namespace support
   - https://bugs.php.net/bug.php?id=70605 - Option to attach a pool to a cgroup
+- **Feat**: proc - look to using spawnign (fork + exec) for child creation (some sort of child executable)
+  - https://github.com/php/php-src/issues/11818 - macOS now crashes fork() process instead of just warning output
 - **Feat**: core - look to proper handling of huge pages to also handle reported crashes (might require some opcache work)
   - https://bugs.php.net/bug.php?id=81444 - php-fpm crashes with bus error under kubernetes
 
