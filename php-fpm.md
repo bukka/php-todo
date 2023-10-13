@@ -70,9 +70,10 @@
 
 - **Bug**: fcgi - FCGI_GET_VALUES does not seem to work
   - https://bugs.php.net/bug.php?id=76922 - FastCGI terminates connection immediately after FCGI_GET_VALUES
+- **Bug**: fcgi - Abort connection if CONTENT_LENGTH differs from input length
+  - PHP processing a truncated POST request - https://github.com/php/php-src/issues/12343
 - **Bug**: fcgi - FCGI_ABORT_REQUEST from the client (web server) seems to be ignored
   - https://bugs.php.net/bug.php?id=76419 - connection_aborted() under FPM doesn't work properly
-- **Bug**: fcgi - Abort connection if CONTENT_LENGTH differs from input length
 - **Bug**: fcgi / main - Check logic around flushing after using fastcgi_finish_request()
   - https://github.com/php/php-src/issues/9741 - flush() halts script after fastcgi_finish_request()
 - **Bug**: fcgi - Investigate deadlock for keepalive connection after fastcgi_finish_request()

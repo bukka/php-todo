@@ -46,6 +46,8 @@
 
 ### String
  
+- **Bug**: Fix implode() function signature (BC breaking)
+  - https://github.com/php/php-src/pull/11991 - Fix implode() function signature
 
 ### Type
 
