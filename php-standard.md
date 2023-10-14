@@ -20,6 +20,11 @@
 - **Feat**: Check casting of object for is_numeric
   - https://bugs.php.net/bug.php?id=46524 - is_numeric doesn't take objects as parameter
 
+### Network
+
+- **Feat**: Add new function to display response text (something like http_response_code but for text)
+  - https://bugs.php.net/bug.php?id=68219 - Make http_response_code() also returns the text of response _(1 vote)_
+
 ### Proc
 
 - **Feat**: Add function num_cpus that returns number of cpu (interface discussion)
@@ -57,8 +62,9 @@
 
 ## Docs
 
-- **Doc**: Better document is_callable
+- **Doc**: Types - Better document is_callable
   - https://bugs.php.net/bug.php?id=70088 - is_callable() doesn't check if a class/method syntax is valid
+  - https://bugs.php.net/bug.php?id=60984 - Document output buffering mechanism
 
 ## Changes
 
