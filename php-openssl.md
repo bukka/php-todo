@@ -51,50 +51,15 @@
 
 ### Crypto
 
-- **Bug**: PKCS12 - Unable to read the cert store when Using openssl_pkcs12_read with OpenSSL 3.x
-  - https://github.com/php/php-src/issues/12128 - Unable to read the cert store when Using openssl_pkcs12_read with OpenSSL 3.x
-- **Bug**: PKCS12 - openssl_pkcs12_read should check file path - investigate how it actually read the file
+
+- **Bug**: CMS - openssl_cms_verify should clean exit if sigbio is NULL
 - **Bug**: CMS - openssl_cms_read should check file path - investigate how it actually read the file (uses PEM_read_bio_CMS)
   - should apply for PKCS7 as well
-- **Bug**: CMS - openssl_cms_verify should clean exit if sigbio is NULL
 - **Bug**: PKCS7 - Add test for PR to fix openssl_pkcs7_verify with signers_certificates_filename
   - https://github.com/php/php-src/pull/6927 - openssl_pkcs7_verify() may ignore untrusted CAs
   - https://bugs.php.net/bug.php?id=50713 - openssl_pkcs7_verify() may ignore untrusted CAs
 - **Bug**: PKCS7 - Investigate why envelope encrypted with cert created using openssl_csr_sign is not decrypted
   - https://bugs.php.net/bug.php?id=66122 - Certification cannot be used directly after openssl_csr_sign
-- **Feat**: PKCS7 - Add constants for all PKCS7 flags
-  - https://bugs.php.net/bug.php?id=47728 - openssl_pkcs7_sign ignores new openssl flags
-- **Feat**: PKCS7 - New function to retrieve signer certificates (using PKCS7_get_signer_info)
-  - https://bugs.php.net/bug.php?id=72249 - Add Support for PKCS7_get_signer_info
-- **Feat**: PKCS7 - Allow adding a signature with custom digest (using PKCS7_add_signature)
-  - https://bugs.php.net/bug.php?id=68366 - Does not use certificate's signing algorithm
-- **Feat**: PKCS7 - Look to the non file arg variants for openssl_pkcs7_(sign|verify|encrypt|decrypt) (if not addressed by #50718)
-  - https://bugs.php.net/bug.php?id=55045 - openssl_pkcs7_sign() & openssl_pkcs7_encrypt()
-  - https://bugs.php.net/bug.php?id=52356 - In memory support for openssl_pkcs7_*
-  - https://bugs.php.net/bug.php?id=22978 - (openssl_pkcs7_verify) pem saved into variable
-- **Feat**: CMS - Extend with some new features in PKCS7 if applicable
-- **Feat**: CMS - Add AES GCM constant
-  - https://bugs.php.net/bug.php?id=81724 - openssl_cms/pkcs7_encrypt only allows specific ciphers
-- **Feat**: CMS - Try to reuse CMS and PKCS7 code - reduce duplications
-- **Bug**: pkey - Incorrect returned array for SM2 key (DH key in it)
-  - https://github.com/php/php-src/issues/9422#issuecomment-1229484671 - comment in openssl ext sm2 compatibility
-  - https://github.com/php/php-src/pull/10194 - OpenSSL: Do not use empty switch in getting PKEY details
-- **Feat**: pkey - SM2 support
-  - https://github.com/php/php-src/issues/9422 - openssl ext sm2 compatibility
-  - https://github.com/php/php-src/pull/9991 - Improve ext-openssl generate EC keys under OpenSSL 3.0
-  - https://github.com/php/php-src/commit/0dadd6616a491418871fb0b41590a73b128aa212#commitcomment-122069972 - follow up check for fedora
-- **Feat**: pkey - Improve php_openssl_dh_compute_key to support ECDH before OpenSSL 3.0 and extend tests
-- **Feat**: pkey - Skip all usage of DH if OpenSSL compiled with no-dh (only works with OpenSSL 3.0+)
-- **Feat**: pkey - Skip all usage of DSA if OpenSSL compiled with no-dsa (only works with OpenSSL 3.0+)
-  - Also change CSR tests not to use it
-- **Feat**: pkey - Allow setting padding for openssl_verify
-  - https://bugs.php.net/bug.php?id=80495 - Enable to set padding in openssl_verify
-- **Feat**: pkey - Consider adding PKCS#8 export format support
-  - https://bugs.php.net/bug.php?id=77602 - OpenSSL extension lacks PKCS#8 support
-- **Feat**: pkey - Support for additional keys with use of OQS
-  - https://github.com/php/php-src/issues/10857 - Support for other algorithms other than DSA, DH, RSA and EC?
-- **Feat**: seal/open - Allow AEAD
-  - https://github.com/php/php-src/issues/7737 - openssl_seal()/_open() is not able to handle gcm cipers, e.g. aes-256-gcm
 - **Bug**: CSR Allow multiple fields in openssl_csr_new for distinguished_names argument
   - https://bugs.php.net/bug.php?id=48520 - openssl_csr_new does not allow multiple values/field in dn
 - **Bug**: CSR - Correctly set SAN
@@ -131,17 +96,52 @@
 - **Bug**: pkey - RAND_file_name could potentially not work correct with open basedir check and do rand file checks
 - **Bug**: pkey - Do not try to use Rand file when generating key
   - https://bugs.php.net/bug.php?id=78444 - openssl_pkey_new generates OpenSSL errors with OpenSSL 1.1.1
-- **Bug**: general - Review binary file mode settings (PKCS7_BINARY and CMS_BINARY)
-  - passing flags does not make much sense in many cases
-- **Feat**: general - Look to the stream support for the input params (start with investigation and implemetation ideas)
-  - https://bugs.php.net/bug.php?id=50718 - OpenSSL* doesnt support streamwrappers
+- **Bug**: pkey - Incorrect returned array for SM2 key (DH key in it)
+  - https://github.com/php/php-src/issues/9422#issuecomment-1229484671 - comment in openssl ext sm2 compatibility
+  - https://github.com/php/php-src/pull/10194 - OpenSSL: Do not use empty switch in getting PKEY details
+- **Feat**: pkey - SM2 support
+  - https://github.com/php/php-src/issues/9422 - openssl ext sm2 compatibility
+  - https://github.com/php/php-src/pull/9991 - Improve ext-openssl generate EC keys under OpenSSL 3.0
+  - https://github.com/php/php-src/commit/0dadd6616a491418871fb0b41590a73b128aa212#commitcomment-122069972 - follow up check for fedora
+- **Feat**: pkey - Improve php_openssl_dh_compute_key to support ECDH before OpenSSL 3.0 and extend tests
+- **Feat**: pkey - Skip all usage of DH if OpenSSL compiled with no-dh (only works with OpenSSL 3.0+)
+- **Feat**: pkey - Skip all usage of DSA if OpenSSL compiled with no-dsa (only works with OpenSSL 3.0+)
+  - Also change CSR tests not to use it
+- **Feat**: pkey - Allow setting padding for openssl_verify
+  - https://bugs.php.net/bug.php?id=80495 - Enable to set padding in openssl_verify
+- **Feat**: pkey - Consider adding PKCS#8 export format support
+  - https://bugs.php.net/bug.php?id=77602 - OpenSSL extension lacks PKCS#8 support
+- **Feat**: pkey - Support for additional keys with use of OQS
+  - https://github.com/php/php-src/issues/10857 - Support for other algorithms other than DSA, DH, RSA and EC?
+- **Feat**: seal/open - Allow AEAD
+  - https://github.com/php/php-src/issues/7737 - openssl_seal()/_open() is not able to handle gcm cipers, e.g. aes-256-gcm
 - **Feat**: constants - Consider defining LIBRESSL_VERSION_NUMBER when available
   - https://bugs.php.net/bug.php?id=71143 - Define LIBRESSL_VERSION_NUMBER when available
-- **Feat**: crypt - Consider tag length veryfication
-  - https://bugs.php.net/bug.php?id=75804 - authenticated encryption tag is broken
+- **Feat**: general - Support configurable provider loading
+  - https://github.com/php/php-src/issues/12369 - Configurable loading of OpenSSL providers
+- **Feat**: general - Look to the stream support for the input params (start with investigation and implemetation ideas)
+  - https://bugs.php.net/bug.php?id=50718 - OpenSSL* doesnt support streamwrappers
+- **Bug**: general - Review binary file mode settings (PKCS7_BINARY and CMS_BINARY)
+  - passing flags does not make much sense in many cases
+- **Feat**: PKCS7 - Add constants for all PKCS7 flags
+  - https://bugs.php.net/bug.php?id=47728 - openssl_pkcs7_sign ignores new openssl flags
+- **Feat**: PKCS7 - New function to retrieve signer certificates (using PKCS7_get_signer_info)
+  - https://bugs.php.net/bug.php?id=72249 - Add Support for PKCS7_get_signer_info
+- **Feat**: PKCS7 - Allow adding a signature with custom digest (using PKCS7_add_signature)
+  - https://bugs.php.net/bug.php?id=68366 - Does not use certificate's signing algorithm
+- **Feat**: PKCS7 - Look to the non file arg variants for openssl_pkcs7_(sign|verify|encrypt|decrypt) (if not addressed by #50718)
+  - https://bugs.php.net/bug.php?id=55045 - openssl_pkcs7_sign() & openssl_pkcs7_encrypt()
+  - https://bugs.php.net/bug.php?id=52356 - In memory support for openssl_pkcs7_*
+  - https://bugs.php.net/bug.php?id=22978 - (openssl_pkcs7_verify) pem saved into variable
+- **Feat**: CMS - Extend with some new features in PKCS7 if applicable
+- **Feat**: CMS - Add AES GCM constant
+  - https://bugs.php.net/bug.php?id=81724 - openssl_cms/pkcs7_encrypt only allows specific ciphers
+- **Feat**: CMS - Try to reuse CMS and PKCS7 code - reduce duplications
 - **Feat**: CRL functions support
   - https://bugs.php.net/bug.php?id=40046 - OpenSSL CRL generation support (patch)
-- **Feat**: PKCS11 support (waiting for available provider)
+- **Feat**: crypt - Consider tag length veryfication
+  - https://bugs.php.net/bug.php?id=75804 - authenticated encryption tag is broken
+- **Feat**: PKCS11 support (should be addressed by )
   - https://github.com/php/php-src/pull/6860 - RFC7512 URI support
   - https://github.com/php/php-src/issues/7797 - SSL context options for in memory cert and pk (addressed by PKCS11 PR)
 - **Feat**: FIPS - check if it works - FIPS Support
@@ -171,6 +171,11 @@
   - https://bugs.php.net/bug.php?id=79401 - --with-openssl no longer accepts a directory
 
 ## Changes
+
+### 2023-10
+
+- **Bug**: PKCS12 - Unable to read the cert store when Using openssl_pkcs12_read with OpenSSL 3.x
+  - https://github.com/php/php-src/issues/12128 - Unable to read the cert store when Using openssl_pkcs12_read with OpenSSL 3.x
 
 ### 2022-11
 
