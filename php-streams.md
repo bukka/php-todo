@@ -2,8 +2,6 @@
 
 ## Source issues
 
-- **Bug**: Issue with reading image info in getimagesize with StreamWrappers
-  - https://bugs.php.net/bug.php?id=75708 - getimagesize with "&$imageinfo" fails on StreamWrappers
 - **Bug**: fopencookie issue visible in imagecreatefrompng
   - https://bugs.php.net/bug.php?id=79945 - using php wrappers in imagecreatefrompng causes segmentation fault
 - **Bug**: Investigate custom stream wrappers segfault when used in CURLOPT_INFILE
@@ -156,6 +154,10 @@
 
 ## Changes
 
+### 2023-10
+
+- **Bug**: Issue with reading image info in getimagesize with StreamWrappers
+  - https://bugs.php.net/bug.php?id=75708 - getimagesize with "&$imageinfo" fails on StreamWrappers
 ### 2023-08
 
 - **Bug**: File existence check should be false for unsupported protocol
