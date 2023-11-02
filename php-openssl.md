@@ -51,10 +51,6 @@
 
 ### Crypto
 
-
-- **Bug**: CMS - openssl_cms_verify should clean exit if sigbio is NULL
-- **Bug**: CMS - openssl_cms_read should check file path - investigate how it actually read the file (uses PEM_read_bio_CMS)
-  - should apply for PKCS7 as well
 - **Bug**: PKCS7 - Add test for PR to fix openssl_pkcs7_verify with signers_certificates_filename
   - https://github.com/php/php-src/pull/6927 - openssl_pkcs7_verify() may ignore untrusted CAs
   - https://bugs.php.net/bug.php?id=50713 - openssl_pkcs7_verify() may ignore untrusted CAs
@@ -121,7 +117,12 @@
   - https://github.com/php/php-src/issues/12369 - Configurable loading of OpenSSL providers
 - **Feat**: general - Look to the stream support for the input params (start with investigation and implemetation ideas)
   - https://bugs.php.net/bug.php?id=50718 - OpenSSL* doesnt support streamwrappers
-- **Bug**: general - Review binary file mode settings (PKCS7_BINARY and CMS_BINARY)
+- **Feat**: general - PKCS11 support (should be addressed by #12369 but needs checking)
+  - https://github.com/php/php-src/pull/6860 - RFC7512 URI support
+  - https://github.com/php/php-src/issues/7797 - SSL context options for in memory cert and pk (addressed by PKCS11 PR)
+- **Feat**: general - FIPS - check if it works - FIPS Support (partially addressed by #12369 but might need some extra things)
+  - https://bugs.php.net/bug.php?id=54339
+- **Feat**: general - Review binary file mode settings (PKCS7_BINARY and CMS_BINARY)
   - passing flags does not make much sense in many cases
 - **Feat**: PKCS7 - Add constants for all PKCS7 flags
   - https://bugs.php.net/bug.php?id=47728 - openssl_pkcs7_sign ignores new openssl flags
@@ -141,33 +142,36 @@
   - https://bugs.php.net/bug.php?id=40046 - OpenSSL CRL generation support (patch)
 - **Feat**: crypt - Consider tag length veryfication
   - https://bugs.php.net/bug.php?id=75804 - authenticated encryption tag is broken
-- **Feat**: PKCS11 support (should be addressed by )
-  - https://github.com/php/php-src/pull/6860 - RFC7512 URI support
-  - https://github.com/php/php-src/issues/7797 - SSL context options for in memory cert and pk (addressed by PKCS11 PR)
-- **Feat**: FIPS - check if it works - FIPS Support
-  - https://bugs.php.net/bug.php?id=54339
 - **Bug**: build - Check shared build issue
   - https://bugs.php.net/bug.php?id=73609 - "run-tests.php" don't respect configuration
 
 
+## Tests
+
+- **Test**: PKCS7/CMS - rewrite tests to use cert generator and no tmp file with proper cleanup
+- **Test**: General - Replace all other tests using static certs to use cert generator when possible
+
 ## Docs
 
-- tls - Document crypto_method context option
+
+- **Doc**: CMS - openssl_cms_read accepts data not input_filename (it should also correct stub - master only change)
+- **Doc**: PKCS7 - openssl_pkcs_verify and openssl_pkcs_verify parameters need rewrite
+- **Doc**: tls - Document crypto_method context option
   - https://bugs.php.net/bug.php?id=68131 - crypto_method context option not documented.
-- crypt - openssl_encrypt - Remove insecure examples
+- **Doc**: crypt - openssl_encrypt - Remove insecure examples
   - https://bugs.php.net/bug.php?id=80843 - Remove examples from comments as they are invariably insecure
-- crypt - AEAD tag setting clarification
+- **Doc**: crypt - AEAD tag setting clarification
   - https://bugs.php.net/bug.php?id=80236 - How $tag works in openssl_encrypt() with GCM mode is unclear
-- crypt - extend openssl_encrypt and openssl_decrypt docs
+- **Doc**: crypt - extend openssl_encrypt and openssl_decrypt docs
   - https://bugs.php.net/bug.php?id=77282 - openssl_decrypt "options" parameter section is incomplete
   - https://bugs.php.net/bug.php?id=74134 - openssl_encrypt/decrypt docs need improvement, like examples
-- crypt - Document that AES-256-XTS is not supported
+- **Doc**: crypt - Document that AES-256-XTS is not supported
   - https://bugs.php.net/bug.php?id=78628 - AES-256-XTS cipher method does not work
-- pkey - Document openssl_public_encrypt without padding (that exact size is required)
+- **Doc**: pkey - Document openssl_public_encrypt without padding (that exact size is required)
   - https://bugs.php.net/bug.php?id=61203 - RSA encryption fails without padding
-- CSR - extend openssl_csr_new documentation including a note about text param
+- **Doc**: CSR - extend openssl_csr_new documentation including a note about text param
   - https://bugs.php.net/bug.php?id=65186 - openssl_csr_new allows creation from text
-- installation - Update https://www.php.net/manual/en/openssl.installation.php to reflect that `--with-openssl` no longer works
+- **Doc**: installation - Update https://www.php.net/manual/en/openssl.installation.php to reflect that `--with-openssl` no longer works
   - https://bugs.php.net/bug.php?id=79401 - --with-openssl no longer accepts a directory
 
 ## Changes
@@ -176,6 +180,8 @@
 
 - **Bug**: PKCS12 - Unable to read the cert store when Using openssl_pkcs12_read with OpenSSL 3.x
   - https://github.com/php/php-src/issues/12128 - Unable to read the cert store when Using openssl_pkcs12_read with OpenSSL 3.x
+- **Bug**: CMS - openssl_cms_verify should clean exit if sigbio is NULL
+  - https://github.com/php/php-src/issues/12489 - Missing sigbio creation checking in openssl_cms_verify
 
 ### 2022-11
 
