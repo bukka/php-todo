@@ -49,6 +49,7 @@
   - https://github.com/php/php-src/issues/10116 - /status?json&full is not suppressed when access.suppress_path used
 - **Feat**: access log - long lines support - using the same logic as zlog ideally
   - https://github.com/php/php-src/pull/5634 - PR to discussiong it and removing unused MAX_LINE_LENGTH
+  - https://github.com/php/php-src/issues/12302 - CONF Var log_limit and fpm_log_write show error "the log buffer is full ..."
 - **Feat**: error log - allow setting format with variables for zlog errors
   - https://github.com/php/php-src/pull/11939 - Add URI in FPM logs (comment with suggestion)
 - **Feat**: log - allow separation access and error log to stdout and stderr
@@ -68,10 +69,6 @@
 
 ### FastCGI, networking and general things
 
-- **Bug**: fcgi - FCGI_GET_VALUES does not seem to work
-  - https://bugs.php.net/bug.php?id=76922 - FastCGI terminates connection immediately after FCGI_GET_VALUES
-- **Bug**: fcgi - Abort connection if CONTENT_LENGTH differs from input length
-  - PHP processing a truncated POST request - https://github.com/php/php-src/issues/12343
 - **Bug**: fcgi - FCGI_ABORT_REQUEST from the client (web server) seems to be ignored
   - https://bugs.php.net/bug.php?id=76419 - connection_aborted() under FPM doesn't work properly
 - **Bug**: fcgi / main - Check logic around flushing after using fastcgi_finish_request()
@@ -80,8 +77,11 @@
   - https://github.com/php/php-src/issues/10335 - FPM: keepalived connection with fastcgi_finish_request causes dead lock
 - **Feat**: fcgi / main - look to support for close parameter in fastcgi_finish_request
   - https://github.com/php/php-src/pull/10273 - FPM: fastcgi_finish_request supports force close connection param
-- **Feat**: fcgi - flag tautoo allow missing content length
-  - https://github.com/php/php-src/pull/7509 - discussion
+- **Feat**: fcgi - Allow flushing of headers if no content
+  - https://github.com/php/php-src/issues/12385 - flush with fastcgi does not force headers to be sent
+- **Feat**: fcgi - allow missing content length and abort if supplied content length does not match as well as flag to restore current behavior
+  - https://github.com/php/php-src/pull/7509 - Fixed reading in streamed body using fastcgi
+  - https://github.com/php/php-src/issues/12343 - PHP processing a truncated POST request
 - **Feat**: fcgi / main - refactore processing of fcgi env vars
 - **Feat**: fcgi - spec update to no content length bytes
   - https://bugs.php.net/bug.php?id=79723 - sapi_cgi_read_post() ignores EOF
@@ -96,8 +96,12 @@
 - **Bug**: socket - non portable socket binding on FreeBSD
   - https://bugs.php.net/bug.php?id=77501 - listen = 9000 only listens on one interface
   - https://bugs.php.net/bug.php?id=77482 - Wont bind to IPv4 if IPv6 enabled
-- **Feat**: socket - socket route option
+- **Feat**: socket - check routing options for other platforms similar to above listen.rtable
   - https://github.com/php/php-src/pull/8470 - FPM add routing view global option (for FreeBSD for now).
+- **Feat**: socket - Add listen.rtable for OpenBSD
+  - https://github.com/php/php-src/pull/11890 - sapi/fpm: adding listen.rtable option for OpenBSD
+- **Feat**: socket - Enable tcp_info for OpenBSD
+  - https://github.com/php/php-src/pull/11561 - fpm: enable tcp_info api for OpenBSD
 - **Feat**: socket - improve listen queue status info
   - https://github.com/php/php-src/issues/9943 - FPM improve listen queue status info
   - https://bugs.php.net/bug.php?id=76323 - FPM /status reports wrong number of listen queue len
@@ -110,8 +114,6 @@
 
 ### Config and status
 
-- **Bug**: conf - investigate issue with loading some extensions in pool config
-  - https://github.com/php/php-src/issues/9921 - php_admin_value[extension] = ext.so in fpm config does not register module handlers
 - **Bug**: conf - possibly incorrect order of ini setting
   - https://bugs.php.net/bug.php?id=75741 - enable_post_data_reading not working on PHP-FPM
   - https://github.com/php/php-src/issues/8157 - post_max_size evaluates .user.ini too late in php-fpm?
@@ -124,8 +126,6 @@
   - https://bugs.php.net/bug.php?id=68018 - php_value directive modifies "Changeable" context (patch)
   - https://bugs.php.net/bug.php?id=60387 - Problem with php_(admin)?_value/flag and load order
   - https://github.com/php/php-src/issues/8398 - php_value[xxx] in php-fpm pool - first declaration wins
-- **Feat**: conf - look to supporting zend_extension in php_admin_value
-  - https://bugs.php.net/bug.php?id=73408 - Loading Zend Extensions in FPM Pool Configuration
 - **Feat**: conf - Introduce ZEND_INI_ADMIN for PHP ini admin values and not overwrite some system ini that cannot be overriden
   - https://github.com/php/php-src/issues/8699 - Wrong value from ini_get() for shared files because of opcache optimization
   - https://github.com/php/php-src/issues/9722 - FPM is maliciously compliant when asked to set opcache.preload
@@ -173,6 +173,7 @@
 - **Feat**: status - Report proc memory and possibly other proc stats
   - https://github.com/php/php-src/issues/10600 - php-fpm status page - full view - show current worker memory usage
 - **Feat**: status / ping - healtcheck support based on metrics similar to https://github.com/renatomefi/php-fpm-healthcheck
+  - https://github.com/php/php-src/issues/12600 - php-fpm ping or status is to many CPU usage
 - **Feat**: ping - integrate ping.listen similar to pm.status_listen
   - https://bugs.php.net/bug.php?id=68678 - FPM Ping should use a reserved worker
 - **Feat**: scoreboard - track number of terminated requests
@@ -233,7 +234,9 @@
   - https://bugs.php.net/bug.php?id=71854 - FPM: Please make epoll sleep interval configurable
 - **Feat**: event - Cleaning up child events when the child is killed
   - https://github.com/php/php-src/pull/9817 - FPM delete child log event before child is killed
+  - https://github.com/php/php-src/pull/11940 - Remove events from the child queue
 - **Feat**: signal: consider changing SIGTERM for primary idle killing instead of SIGQUIT
+  - https://github.com/php/php-src/issues/12626 - Core dumps with PHP-FPM on dynamic mode
   - https://github.com/php/php-src/blob/8f02d7b7e499490312969cdfa9a3a81b9458595a/sapi/fpm/fpm/fpm_process_ctl.c#L138-L139
 - **Feat**: proc - remove extra zeros in proc name
   - https://bugs.php.net/bug.php?id=77044 - Process Name has lots of null appended
@@ -259,6 +262,8 @@
 - **Feat**: pool - look to the alternative way of dynamically loading pool configuration and restarting it
   - https://bugs.php.net/bug.php?id=61595 - implement dynamic loading of pools config via file or SQL
   - https://bugs.php.net/bug.php?id=51973 - a way to restart single pools, enable/disable modules per pool
+- **Feat**: pool / conf - look to supporting zend_extension in php_admin_value
+  - https://bugs.php.net/bug.php?id=73408 - Loading Zend Extensions in FPM Pool Configuration
 - **Feat**: pool / access log - add support stime and utime options to the pool manager
   - https://bugs.php.net/bug.php?id=62951 - Log utime and stime (patch)
 - **Feat**: pool / proc - control group (;linux namespace) support
@@ -330,6 +335,13 @@ Status fields
 
 
 ## Changes
+
+#### 2023-10
+
+- **Bug**: conf - investigate issue with loading some extensions in pool config
+  - https://github.com/php/php-src/issues/9921 - php_admin_value[extension] = ext.so in fpm config does not register module handlers
+- **Bug**: fcgi - FCGI_GET_VALUES does not seem to work
+  - https://bugs.php.net/bug.php?id=76922 - FastCGI terminates connection immediately after FCGI_GET_VALUES
 
 #### 2023-09
 
