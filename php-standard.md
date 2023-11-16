@@ -15,6 +15,28 @@
 - **Feat**: Look how to make optional suffix work on Win and be more acceptable
  - https://github.com/php/php-src/pull/11685 - Standard: Support optional suffix arg in tempnam
 
+### Image
+
+- **Feat**: SVG support in getimagesize()
+  - https://bugs.php.net/bug.php?id=71517 - Implement SVG support for getimagesize() and friends _(31 votes)_
+- **Feat**: Respecting orientation flag in getimagesize()
+  - https://bugs.php.net/bug.php?id=66516 - getimagesize() should cater to orientation flag _(3 votes)_
+- **Feat**: Support strem resources in getimagesize()
+  - https://bugs.php.net/bug.php?id=68499 - getimagesize could support stream resources _(1 vote)_
+
+### Mail
+
+- **Bug**: mail() should not return true if fails (Windows related)
+  - https://bugs.php.net/bug.php?id=43327 - wrong return value from mail(), if sendmail_path is wrong _(8 votes)_
+- **Bug**: possible issue with preventing mail.force_extra_parameters to be set in PHP_INI_PERDIR
+  - https://bugs.php.net/bug.php?id=71901 - mail.force_extra_parameters is not PHP_INI_PERDIR _(5 votes)_
+- **Bug**: Look to `$message` filtering options - possibly some new INI
+  - https://github.com/php/php-src/issues/12632 - mail() truncates message on full stop between two newlines
+- **Feat**: Allow $to being NULL to skip `To:` header
+  - https://bugs.php.net/bug.php?id=44170 - mail() function arguments ambiguity _(1 vote)_
+- **Feat**: Allow internatiaonlized names on Windows mail()
+  - https://bugs.php.net/bug.php?id=81615 - Windows mail should support internationalized email _(3 votes)_
+
 ### Math
 
 - **Feat**: Check casting of object for is_numeric
@@ -65,6 +87,10 @@
 - **Doc**: Types - Better document is_callable
   - https://bugs.php.net/bug.php?id=70088 - is_callable() doesn't check if a class/method syntax is valid
   - https://bugs.php.net/bug.php?id=60984 - Document output buffering mechanism
+- **Doc**: Mail - Document introduction of mail.mixed_lf_and_crlf INI and previous CRLF changes
+ - https://bugs.php.net/bug.php?id=81158 - Mails sent by mail function broken since PHP 8.0
+- **Doc**: Mail - Fix mail function example
+  - https://bugs.php.net/bug.php?id=70082 - mail() function description should provide right example of multi-part mail
 
 ## Changes
 

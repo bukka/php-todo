@@ -28,6 +28,8 @@
   - https://github.com/php/php-src/pull/10075 - fpm binding master and children processes to specific core(s)
 - **Feat**: unix - extra check for selinux deny_ptrace
   - https://github.com/php/php-src/pull/7648 - fpm dumpable process setting extra check for SElinux based systems.
+- **Feat**: unix - check if there is anything that can be done about better handling of SELinux denial of access
+  - https://bugs.php.net/bug.php?id=71532 - Child terminates when SELinux denies access to library
 - **Feat**: unix - middle ground between chrooted and non-chrooted env (ideas from suphp)
   - https://bugs.php.net/bug.php?id=68125 - FPM check if script is in specified path before execute (ie docroot)
 - **Bug**: stdio - Nodaemonized FPM in Bash background process hangs
