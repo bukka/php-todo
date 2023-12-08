@@ -2,28 +2,28 @@
 
 ## Source issues
 
-### Worker request handling, unix, logging and tracing
+### UNIX and request handling
 
-- **Bug**: unix - it should allow rewriting fcgi path envs if chroot enabled (should be probably optional)
-  - https://bugs.php.net/bug.php?id=62279 - PHP-FPM chroot never-solved problems (extends #55322)
-  - https://bugs.php.net/bug.php?id=55322 - Apache : TRANSLATED_PATH doesn't consider chroot
-- **Bug**: systemd - check how PrivateTmp should work with chroot
-  - https://bugs.php.net/bug.php?id=73466 - systemd option PrivateTmp= having no effect for a pool that is chrooted.
-- **Bug**: systemd - check strange output of the fpm process line in systemd (only some version of it)
-  - https://github.com/php/php-src/issues/10204 - Weird systemctl status phpX.Y-fpm output on Ubuntu 22.04
-- **Feat**: systemd - Add CapabilityBoundingSet
-  - https://github.com/php/php-src/pull/4960 - Add CapabilityBoundingSet to systemd unit file (my PR)
-- **Test**: main - properly test the logic for processing env vars (especially the httpd logic) and verify it works with httpd balancer
-- **Bug**: main - Check query logic for Apache load balancer
-  - https://bugs.php.net/bug.php?id=71379 - Add support for Apache 2.4 mod_proxy_balancer to FPM
 - **Bug**: main - argv and argc should not be included in env vars
   - https://bugs.php.net/bug.php?id=75712 - php-fpm's import_environment_variables impl should not copy $_ENV, $_SERVER
 - **Bug**: main - run config test just once in daemonised mode
   - https://github.com/php/php-src/issues/11086 - FPM: config test runs twice in daemonised mode
-- **Feat**: main - Change PHP_SELF to SCRIPT_NAME without pathinfo fix and enabled path discard
-  - https://github.com/php/php-src/issues/11025 - FPM: Always use script name in PHP_SELF if cgi.discard_path = 1 and cgi.fix_pathinfo = 0
+- **Bug**: systemd - check strange output of the fpm process line in systemd (only some version of it)
+  - https://github.com/php/php-src/issues/10204 - Weird systemctl status phpX.Y-fpm output on Ubuntu 22.04
 - **Feat**: proc - remove extra zeros in proc name
   - https://bugs.php.net/bug.php?id=77044 - Process Name has lots of null appended
+- **Feat**: systemd - Add CapabilityBoundingSet
+  - https://github.com/php/php-src/pull/4960 - Add CapabilityBoundingSet to systemd unit file (my PR)
+- **Feat**: systemd - Properly support PrivateTmp
+  - https://bugs.php.net/bug.php?id=73466 - systemd option PrivateTmp= having no effect for a pool that is chrooted.
+- **Feat**: unix - add option to rewrite fcgi path envs if chroot enabled
+  - https://bugs.php.net/bug.php?id=62279 - PHP-FPM chroot never-solved problems (extends #55322)
+  - https://bugs.php.net/bug.php?id=55322 - Apache : TRANSLATED_PATH doesn't consider chroot
+- **Test**: main - properly test the logic for processing env vars (especially the httpd logic) and verify it works with httpd balancer
+- **Feat**: main - Identify Apache load balancer by SERVER_SOFTWARE
+  - https://bugs.php.net/bug.php?id=71379 - Add support for Apache 2.4 mod_proxy_balancer to FPM
+- **Feat**: main - Change PHP_SELF to SCRIPT_NAME without pathinfo fix and enabled path discard
+  - https://github.com/php/php-src/issues/11025 - FPM: Always use script name in PHP_SELF if cgi.discard_path = 1 and cgi.fix_pathinfo = 0
 - **Feat**: unix - look more to setting CPU affinity and test it
   - https://github.com/php/php-src/pull/10075 - fpm binding master and children processes to specific core(s)
 - **Feat**: unix - extra check for selinux deny_ptrace
@@ -32,55 +32,20 @@
   - https://bugs.php.net/bug.php?id=71532 - Child terminates when SELinux denies access to library
 - **Feat**: unix - middle ground between chrooted and non-chrooted env (ideas from suphp)
   - https://bugs.php.net/bug.php?id=68125 - FPM check if script is in specified path before execute (ie docroot)
-- **Bug**: stdio - Nodaemonized FPM in Bash background process hangs
-  - https://github.com/php/php-src/issues/10058 - If "php-fpm --nodaemonize" is called to be sent into background it hangs the calling process 
-- **Feat**: stdio - Use non blocking pipe for stderr
-  - https://github.com/php/php-src/issues/11447 - fpm: some workers get stuck on "\0fscf\0" write to master process over time
-- **Feat**: error log - master logging should be separated from child logs (special option for master log)
-  - https://bugs.php.net/bug.php?id=69662 - PHP Startup errors are erroneously logged as master user in pool error log
-  - https://bugs.php.net/bug.php?id=72357 - Pool logs created with master owner:group
-- **Feat**: error log - SAPI log message does not split logs in Apache logs
-  - https://github.com/php/php-src/issues/1089  0 - FPM: error_log entries all on same line
-- **Feat**: error log - Customizable decoration / log_message output
-  - https://github.com/php/php-src/issues/10671 - php-fpm decorate_workers_output = no removes timestamp
-- **Feat**: access log - respect locale for time - consider logging afte after request shutdown
-  - https://bugs.php.net/bug.php?id=69561 - FPM access.log strftime locale not configurable
-- **Feat**: access log - fmt flag for path info or available env to use
-  - https://bugs.php.net/bug.php?id=81670 - Access log contains wrong values for "%r" (request URI) format string
-- **Feat**: access log - Allow suppression of queries
-  - https://github.com/php/php-src/issues/10116 - /status?json&full is not suppressed when access.suppress_path used
-- **Feat**: access log - long lines support - using the same logic as zlog ideally
-  - https://github.com/php/php-src/pull/5634 - PR to discussiong it and removing unused MAX_LINE_LENGTH
-  - https://github.com/php/php-src/issues/12302 - CONF Var log_limit and fpm_log_write show error "the log buffer is full ..."
-- **Feat**: error log - allow setting format with variables for zlog errors
-  - https://github.com/php/php-src/pull/11939 - Add URI in FPM logs (comment with suggestion)
-- **Feat**: log - allow separation access and error log to stdout and stderr
-  - https://bugs.php.net/bug.php?id=73886 - Handle access log & error log on Docker
-  - https://github.com/php/php-src/pull/2310 - Fix #73886: Handle access log & error log on Docker (discussion)
-- **Feat**: trace - slowlog - the SIGSTOP and SIGCONT stop script connection in stream (fsockopen) or mysql
-  - https://bugs.php.net/bug.php?id=67471 - fpm slow log && fsockopen :Operation now in progress
-  - https://bugs.php.net/bug.php?id=67087 - slowlog kills mysql connection
-- **Feat**: trace - slowlog - option to set file permission for slow log and possibly other log files
-  - https://bugs.php.net/bug.php?id=69509 - fpm slowlog file permissions feature
-  - https://bugs.php.net/bug.php?id=61435 - PHP-FPM logs are not readable by group/others by default
-  - https://github.com/php/php-src/pull/771 - fpm: relax log permissions (bug #61435)
-- **Feat**: trace - slowlog - add request information - maybe some custom configurable fmt
-  - https://bugs.php.net/bug.php?id=81501 - Log request information in slowlog
-  - https://bugs.php.net/bug.php?id=79137 - Add request parameters to slow log script report
 
 
-### FastCGI, networking and general things
+### FastCGI
 
-- **Bug**: fcgi - FCGI_ABORT_REQUEST from the client (web server) seems to be ignored
-  - https://bugs.php.net/bug.php?id=76419 - connection_aborted() under FPM doesn't work properly
-- **Bug**: fcgi / main - Check logic around flushing after using fastcgi_finish_request()
-  - https://github.com/php/php-src/issues/9741 - flush() halts script after fastcgi_finish_request()
 - **Bug**: fcgi - Investigate deadlock for keepalive connection after fastcgi_finish_request()
   - https://github.com/php/php-src/issues/10335 - FPM: keepalived connection with fastcgi_finish_request causes dead lock
 - **Feat**: fcgi / main - look to support for close parameter in fastcgi_finish_request
   - https://github.com/php/php-src/pull/10273 - FPM: fastcgi_finish_request supports force close connection param
 - **Feat**: fcgi - Allow flushing of headers if no content
   - https://github.com/php/php-src/issues/12385 - flush with fastcgi does not force headers to be sent
+- **Feat**: fcgi / main - Add notice about aborting if flushing after using fastcgi_finish_request()
+  - https://github.com/php/php-src/issues/9741 - flush() halts script after fastcgi_finish_request()
+- **Feat**: fcgi - Support FCGI_ABORT_REQUEST
+  - https://bugs.php.net/bug.php?id=76419 - connection_aborted() under FPM doesn't work properly
 - **Feat**: fcgi - allow missing content length and abort if supplied content length does not match as well as flag to restore current behavior
   - https://github.com/php/php-src/pull/7509 - Fixed reading in streamed body using fastcgi
   - https://github.com/php/php-src/issues/12343 - PHP processing a truncated POST request
@@ -95,6 +60,9 @@
 - **Feat**: fcgi - spec update to allow larger headers than 64k
   - https://trac.nginx.org/nginx/ticket/239 - Support for large (> 64k) FastCGI requests
 - **Feat**: fcgi - implement TLS support with client cert auth
+
+### Socket and general things
+
 - **Bug**: socket - non portable socket binding on FreeBSD
   - https://bugs.php.net/bug.php?id=77501 - listen = 9000 only listens on one interface
   - https://bugs.php.net/bug.php?id=77482 - Wont bind to IPv4 if IPv6 enabled
@@ -110,11 +78,13 @@
   - https://bugs.php.net/bug.php?id=80739 - PHP-FPM status page shows listen queue 0 (main details here)
 - **Feat**: socket - Consider re-enabling warning for non empty listening queue or remove commented out code in process ctl.
   - https://github.com/php/php-src/blob/2ac5948f5cbaf3351fe18ab1068422487c9c215f/sapi/fpm/fpm/fpm_process_ctl.c#L349-L359
+- **Feat**: socket - Implement vsock support
+  - https://github.com/php/php-src/issues/12818 - php-fpm vsock support
 - **Feat**: general - review return values in FPM code
   - https://github.com/php/php-src/pull/9911 - Change return values to bool or void in FPM
 - **Feat**: general - Convert worker pools and children list to continous array for fast look up in stdio 
 
-### Config and status
+### Config
 
 - **Bug**: conf - possibly incorrect order of ini setting
   - https://bugs.php.net/bug.php?id=75741 - enable_post_data_reading not working on PHP-FPM
@@ -159,6 +129,9 @@
 - **Feat**: conf - add compile option to set default FPM config path
   - https://bugs.php.net/bug.php?id=61073 - php-fpm config file path option lacking
 - **Feat**: conf - Review FPM_PHP_INI_TO_EXPAND list in fpm_php.h as some are outdated
+
+### Monitoring
+
 - **Bug**: status - Consider escaping script in status
   - https://github.com/php/php-src/issues/11464 - FPM: Consider escaping script in status
 - **Bug**: status - start time invalid on Solaris
@@ -180,58 +153,49 @@
   - https://bugs.php.net/bug.php?id=68678 - FPM Ping should use a reserved worker
 - **Feat**: scoreboard - track number of terminated requests
   - https://bugs.php.net/bug.php?id=78789 - Count number of request_terminate_timeout reached + killed in scoreboard
+- **Bug**: stdio - Nodaemonized FPM in Bash background process hangs
+  - https://github.com/php/php-src/issues/10058 - If "php-fpm --nodaemonize" is called to be sent into background it hangs the calling process 
+- **Feat**: stdio - Use non blocking pipe for stderr
+  - https://github.com/php/php-src/issues/11447 - fpm: some workers get stuck on "\0fscf\0" write to master process over time
+- **Feat**: error log - master logging should be separated from child logs (special option for master log)
+  - https://bugs.php.net/bug.php?id=69662 - PHP Startup errors are erroneously logged as master user in pool error log
+  - https://bugs.php.net/bug.php?id=72357 - Pool logs created with master owner:group
+- **Feat**: error log - SAPI log message does not split logs in Apache logs
+  - https://github.com/php/php-src/issues/1089  0 - FPM: error_log entries all on same line
+- **Feat**: error log - Customizable decoration / log_message output
+  - https://github.com/php/php-src/issues/10671 - php-fpm decorate_workers_output = no removes timestamp
+- **Feat**: access log - respect locale for time - consider logging afte after request shutdown
+  - https://bugs.php.net/bug.php?id=69561 - FPM access.log strftime locale not configurable
+- **Feat**: access log - fmt flag for path info or available env to use
+  - https://bugs.php.net/bug.php?id=81670 - Access log contains wrong values for "%r" (request URI) format string
+- **Feat**: access log - Allow suppression of queries
+  - https://github.com/php/php-src/issues/10116 - /status?json&full is not suppressed when access.suppress_path used
+- **Feat**: access log - long lines support - using the same logic as zlog ideally
+  - https://github.com/php/php-src/pull/5634 - PR to discussiong it and removing unused MAX_LINE_LENGTH
+  - https://github.com/php/php-src/issues/12302 - CONF Var log_limit and fpm_log_write show error "the log buffer is full ..."
+- **Feat**: error log - allow setting format with variables for zlog errors
+  - https://github.com/php/php-src/pull/11939 - Add URI in FPM logs (comment with suggestion)
+- **Feat**: log - allow separation access and error log to stdout and stderr
+  - https://bugs.php.net/bug.php?id=73886 - Handle access log & error log on Docker
+  - https://github.com/php/php-src/pull/2310 - Fix #73886: Handle access log & error log on Docker (discussion)
+- **Feat**: trace - slowlog - the SIGSTOP and SIGCONT stop script connection in stream (fsockopen) or mysql
+  - https://bugs.php.net/bug.php?id=67471 - fpm slow log && fsockopen :Operation now in progress
+  - https://bugs.php.net/bug.php?id=67087 - slowlog kills mysql connection
+- **Feat**: trace - slowlog - option to set file permission for slow log and possibly other log files
+  - https://bugs.php.net/bug.php?id=69509 - fpm slowlog file permissions feature
+  - https://bugs.php.net/bug.php?id=61435 - PHP-FPM logs are not readable by group/others by default
+  - https://github.com/php/php-src/pull/771 - fpm: relax log permissions (bug #61435)
+- **Feat**: trace - slowlog - add request information - maybe some custom configurable fmt
+  - https://bugs.php.net/bug.php?id=81501 - Log request information in slowlog
+  - https://bugs.php.net/bug.php?id=79137 - Add request parameters to slow log script report
 
-### Process management and related
 
-- **Bug**: signal - look to the signal and zts issues
-  - https://github.com/php/php-src/pull/10219 - Properly forward the signal to the original handler if TSRM is shutdown
-  - https://github.com/php/php-src/pull/10193 - fix: disable Zend Signals by default for ZTS builds
-  - https://github.com/php/php-src/pull/10141 - fix: support for timeouts with ZTS on Linux
-- **Bug**: signal - sigpipe might cause fpm to be unresponsive
-  - https://bugs.php.net/bug.php?id=67320 - Ignored sigpipes in php-fpm cause php to become unresponsive
+### Event and pools
+
 - **Bug**: event - check for the maximum file descriptors in devpoll
   - https://bugs.php.net/bug.php?id=65774 - no max file descriptor check for events.mechanism = /dev/poll
 - **Bug**: event - FreeBSD kqueue time outs
   - https://bugs.php.net/bug.php?id=76630 - php-fpm time outs unexpectedly
-- **Bug**: proc - FreeBSD issue with pinging master
-  - https://github.com/php/php-src/issues/12157 - php-fpm master processes runs 100% CPU and keeps spawning new ones
-- **Bug**: proc - process_control_timeout wakes up script in sleep
-  - https://bugs.php.net/bug.php?id=77603 - Unexpected behavior with reloading php-fpm and sleep method
-- **Bug**: proc - ondemand race condition
-  - https://github.com/php/php-src/pull/1308 - pm.ondemand forks fewer child workers than it should
-  - https://bugs.php.net/bug.php?id=69724 - pm.ondemand forks fewer child workers than it should (bug for the above PR - contains extra patches)
-  - https://bugs.php.net/bug.php?id=72935 - ONDEMAND: Race condition causes incoming connections hang
-- **Feat**: proc - stage redefinition to consider children idle if in reading header stage
-  - https://bugs.php.net/bug.php?id=78405 - FPM with keepalive: Kills worker when no request is seen for $terminate_timeout
-  - https://github.com/php/php-src/pull/8163 - Fix #78405: FPM with keepalive kills workers after $terminate_timeout
-  - https://bugs.php.net/bug.php?id=69367 - access.log invalid time request
-- **Feat**: proc - alternative for process idle for better scaling in ondemend mode - might need some refactoring:
-  - https://bugs.php.net/bug.php?id=77060 - PHP-FPM pm.process_idle_timeout behaviour (doc bug confusion asking about this behaviour)
-- **Feat**: proc - look to some option in ondemand for killing inactive connections
-  - https://bugs.php.net/bug.php?id=69890 - pm.ondemand does not kill children after reaching max limit
-- **Feat**: proc - look to ondemand scheduling issues / improvements - using epoll (optionally for all modes)
-  - https://bugs.php.net/bug.php?id=77959 - Scheduling of PHP-FPM processes in "ondemand"
-  - https://github.com/php/php-src/pull/4101 - epoll discussion
-  - https://github.com/php/php-src/pull/4104 - correct computation of idle time
-  - https://bugs.php.net/bug.php?id=68824 - php-rpm pm=static causes load peaks when pm.max_requests is reached (epoll should resolve this)
-  - https://bugs.php.net/bug.php?id=77060 - PHP-FPM pm.process_idle_timeout behaviour
-- **Feat**: proc - look to using reuse port for listen based scheduling (round robin) instead of fcgi lock
-- **Feat**: proc - Redefine boundary of pm.start_servers and pm.min_spare_servers
-  - https://bugs.php.net/bug.php?id=62630 - issues with starting FPM in conditions of high load
-- **Feat**: proc - consider defining timeout when no children available
-  - https://bugs.php.net/bug.php?id=65503 - Timeout when max_children reached
-  - https://github.com/php/php-src/issues/11260 - Timeout when max-childrens reached
-- **Feat**: proc and main - Bootstrapping mode
-  - https://github.com/php/php-src/pull/6772 - Add FPM early bootstrapping mode
-- **Feat**: proc - Introduce delay for process restarts to prevent CPU exhaustion
-  - https://github.com/php/php-src/issues/9632 - FPM delayed process restarting
-- **Feat**: proc - add function to terminate child (this should be probably explicitly enabled in pool config)
-  - https://bugs.php.net/bug.php?id=62948 - apache_child_terminate() for FPM
-- **Feat**: proc - kill grand children on the child request end
-  - https://github.com/php/php-src/issues/12155#issuecomment-1712492065 - PHP 8.2 FPM Leaks processes on pcntl_fork
-- **Feat**: proc - free child allocated data on child termination
-  - https://github.com/php/php-src/issues/11461 - FPM: Freeing child allocated data
-  - https://bugs.php.net/bug.php?id=75635 - Memory leak in fpm log
 - **Feat**: event - make default timeout in event loop configurable (currently hard coded 1s)
   - https://bugs.php.net/bug.php?id=71854 - FPM: Please make epoll sleep interval configurable
 - **Feat**: event - Cleaning up child events when the child is killed
@@ -240,14 +204,6 @@
 - **Feat**: signal: consider changing SIGTERM for primary idle killing instead of SIGQUIT
   - https://github.com/php/php-src/issues/12626 - Core dumps with PHP-FPM on dynamic mode
   - https://github.com/php/php-src/blob/8f02d7b7e499490312969cdfa9a3a81b9458595a/sapi/fpm/fpm/fpm_process_ctl.c#L138-L139
-- **Feat**: proc - remove extra zeros in proc name
-  - https://bugs.php.net/bug.php?id=77044 - Process Name has lots of null appended
-- **Feat**: unix - look more to setting CPU affinity and test it
-  - https://github.com/php/php-src/pull/10075 - fpm binding master and children processes to specific core(s)
-- **Feat**: unix - extra check for selinux deny_ptrace
-  - https://github.com/php/php-src/pull/7648 - fpm dumpable process setting extra check for SElinux based systems.
-- **Feat**: unix - middle ground between chrooted and non-chrooted env (ideas from suphp)
-  - https://bugs.php.net/bug.php?id=68125 - FPM check if script is in specified path before execute (ie docroot)
 - **Feat**: reload - consider using SIGHUP as another reload signal
   - https://bugs.php.net/bug.php?id=67553 - Add SIGHUP as a reload signal
 - **Feat**: reload - reduce number of reallocation or use buffering (stack or smart str) for sockets clean up env
@@ -275,6 +231,48 @@
   - https://github.com/php/php-src/issues/11818 - macOS now crashes fork() process instead of just warning output
 - **Feat**: core - look to proper handling of huge pages to also handle reported crashes (might require some opcache work)
   - https://bugs.php.net/bug.php?id=81444 - php-fpm crashes with bus error under kubernetes
+
+### Process management
+
+- **Bug**: signal - look to the signal and zts issues
+  - https://github.com/php/php-src/pull/10219 - Properly forward the signal to the original handler if TSRM is shutdown
+- **Bug**: proc - ondemand race condition
+  - https://github.com/php/php-src/pull/1308 - pm.ondemand forks fewer child workers than it should
+  - https://bugs.php.net/bug.php?id=69724 - pm.ondemand forks fewer child workers than it should (bug for the above PR - contains extra patches)
+  - https://bugs.php.net/bug.php?id=72935 - ONDEMAND: Race condition causes incoming connections hang
+- **Feat**: proc - stage redefinition to consider children idle if in reading header stage
+  - https://bugs.php.net/bug.php?id=78405 - FPM with keepalive: Kills worker when no request is seen for $terminate_timeout
+  - https://github.com/php/php-src/pull/8163 - Fix #78405: FPM with keepalive kills workers after $terminate_timeout
+  - https://bugs.php.net/bug.php?id=69367 - access.log invalid time request
+- **Feat**: proc - alternative for process idle for better scaling in ondemend mode - might need some refactoring:
+  - https://bugs.php.net/bug.php?id=77060 - PHP-FPM pm.process_idle_timeout behaviour (doc bug confusion asking about this behaviour)
+- **Feat**: proc - look to some option in ondemand for killing inactive connections
+  - https://bugs.php.net/bug.php?id=69890 - pm.ondemand does not kill children after reaching max limit
+- **Feat**: proc - look to ondemand scheduling issues / improvements - using epoll (optionally for all modes)
+  - https://github.com/php/php-src/issues/12798 - PHP-FPM: Killing idle child issue using pm=ondemand
+  - https://github.com/php/php-src/pull/4101 - epoll discussion
+  - https://github.com/php/php-src/pull/4104 - correct computation of idle time
+  - https://bugs.php.net/bug.php?id=68824 - php-rpm pm=static causes load peaks when pm.max_requests is reached (epoll should resolve this)
+  - https://bugs.php.net/bug.php?id=77959 - Scheduling of PHP-FPM processes in "ondemand"
+  - https://bugs.php.net/bug.php?id=77060 - PHP-FPM pm.process_idle_timeout behaviour
+- **Feat**: proc - look to using reuse port for listen based scheduling (round robin) instead of fcgi lock
+- **Feat**: proc - Redefine boundary of pm.start_servers and pm.min_spare_servers
+  - https://bugs.php.net/bug.php?id=62630 - issues with starting FPM in conditions of high load
+- **Feat**: proc - consider defining timeout when no children available
+  - https://bugs.php.net/bug.php?id=65503 - Timeout when max_children reached
+  - https://github.com/php/php-src/issues/11260 - Timeout when max-childrens reached
+- **Feat**: proc and main - Bootstrapping mode
+  - https://github.com/php/php-src/pull/6772 - Add FPM early bootstrapping mode
+- **Feat**: proc - Introduce delay for process restarts to prevent CPU exhaustion
+  - https://github.com/php/php-src/issues/9632 - FPM delayed process restarting
+- **Feat**: proc - add function to terminate child (this should be probably explicitly enabled in pool config)
+  - https://bugs.php.net/bug.php?id=62948 - apache_child_terminate() for FPM
+- **Feat**: proc - kill grand children on the child request end
+  - https://github.com/php/php-src/issues/12155#issuecomment-1712492065 - PHP 8.2 FPM Leaks processes on pcntl_fork
+- **Feat**: proc - free child allocated data on child termination
+  - https://github.com/php/php-src/issues/11461 - FPM: Freeing child allocated data
+  - https://bugs.php.net/bug.php?id=75635 - Memory leak in fpm log
+
 
 ## Feedback required
 
@@ -337,6 +335,13 @@ Status fields
 
 
 ## Changes
+
+#### 2023-12
+
+- **Bug**: proc - FreeBSD issue with pinging master
+  - https://github.com/php/php-src/issues/12157 - php-fpm master processes runs 100% CPU and keeps spawning new ones
+- **Bug**: signal - sigpipe might cause fpm to be unresponsive
+  - https://bugs.php.net/bug.php?id=67320 - Ignored sigpipes in php-fpm cause php to become unresponsive
 
 #### 2023-10
 
