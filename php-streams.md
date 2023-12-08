@@ -2,10 +2,6 @@
 
 ## Source issues
 
-- **Bug**: fopencookie issue visible in imagecreatefrompng
-  - https://bugs.php.net/bug.php?id=79945 - using php wrappers in imagecreatefrompng causes segmentation fault
-- **Bug**: Investigate custom stream wrappers segfault when used in CURLOPT_INFILE
-  - https://github.com/php/php-src/issues/11078 - PHP Fatal error triggers pointer being freed was not allocated and malloc: double free for ptr errors
 - **Bug**: Investigate custom stream wrappers issue with dynamic properties and FFI
   - https://github.com/php/php-src/issues/9698 - stream_wrapper_register crashes with FFI\CData provided as class
 - **Bug**: Look to the clearing stat cache after touch()
@@ -153,6 +149,11 @@
 
 
 ## Changes
+
+### 2023-11
+
+- **Bug**: fopencookie issue visible in imagecreatefrompng
+  - https://bugs.php.net/bug.php?id=79945 - using php wrappers in imagecreatefrompng causes segmentation fault
 
 ### 2023-10
 

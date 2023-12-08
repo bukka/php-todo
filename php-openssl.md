@@ -51,11 +51,6 @@
 
 ### Crypto
 
-- **Bug**: PKCS7 - Add test for PR to fix openssl_pkcs7_verify with signers_certificates_filename
-  - https://github.com/php/php-src/pull/6927 - openssl_pkcs7_verify() may ignore untrusted CAs
-  - https://bugs.php.net/bug.php?id=50713 - openssl_pkcs7_verify() may ignore untrusted CAs
-- **Bug**: PKCS7 - Investigate why envelope encrypted with cert created using openssl_csr_sign is not decrypted
-  - https://bugs.php.net/bug.php?id=66122 - Certification cannot be used directly after openssl_csr_sign
 - **Bug**: CSR Allow multiple fields in openssl_csr_new for distinguished_names argument
   - https://bugs.php.net/bug.php?id=48520 - openssl_csr_new does not allow multiple values/field in dn
 - **Bug**: CSR - Correctly set SAN
@@ -175,6 +170,14 @@
   - https://bugs.php.net/bug.php?id=79401 - --with-openssl no longer accepts a directory
 
 ## Changes
+
+### 2023-11
+
+- **Bug**: PKCS7 - Add test for PR to fix openssl_pkcs7_verify with signers_certificates_filename
+  - https://github.com/php/php-src/pull/6927 - openssl_pkcs7_verify() may ignore untrusted CAs
+  - https://bugs.php.net/bug.php?id=50713 - openssl_pkcs7_verify() may ignore untrusted CAs
+- **Bug**: PKCS7 - Investigate why envelope encrypted with cert created using openssl_csr_sign is not decrypted
+  - https://bugs.php.net/bug.php?id=66122 - Certification cannot be used directly after openssl_csr_sign
 
 ### 2023-10
 
