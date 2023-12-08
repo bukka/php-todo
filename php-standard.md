@@ -47,10 +47,45 @@
 - **Feat**: Add new function to display response text (something like http_response_code but for text)
   - https://bugs.php.net/bug.php?id=68219 - Make http_response_code() also returns the text of response _(1 vote)_
 
-### Proc
+### Process and shell
 
+- **Bug**: Investigate issues with locale handling in escapeshellarg
+  - https://bugs.php.net/bug.php?id=54391 - escapeshellarg strip non-ascii characters _(10 votes)_
+- **Bug**: Look to the shell (dash) escaping issue in escapeshellarg
+  - https://bugs.php.net/bug.php?id=61706 - escapeshellarg behaves inconsistently depending on shell _(3 votes)_
+- **Bug**: Investigate sec issue that is not really a security issue
+  - https://bugs.php.net/bug.php?id=76035
+- **Bug**: Investigate possibly incorrect PATH setting in exec when used with FPM
+  - https://bugs.php.net/bug.php?id=69118 - exec command not executed _(3 votes)_
+- **Bug**: Look to the potentially missing awaited process (zombie)
+  - https://bugs.php.net/bug.php?id=69014 - proc_close and proc_get_status returns NULL. Zombies remain in process-list _(10 votes)_
+- **Bug**: Check getting real exit code from proc_close
+  - https://bugs.php.net/bug.php?id=53518 - pclose and proc_close do not return values for use with pcntl_wifexited _(4 votes)_
+  - https://bugs.php.net/bug.php?id=70419 - proc_close return code is unreliable
+- **Bug**: Check handling of background processes and waiting for their exit
+  - https://bugs.php.net/bug.php?id=53085 - Php blocked waiting process exit _(1 vote)_
+- **Bug**: Prevent filtering of env variables without value in proc_open
+  - https://bugs.php.net/bug.php?id=71868 - Environment variables with no value are filtered out by proc_open() _(4 votes)_
+- **Bug**: Investigate dropping env vars with hyphen in name for proc_open
+  - https://bugs.php.net/bug.php?id=72904 - proc_open drops hyphenated environment variables _(1 vote)_
+- **Bug**: Check possibly incorrect constants and env handling on Windows
+  - https://bugs.php.net/bug.php?id=50503 - proc_open loses constants with $env _(3 votes)_
+- **Bug**: Check if proc_open() chdir error is handled by posix_spawn correctly and check if we should somehow try to fix in legacy fork impl
+  - https://bugs.php.net/bug.php?id=77656 - proc_open() ignores invalid cwd argument
+- **Bug**: Leaked file discriptor in the legacy proc_open implementation (fork)
+  - https://bugs.php.net/bug.php?id=67905 - proc_open leaks file descriptors on error _(1 vote)_
+- **Feat**: Look into solution to clean up open file descriptors on request end
+  - https://bugs.php.net/bug.php?id=38915 - Apache: system() (and similar) don't cleanup opened handles of Apache _(209 votes)_
+- **Feat**: Look to the option to disable open handles inheritance in popen / proc_open
+  - https://bugs.php.net/bug.php?id=70932 - Add ability to prevent handles inheritance in popen / proc_open _(10 votes)_
+- **Feat**: Check whether posix spawn addresses any escaping issues and whether it makes sense to use execv or execve for legacy impl
+  - https://bugs.php.net/bug.php?id=68599 - exec()/passthru() function should use execv, execve _(2 votes)_
 - **Feat**: Add function num_cpus that returns number of cpu (interface discussion)
   - https://github.com/php/php-src/pull/11137 - feat: add function num_cpus (formerly nproc)
+- **Feat**: Introduce function for setting ionice
+  - https://bugs.php.net/bug.php?id=52166 - REF: support ionice _(5 votes)_
+- **Feat**: Measure sleep time that was slept and if interrupted, optionally sleep again the rest of the time
+  - https://bugs.php.net/bug.php?id=77603 - Continued sleep after signal interruption _(3 votes)_
 
 ### Serialization and export
 
