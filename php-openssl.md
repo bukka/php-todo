@@ -6,6 +6,8 @@
 
 - **Bug**: Investigate why feof hangs on ssl stream
   - https://github.com/php/php-src/issues/10495 - feof hangs indefinitely
+- **Bug**: Make liveness check if socket is also writable - switch to nonblocking socket - related to issue mainly visible with TLS 1.3 
+  - https://bugs.php.net/bug.php?id=79501 - TLS connections freezing on 7.4 (all versions after 7.3.17)
 - **Bug**: Check and fix SAN IP validation
   - https://github.com/php/php-src/issues/9356 - Incomplete validation of IP Address fields in subjectAltNames
   - https://github.com/php/php-src/pull/11145 - Fix GH-9356: Incomplete validation of IPv6 Address fields in subjectAltNames
@@ -15,6 +17,8 @@
   - https://github.com/php/php-src/issues/8577 - PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT still checking CN
 - **Bug**: Check issue with connection to server with chain containing 3 intermediates wiht RabbitMQ
   - https://bugs.php.net/bug.php?id=78414 - TLS handshake fails when the certificate chain has more than 2 certificates
+- **Bug**: Look to altering default context when https request goes through http proxy
+  - https://bugs.php.net/bug.php?id=74796 - Requests through https:// with http proxy set altering default context
 - **Bug**: Issue with proxied file_get_contents with https
   - https://bugs.php.net/bug.php?id=76196 - proxied file_get_contents calls lag the cert check one behind for further calls
 - **Bug**: Check corrupted wsdl fetching result if fetching gzip
@@ -27,8 +31,6 @@
   - https://bugs.php.net/bug.php?id=81213 - Stream crypto methods SSLv2 and v3 switch to TLS1.0
 - **Bug**: The `SSL: Success` warning in failed connection does not make much sense
   - https://github.com/php/php-src/issues/9261#issuecomment-1218471408 - Problem with enabling crypto on stream socket connection
-- **Bug**: Make liveness check if socket is also writable - switch to nonblocking socket - related to issue mainly visible with TLS 1.3 
-  - https://bugs.php.net/bug.php?id=79501 - TLS connections freezing on 7.4 (all versions after 7.3.17)
 - **Bug**: Check stream_socket_client async issue
   - https://bugs.php.net/bug.php?id=49295 - stream_socket_client() fails on SSL+async
 - **Feat**: Refactore async code and provide info about WANT_READ and WANT_WRITE to PHP code
