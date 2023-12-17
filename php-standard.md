@@ -7,8 +7,13 @@
 - **Bug**: Check current return value
   - https://bugs.php.net/bug.php?id=74724 - current returns false but each returns value
 
-### File
+### File System
 
+- **Bug**: Clear stat cache after touch(), fopen(), fread() and fwrite()
+  - https://bugs.php.net/bug.php?id=72666 - touch(): stat cache clearing inconsistent between file:// paths and plain paths
+- **Feat**: Option to disable stat cache
+  - https://bugs.php.net/bug.php?id=28790 - Add php.ini option to disable stat cache
+  - https://github.com/php/php-src/pull/5894 - Feature Request #28790 Add php.ini option to disable stat cache
 - **Feat**: Refactore php_fgetcsv - horrible and flaky code (it can be optimized)
 - **Feat**: Introduce new parameter for file lock in various functions
   - https://github.com/php/php-src/pull/11254 - make FILE_ constants not collide with LOCK_
@@ -30,7 +35,10 @@
   - https://bugs.php.net/bug.php?id=43327 - wrong return value from mail(), if sendmail_path is wrong _(8 votes)_
 - **Bug**: possible issue with preventing mail.force_extra_parameters to be set in PHP_INI_PERDIR
   - https://bugs.php.net/bug.php?id=71901 - mail.force_extra_parameters is not PHP_INI_PERDIR _(5 votes)_
-- **Bug**: Look to `$message` filtering options - possibly some new INI
+- **Feat**: Look to restricing sendmail options
+  - https://github.com/php/php-src/issues/12781 - Restrict additional command line flags by default in mail()
+  - https://github.com/php/php-src/pull/12783 - Add blacklisted command line flags for sendline via mail()
+- **Feat**: Look to `$message` filtering options - possibly some new INI
   - https://github.com/php/php-src/issues/12632 - mail() truncates message on full stop between two newlines
 - **Feat**: Allow $to being NULL to skip `To:` header
   - https://bugs.php.net/bug.php?id=44170 - mail() function arguments ambiguity _(1 vote)_

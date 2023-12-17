@@ -2,32 +2,8 @@
 
 ## Source issues
 
-- **Bug**: Investigate custom stream wrappers issue with dynamic properties and FFI
-  - https://github.com/php/php-src/issues/9698 - stream_wrapper_register crashes with FFI\CData provided as class
-- **Bug**: Look to the clearing stat cache after touch()
-  - https://bugs.php.net/bug.php?id=72666 - touch(): stat cache clearing inconsistent between file:// paths and plain paths
-- **Feat**: Option to disable stat cache
-  - https://bugs.php.net/bug.php?id=28790 - Add php.ini option to disable stat cache
-  - https://github.com/php/php-src/pull/5894 - Feature Request #28790 Add php.ini option to disable stat cache
-- **Bug**: Look to altering default context when https request goes through http proxy
-  - https://bugs.php.net/bug.php?id=74796 - Requests through https:// with http proxy set altering default context
-- **Bug**: HTTP 1/1 steram hangs due to server not closing - unresolve issue with stream_select
-  - https://bugs.php.net/bug.php?id=80931 - file_get_contents() hangs with HTTP/1.1 if server doesn't close connection
-  - https://github.com/php/php-src/pull/6874 - Fix #80931: HTTP stream hangs if server doesn't close connection
-- **Bug**: Handling HTTP 304 in copy and others
-  - https://bugs.php.net/bug.php?id=67351 - copy() should handle HTTP 304 response
-  - https://github.com/php/php-src/pull/6177 - Fix #67351: copy() should handle HTTP 304 response
-- **Bug**: Issue with user stream filter after destruction
-  - https://bugs.php.net/bug.php?id=75931 - User stream filter is used after destruction
-- **Bug**: Polling should stop on EINTR
-  - https://bugs.php.net/bug.php?id=79564 - poll() cannot be interrupted
-  - https://github.com/php/php-src/pull/5521 - Don't continue polling on EINTR
-- **Bug**: Investigate ASAN issue in stream_select test
-  - https://github.com/php/php-src/issues/11077 - ext/standard/tests/streams/bug46024.phpt ASAN leak
 - **Bug**: stream_select on freebsd possibly incorrect
   - https://bugs.php.net/bug.php?id=60186 - stream_select ignores the timeout on freebsd
-- **Bug**: Socket metadata are inherited
-  - https://github.com/php/php-src/issues/8472 - The resource returned by stream_socket_accept may have incorrect metadata
 - **Bug**: Look to a proper fix for socket name
   - https://bugs.php.net/bug.php?id=74556 - stream_socket_get_name returns \0 string instead of false
 - **Feat**: Look to addition solution for preserving socket errors and error notifications in general
@@ -62,11 +38,16 @@
   - https://bugs.php.net/bug.php?id=69163 - `fopen(__DIR__, 'r')` succeeds _(1 vote)_
 - **Feat**: Support fwrite buffering
   - https://bugs.php.net/bug.php?id=61168 - fwrite() should allow for buffering _(5 votes)_
+- **Feat**: Better handle interuption during polling
+  - https://bugs.php.net/bug.php?id=79564 - poll() cannot be interrupted
+  - https://github.com/php/php-src/pull/5521 - Don't continue polling on EINTR
 - **Feat**: Impleemnt stream_select checking of other streams when read buffered stream present
   - https://github.com/php/php-src/issues/10177 - stream_select checking of other streams when read buffered stream present
   - https://bugs.php.net/bug.php?id=75584 - Docs?: stream_select() ignores proc_open() streams for buffered fopen() streams
 - **Feat**: Look to support for select on filtered streams
   - https://github.com/php/php-src/pull/6926 - Allow to cast filtered streams to PHP_STREAM_AS_FD_FOR_SELECT
+- **Feat**: Issue with user stream filter after destruction
+  - https://bugs.php.net/bug.php?id=75931 - Call stream filter constructor first and destructor last
 - **Feat**: Support filters on STDOUT
   - https://bugs.php.net/bug.php?id=34666 - print and echo do not apply filters on STDOUT _(1 vote)_
 - **Feat**: Support nonblocking STDIN on Windows
@@ -112,8 +93,17 @@
   - https://github.com/php/php-src/issues/8239 - For php://input fread() writes temp files
 - **Feat**: Investigate multipart support for stream input
   - https://bugs.php.net/bug.php?id=76444 - can't read stream from multipart requests _(1 vote)_
+- **Feat**: Make HTTP stream selectable even if filters are used
+  - https://github.com/php/php-src/pull/6926 - Allow to cast filtered streams to PHP_STREAM_AS_FD_FOR_SELECT
+- **Feat**: Handle setting of EOF for keep alive connections that are not closed by server
+  - https://bugs.php.net/bug.php?id=80931 - file_get_contents() hangs with HTTP/1.1 if server doesn't close connection
+  - https://github.com/php/php-src/pull/6874 - Fix #80931: HTTP stream hangs if server doesn't close connection
+- **Feat**: Look to the trailer support
 - **Feat**: Investigate alternative / setting of http_response_header in relation to custom http stream wrapper
   - https://bugs.php.net/bug.php?id=63897 - Custom http stream wrappers should be able to set $http_response_header _(3 votes)_
+- **Feat**: Handling HTTP 304 in copy and others
+  - https://bugs.php.net/bug.php?id=67351 - copy() should handle HTTP 304 response
+  - https://github.com/php/php-src/pull/6177 - Fix #67351: copy() should handle HTTP 304 response
 - **Feat**: Support relative redirects in http stream wrapper
   - https://bugs.php.net/bug.php?id=64582 - file_get_contents() handles redirects wrong
 - **Feat**: Support setting protocol version (consider future support for HTTP 2)
@@ -149,6 +139,11 @@
 
 
 ## Changes
+
+### 2023-12
+
+- **Bug**: Investigate custom stream wrappers issue with dynamic properties and FFI
+  - https://github.com/php/php-src/issues/9698 - stream_wrapper_register crashes with FFI\CData provided as class
 
 ### 2023-11
 
@@ -188,7 +183,14 @@
 - **Bug**: fread blocking unpredictible
   - https://bugs.php.net/bug.php?id=51056 - fread() on blocking stream will block even if data is available
   - https://bugs.php.net/bug.php?id=52602 - fread is blocking even with the use of stream_select
+
+### 2022-08
+
+- **Bug**: Socket metadata are inherited
+  - https://github.com/php/php-src/issues/8472 - The resource returned by stream_socket_accept may have incorrect metadata
+
 ### 2022-07
+
 - **Bug**: Fix open_basedir check in GlobIterator and glob:// stream
   - https://github.com/php/php-src/commit/1a9e6895f1d203f38655b52d5b6b823be7d14cbd
 - **Feat**: Allow not close stream on rscr dtor in php cli sapi
