@@ -53,19 +53,20 @@
 
 ### Crypto
 
-- **Bug**: CSR Allow multiple fields in openssl_csr_new for distinguished_names argument
-  - https://bugs.php.net/bug.php?id=48520 - openssl_csr_new does not allow multiple values/field in dn
-- **Bug**: CSR - Correctly set SAN
-  - https://bugs.php.net/bug.php?id=71050 - SubjectAltName (SAN) is Not included in openssl_csr_sign of a new CSR
-- **Bug**: CSR - Do not put extraattribs to Subject
-  - https://bugs.php.net/bug.php?id=80269 - OpenSSL sets Subject wrong with extraattribs parameter
 - **Feat**: CSR - Extra param to openssl_csr_sign for hex serial string
   - https://github.com/php/php-src/pull/9851 - Allow passing serial as string in openssl_csr_sign
+- **Feat**: CSR - Correctly set SAN
+  - https://bugs.php.net/bug.php?id=71050 - SubjectAltName (SAN) is Not included in openssl_csr_sign of a new CSR
 - **Feat**: Add function for more detailed parsing of CSR - php openssl csr parser ignores SANs
   - https://bugs.php.net/bug.php?id=55820 - php openssl csr parser ignores SANs
   - https://bugs.php.net/bug.php?id=29961 - an openssl_csr_parse function would be handy
 - **Bug**: X509 - Check new line parsing in subjectAltName
   - https://bugs.php.net/bug.php?id=60388 - openssl_x509_parse extensions=>subjectAltName
+- **Feat**: X509 - Analyse if returning large serial numbers can cause slow down
+  - https://github.com/php/php-src/pull/6445 - Fix #77411 - large serialNumber returned as hex with OpenSSL 1.1
+  - https://bugs.php.net/bug.php?id=77411 - openssl_x509_parse serialNumber not always integer with OpenSSL version 1.1
+- **Feat**: X509 - Extend openssl_x509_parse with more info about pub key if possible
+  - https://bugs.php.net/bug.php?id=77761 - openssl_x509_parse does not create entries for public key type and size
 - **Bug**: X509 - Look to the issue with default certs added to store in setup_verify
   - https://bugs.php.net/bug.php?id=65154 - setup_verify implicitly adds default CA paths
 - **Bug**: X509 - Check why checking X509_PURPOSE_SSL_SERVER with openssl_x509_checkpurpose returns false
@@ -75,11 +76,6 @@
   - https://bugs.php.net/bug.php?id=55362 - X509_PURPOSE_ANY is not recognized by openssl
 - **Feat**: X509 - Add addition X509 purpose constants
   - https://github.com/php/php-src/pull/6312 - Add X509 purpose constant (requires changes to support 1.0.2)
-- **Feat**: X509 - Analyse if returning large serial numbers can cause slow down
-  - https://github.com/php/php-src/pull/6445 - Fix #77411 - large serialNumber returned as hex with OpenSSL 1.1
-  - https://bugs.php.net/bug.php?id=77411 - openssl_x509_parse serialNumber not always integer with OpenSSL version 1.1
-- **Feat**: X509 - Extend openssl_x509_parse with more info about pub key if possible
-  - https://bugs.php.net/bug.php?id=77761 - openssl_x509_parse does not create entries for public key type and size
 - **Feat**: X509 - Optimize order of operations in php_openssl_load_all_certs_from_file
 - **Bug**: config - add path check for config filename (possible break so only master probably)
   - https://github.com/php/php-src/issues/9317
@@ -172,6 +168,13 @@
   - https://bugs.php.net/bug.php?id=79401 - --with-openssl no longer accepts a directory
 
 ## Changes
+
+### 2023-12
+
+- **Bug**: CSR Allow multiple fields in openssl_csr_new for distinguished_names argument
+  - https://bugs.php.net/bug.php?id=48520 - openssl_csr_new does not allow multiple values/field in dn
+- **Bug**: CSR - Do not put extraattribs to Subject
+  - https://bugs.php.net/bug.php?id=80269 - OpenSSL sets Subject wrong with extraattribs parameter
 
 ### 2023-11
 
