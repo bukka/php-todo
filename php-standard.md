@@ -9,16 +9,43 @@
 
 ### File System
 
+- **Bug**: Check if open_basedir bypass with symlink is still an issue
+  - https://bugs.php.net/bug.php?id=77850 - Open_basedir bypass _(4 votes)_
+- **Bug**: Look to open_basedir bypass in glob wrapper
+  - https://bugs.php.net/bug.php?id=76362 - Bypass open_basedir restriction via scandir and glob:// _(0 votes)_
+- **Bug**: Check handling of non existing of open_basedir value
+  - https://bugs.php.net/bug.php?id=81042 - open_basedir directories must exist
+- **Bug**: Look to colon issue in files and possible support for relative colon paths on Windows
+  - https://bugs.php.net/bug.php?id=81339 - NTFS streams on Windows are partially supported _(2 votes)_
+  - https://bugs.php.net/bug.php?id=81725 - Colons in the filename when create file can cause problems _(0 votes)_
+  - https://bugs.php.net/bug.php?id=72367 - Relative Drive:path incorrectly assumed to be Drive:\path _(2 votes)_
+  - https://github.com/php/php-src/pull/5001 - Fix #78939 - Windows relative path with drive letter
+  - https://bugs.php.net/bug.php?id=78939 - file_exists produces different results with TS and NTS builds _(1 vote)_
+- **Bug**: Look to sambashare related issues
+  - https://bugs.php.net/bug.php?id=62199 - is_readable() does not seem to tolerate crossing partitions inside a sambashare _(15 votes)_
+- **Bug**: Look to the issues with UNC paths and auth on Windows
+  - https://bugs.php.net/bug.php?id=52376 - opendir() cannot open UNC paths in IIS7 using passthrough auth. _(15 votes)_
+- **Bug**: Investigage why is_writeable does not always correctly on Windows
+  - https://bugs.php.net/bug.php?id=68926 - is_writable returns false but file_put_contents works _(21 votes)_
+- **Bug**: Investigate why calling clearstatcache() seems to not work in some cases
+  - https://bugs.php.net/bug.php?id=52587 - Clearstatcache() has no effect
 - **Bug**: Clear stat cache after touch(), fopen(), fread() and fwrite()
-  - https://bugs.php.net/bug.php?id=72666 - touch(): stat cache clearing inconsistent between file:// paths and plain paths
+  - https://bugs.php.net/bug.php?id=72666 - touch(): stat cache clearing inconsistent between file:// paths and plain paths _(0 votes)_
 - **Feat**: Option to disable stat cache
   - https://bugs.php.net/bug.php?id=28790 - Add php.ini option to disable stat cache
   - https://github.com/php/php-src/pull/5894 - Feature Request #28790 Add php.ini option to disable stat cache
-- **Feat**: Refactore php_fgetcsv - horrible and flaky code (it can be optimized)
+- **Feat**: Extend glob() with parameter limiting number of returned paths
+  - https://bugs.php.net/bug.php?id=81989 - Glob() miss a scope limit parameter, to limit the max returned paths _(5 votes)_
 - **Feat**: Introduce new parameter for file lock in various functions
   - https://github.com/php/php-src/pull/11254 - make FILE_ constants not collide with LOCK_
+- **Feat**: Support LOCK_NB for file_put_contents and friends
+  - https://bugs.php.net/bug.php?id=81322 - file_put_contents should support LOCK_NB
+- **Feat**: Add extra param to chown and lchown to change group
+  - https://bugs.php.net/bug.php?id=77319 - Add an optional group paramter for chown() and lchown() _(1 vote)_
+- **Feat**: Refactore php_fgetcsv - horrible and flaky code (it can be optimized)
 - **Feat**: Look how to make optional suffix work on Win and be more acceptable
  - https://github.com/php/php-src/pull/11685 - Standard: Support optional suffix arg in tempnam
+
 
 ### Image
 
@@ -129,11 +156,20 @@
 
 - **Doc**: Types - Better document is_callable
   - https://bugs.php.net/bug.php?id=70088 - is_callable() doesn't check if a class/method syntax is valid
+- **Doc**: Output - Document output buffering
   - https://bugs.php.net/bug.php?id=60984 - Document output buffering mechanism
 - **Doc**: Mail - Document introduction of mail.mixed_lf_and_crlf INI and previous CRLF changes
  - https://bugs.php.net/bug.php?id=81158 - Mails sent by mail function broken since PHP 8.0
 - **Doc**: Mail - Fix mail function example
   - https://bugs.php.net/bug.php?id=70082 - mail() function description should provide right example of multi-part mail
+- **Doc**: FS - Add note to file_exists docs that it is not cache and slower
+  - https://bugs.php.net/bug.php?id=78285 - file_exists is 30 times slover than is_dir
+- **Doc**: FS - Document locale dependency in pathinfo
+  - https://bugs.php.net/bug.php?id=77239 -  pathinfo strips umlauts only at the beginning
+- **Doc**: FS - Add note about trailing slash handling in pathinfo
+  - https://bugs.php.net/bug.php?id=81079 - pathinfo() unexpected path/filename separation with trailing slash
+- **Doc**: FS - Add note about realpath cache and difference between ZTS and non ZTS logic in it
+  - https://bugs.php.net/bug.php?id=78634 - realpath function caches results
 
 ## Changes
 

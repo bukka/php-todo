@@ -75,6 +75,8 @@
   - https://bugs.php.net/bug.php?id=38025 - Missing stream wrapper methods _(12 votes)_
 - **Feat**: Look to the LOCK_EX support for stream wrappers
   - https://bugs.php.net/bug.php?id=61201 - LOCK_EX in file_put_contents with custom streamwrapper fails _(4 votes)_
+- **Feat**: Consider adding method for checking if user is super user
+  - https://bugs.php.net/bug.php?id=72600 - Consider root special perms with stream_wrapper _(2 votes)_
 - **Feat**: Look to the ways of restoring of origin wrapper
   - https://bugs.php.net/bug.php?id=42929 - Cannot access the old stream wrapper from a wrapper class _(2 votes)_
 - **Feat**: Streams wrappers autoloading
@@ -115,7 +117,8 @@
 
 ## Docs
 
-
+- **Doc**: Document changes in return value for fwrite and fread in PHP 7.4 migration guide
+  - https://bugs.php.net/bug.php?id=79965 - Why does the manual say fread/fwrite changed in PHP 7.4?
 - **Doc**: Better document stream_copy_to_stream
   - https://github.com/php/php-src/issues/9994 - stream_copy_to_stream() returns on socket timeout
 - **Doc**: Better document stream_select behaviour for passed array streams
@@ -134,7 +137,6 @@
   - https://bugs.php.net/bug.php?id=43817 - opendir() fails on Windows directories with parent directory unaccessible
 - **Doc**: Document failed opening COMn on Windowns
   - https://bugs.php.net/bug.php?id=66943 - Can't open COM10 or higher serial ports
-- 
 
 
 
