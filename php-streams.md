@@ -28,16 +28,16 @@
   - https://github.com/php/php-src/pull/12067 - Fix bug #60110 (fclose(), file_put_contents(), copy() do not return false properly)
 - **Feat**: Look to improving support for descriptors
   - https://github.com/php/php-src/issues/9551 - File descriptors / some procfs entries not openable by php
-- **Feat**: Look to the fopen wrapper better support for FTP SIZE command
-  - https://bugs.php.net/bug.php?id=48674 - fopen() ftp wrapper and SIZE command _(11 votes)_
-- **Feat**: Support FTP EPSV command
-  - https://bugs.php.net/bug.php?id=69580 - I need an FTP stream that doesn't use EPSV _(1 vote)_
-- **Feat**: Reuse FTP connection
-  - https://bugs.php.net/bug.php?id=72343 - FTP wrapper should re-use connections
 - **Feat**: Consider failing when opening a directory using fopen()
   - https://bugs.php.net/bug.php?id=69163 - `fopen(__DIR__, 'r')` succeeds _(1 vote)_
+- **Feat**: Try to finish improvements for _php_stream_copy_to_stream_ex
+  - https://github.com/php/php-src/pull/10603 - Improvements to _php_stream_copy_to_stream_ex()
+- **Feat**: Look to better non blocking support in _php_stream_copy_to_stream_ex
+  - https://github.com/php/php-src/issues/11753 - stream_copy_to_stream returns false when data copied is less than $maxlength
 - **Feat**: Support fwrite buffering
   - https://bugs.php.net/bug.php?id=61168 - fwrite() should allow for buffering _(5 votes)_
+- **Feat**: Look to possibility of not copying var string but instead introduce cow
+  - https://github.com/php/php-src/issues/11106 - Use zval storage for php://memory stream
 - **Feat**: Better handle interuption during polling
   - https://bugs.php.net/bug.php?id=79564 - poll() cannot be interrupted
   - https://github.com/php/php-src/pull/5521 - Don't continue polling on EINTR
@@ -50,8 +50,11 @@
   - https://bugs.php.net/bug.php?id=75931 - Call stream filter constructor first and destructor last
 - **Feat**: Support filters on STDOUT
   - https://bugs.php.net/bug.php?id=34666 - print and echo do not apply filters on STDOUT _(1 vote)_
+- **Feat**: Look to not closing STDIN and STDOUT
+  - https://github.com/php/php-src/issues/11399 - PHP incorrectly closes file handles when used to replace STDIN/STDOUT/STDERR
 - **Feat**: Support nonblocking STDIN on Windows
   - https://bugs.php.net/bug.php?id=34972 - STDIN should allow nonblocking _(179 votes)_
+  - https://github.com/php/php-src/issues/12939 - Capture keypresses on Windows
 - **Feat**: Improve stream_get_line to get rid of length limit
   - https://bugs.php.net/bug.php?id=48421 - stream_get_line() - allow $length to be optional _(5 votes)_
 - **Feat**: Support setting of connection timeout
@@ -73,10 +76,12 @@
   - https://bugs.php.net/bug.php?id=80124 - HTTP stream contexts missing upload progress notification _(1 vote)_
 - **Feat**: Support some additional methods for stream wrappers
   - https://bugs.php.net/bug.php?id=38025 - Missing stream wrapper methods _(12 votes)_
-- **Feat**: Look to the LOCK_EX support for stream wrappers
-  - https://bugs.php.net/bug.php?id=61201 - LOCK_EX in file_put_contents with custom streamwrapper fails _(4 votes)_
 - **Feat**: Consider adding method for checking if user is super user
   - https://bugs.php.net/bug.php?id=72600 - Consider root special perms with stream_wrapper _(2 votes)_
+- **Feat**: Consider supporting realpath for custom stream wrappers
+  - https://github.com/php/php-src/issues/12118 - Add "realpath" support for custom stream wrapper
+- **Feat**: Look to the LOCK_EX support for stream wrappers
+  - https://bugs.php.net/bug.php?id=61201 - LOCK_EX in file_put_contents with custom streamwrapper fails _(4 votes)_
 - **Feat**: Look to the ways of restoring of origin wrapper
   - https://bugs.php.net/bug.php?id=42929 - Cannot access the old stream wrapper from a wrapper class _(2 votes)_
 - **Feat**: Streams wrappers autoloading
@@ -114,6 +119,12 @@
   - https://bugs.php.net/bug.php?id=76625 - Support http2 in file_get_contents() and friends _(5 votes)_
 - **Feat**: WinSSL support
   - https://bugs.php.net/bug.php?id=77505 - streams/HTTPS cannot be used with WinSSL/schannel _(2 votes)_
+- **Feat**: Look to the fopen wrapper better support for FTP SIZE command
+  - https://bugs.php.net/bug.php?id=48674 - fopen() ftp wrapper and SIZE command _(11 votes)_
+- **Feat**: Support FTP EPSV command
+  - https://bugs.php.net/bug.php?id=69580 - I need an FTP stream that doesn't use EPSV _(1 vote)_
+- **Feat**: Reuse FTP connection
+  - https://bugs.php.net/bug.php?id=72343 - FTP wrapper should re-use connections
 
 ## Docs
 

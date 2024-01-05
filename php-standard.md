@@ -27,6 +27,7 @@
   - https://bugs.php.net/bug.php?id=52376 - opendir() cannot open UNC paths in IIS7 using passthrough auth. _(15 votes)_
 - **Bug**: Investigage why is_writeable does not always correctly on Windows
   - https://bugs.php.net/bug.php?id=68926 - is_writable returns false but file_put_contents works _(21 votes)_
+  - https://github.com/php/php-src/issues/12744 - is_readable() and is_writable() return false negative on Win32's network-mapped drives
 - **Bug**: Investigate why calling clearstatcache() seems to not work in some cases
   - https://bugs.php.net/bug.php?id=52587 - Clearstatcache() has no effect
 - **Bug**: Clear stat cache after touch(), fopen(), fread() and fwrite()
