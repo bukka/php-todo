@@ -53,8 +53,6 @@
 
 ### Crypto
 
-- **Feat**: CSR - Extra param to openssl_csr_sign for hex serial string
-  - https://github.com/php/php-src/pull/9851 - Allow passing serial as string in openssl_csr_sign
 - **Feat**: CSR - Correctly set SAN
   - https://bugs.php.net/bug.php?id=71050 - SubjectAltName (SAN) is Not included in openssl_csr_sign of a new CSR
 - **Feat**: Add function for more detailed parsing of CSR - php openssl csr parser ignores SANs
@@ -168,6 +166,11 @@
   - https://bugs.php.net/bug.php?id=79401 - --with-openssl no longer accepts a directory
 
 ## Changes
+
+### 2024-01
+
+- **Feat**: CSR - Extra param to openssl_csr_sign for hex serial string
+  - https://github.com/php/php-src/pull/9851 - Allow passing serial as string in openssl_csr_sign
 
 ### 2023-12
 
