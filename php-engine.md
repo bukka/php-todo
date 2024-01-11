@@ -16,6 +16,10 @@
 
 - **Bug**: Look to GC handling of circle references
 
+### Signals
+
+- **Bug**: Signal handling for ZTS
+  - https://github.com/php/php-src/pull/10193 - fix: disable Zend Signals by default for ZTS builds
 
 ## Docs
 

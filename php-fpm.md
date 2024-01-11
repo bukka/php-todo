@@ -34,7 +34,7 @@
   - https://bugs.php.net/bug.php?id=68125 - FPM check if script is in specified path before execute (ie docroot)
 
 
-### FastCGI
+### FastCGI and other protocols
 
 - **Bug**: fcgi - Investigate deadlock for keepalive connection after fastcgi_finish_request()
   - https://github.com/php/php-src/issues/10335 - FPM: keepalived connection with fastcgi_finish_request causes dead lock
@@ -60,6 +60,9 @@
 - **Feat**: fcgi - spec update to allow larger headers than 64k
   - https://trac.nginx.org/nginx/ticket/239 - Support for large (> 64k) FastCGI requests
 - **Feat**: fcgi - implement TLS support with client cert auth
+- **Feat**: http - look to the implementation for http
+- **Feat**: http - allow serving static assets
+  - https://bugs.php.net/bug.php?id=73313 - over fpm does not respect in .user.ini engine off directive
 
 ### Socket and general things
 
@@ -139,6 +142,7 @@
 - **Feat**: status - support full parameter for openmetrics
   - https://github.com/php/php-src/issues/9494 - FPM status with OpenMetrics format and FULL parameter
   - https://github.com/php/php-src/pull/9646 - expose per process metrics in fpm status
+  - https://github.com/php/php-src/pull/12759 - expose metrics per process in fpm status
 - **Feat**: status - value queries and v2 openmetrics
   - https://github.com/php/php-src/pull/7291#discussion_r676184017
 - **Feat**: status - add parameters to list extra fields for fcgi envs
@@ -276,14 +280,7 @@
 
 ## Feedback required
 
-
-- **Bug**: error log - check how changes is error log file permission impacts IP and time logged
-  - https://bugs.php.net/bug.php?id=62660 - PHP error logging with FPM fails to display an IP address and correct time
-- https://github.com/php/php-src/issues/8646 - Core: Memory leak PHP FPM 8.1 ARM64
-- https://bugs.php.net/bug.php?id=73313 - over fpm does not respect in .user.ini engine off directive
-- https://bugs.php.net/bug.php?id=76224 - Error and shutdown handlers triggered on object destroy
-- https://bugs.php.net/bug.php?id=70945 - php-fpm don't start : ERROR: no data have been read from pipe failed
-- https://bugs.php.net/bug.php?id=67589 - With --nodaemonize errors don't get into error_log directive
+- https://github.com/php/php-src/issues/12449  - PHP-FPM: 8.2 random lockups of daemon
 
 ## Testing
 
@@ -386,6 +383,8 @@ Status fields
   - https://bugs.php.net/bug.php?id=68053 - PHP-FPM with cgi.fix_pathinfo 0 loads script from PATH_TRANSLATED
 - **Bug**: main - Look to the suggested changes for Apache and fcgi env vars
   - https://bugs.php.net/bug.php?id=51983 - [fpm sapi] pm.status_path not working when cgi.fix_pathinfo=1
+- **Bug**: error log - check how changes is error log file permission impacts IP and time logged
+  - https://bugs.php.net/bug.php?id=62660 - PHP error logging with FPM fails to display an IP address and correct time
 
 ### 2023-03
 
