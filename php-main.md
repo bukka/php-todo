@@ -8,6 +8,7 @@
   - https://bugs.php.net/bug.php?id=77074 - XSS through error messages _(3 votes)_
 - **Bug**: OB - Prefent flusing on exit -  caused by exit unwinding
   - https://bugs.php.net/bug.php?id=81431 - header_register_calback no longer allows die() to stop executing outputting (patch without test attached) _(1 vote)_
+  - https://github.com/php/php-src/issues/13044 - exception and error handlers not called from within ob_start callback (check if it is related and fixed)
 - **Bug**: OB - Prevent flusing on fatal error
   - https://bugs.php.net/bug.php?id=67467 - print_r with $return=true outputs its argument if it is too large (OB comment to fix) _(5 votes)_
 - **Bug**: Output - Check if output_add_rewrite_var could be more JavaScript friendly
@@ -17,7 +18,8 @@
   - https://bugs.php.net/bug.php?id=80192 - session.use_trans_sid brokes JSON encoded HTML string
 - **Feat**: Look to converting NL in exception stack to `<br>` tag when html_errors enabled
   - https://bugs.php.net/bug.php?id=77075 - Add `<br>` to the exception reporting in HTML
-
+- **Feat**: Return proper collables in ob_list_handlers
+  - https://github.com/php/php-src/issues/12874 - ob_list_handlers() should return list of real callables
 
 ### SAPI
 

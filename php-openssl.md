@@ -39,8 +39,9 @@
   - https://bugs.php.net/bug.php?id=75288 - stream_socket_enable_crypto() blocks during handshake
 - **Feat**: Check if PHP_STREAM_AS_FD_FOR_SELECT should fail if ssl is not active
   - https://github.com/php/php-src/pull/10093#issuecomment-1367316224 - discussion about casting logic
-- **Feat**: Check if liveness poll skipping improvement is worth it
-  - https://github.com/php/php-src/pull/8829  - Improve php_openssl_sockop_set_option logic for liveness poll skipping
+- **Feat**: Simplify and improve liveness checking - remove polling
+  - https://github.com/php/php-src/issues/13489 - OpenSSL streams liveness check should be always non blocking
+  - https://github.com/php/php-src/pull/8829  - Improve php_openssl_sockop_set_option logic for liveness poll skipping (not worth it)
 - **Feat**: Add option to not add SSL_OP_IGNORE_UNEXPECTED_EOF (opt in protection for truncation attack) - create a proper test with proxy and TCP FIN
   - https://github.com/php/php-src/issues/8369#issuecomment-1126940364 - note about that in the bug
 - **Feat**: Allow multiple peer fingerprints in the context

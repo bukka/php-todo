@@ -4,8 +4,6 @@
 
 ### UNIX and request handling
 
-- **Bug**: main - argv and argc should not be included in env vars
-  - https://bugs.php.net/bug.php?id=75712 - php-fpm's import_environment_variables impl should not copy $_ENV, $_SERVER
 - **Bug**: main - run config test just once in daemonised mode
   - https://github.com/php/php-src/issues/11086 - FPM: config test runs twice in daemonised mode
 - **Bug**: systemd - check strange output of the fpm process line in systemd (only some version of it)
@@ -24,6 +22,8 @@
   - https://bugs.php.net/bug.php?id=71379 - Add support for Apache 2.4 mod_proxy_balancer to FPM
 - **Feat**: main - Change PHP_SELF to SCRIPT_NAME without pathinfo fix and enabled path discard
   - https://github.com/php/php-src/issues/11025 - FPM: Always use script name in PHP_SELF if cgi.discard_path = 1 and cgi.fix_pathinfo = 0
+- **Feat**: main - look to the option to disable setting envs to $_SERVER
+  - https://github.com/php/php-src/issues/13110 - Add option to hide Environment Variables from $_SERVER
 - **Feat**: unix - look more to setting CPU affinity and test it
   - https://github.com/php/php-src/pull/10075 - fpm binding master and children processes to specific core(s)
 - **Feat**: unix - extra check for selinux deny_ptrace
@@ -168,7 +168,9 @@
   - https://github.com/php/php-src/issues/1089  0 - FPM: error_log entries all on same line
 - **Feat**: error log - Customizable decoration / log_message output
   - https://github.com/php/php-src/issues/10671 - php-fpm decorate_workers_output = no removes timestamp
-- **Feat**: access log - respect locale for time - consider logging afte after request shutdown
+- **Feat**: error log - Update config with better description of decoration behavior
+  - https://github.com/php/php-src/issues/13118 - Logs wrapped with newlines even when output decoration is disabled
+- **Feat**: access log - respect locale for time - consider logging after request shutdown
   - https://bugs.php.net/bug.php?id=69561 - FPM access.log strftime locale not configurable
 - **Feat**: access log - fmt flag for path info or available env to use
   - https://bugs.php.net/bug.php?id=81670 - Access log contains wrong values for "%r" (request URI) format string
@@ -332,6 +334,11 @@ Status fields
 
 
 ## Changes
+
+#### 2024-01
+
+- **Bug**: main - argv and argc should not be included in env vars
+  - https://bugs.php.net/bug.php?id=75712 - php-fpm's import_environment_variables impl should not copy $_ENV, $_SERVER
 
 #### 2023-12
 

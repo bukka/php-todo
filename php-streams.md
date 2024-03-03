@@ -2,8 +2,6 @@
 
 ## Source issues
 
-- **Bug**: stream_select on freebsd possibly incorrect
-  - https://bugs.php.net/bug.php?id=60186 - stream_select ignores the timeout on freebsd
 - **Bug**: Look to a proper fix for socket name
   - https://bugs.php.net/bug.php?id=74556 - stream_socket_get_name returns \0 string instead of false
 - **Feat**: Look to addition solution for preserving socket errors and error notifications in general
@@ -152,6 +150,11 @@
 
 
 ## Changes
+
+### 2024-01
+
+- **Bug**: stream_select on freebsd possibly incorrect (David checked it and no longer re-creatable on the latest FreeBSD version)
+  - https://bugs.php.net/bug.php?id=60186 - stream_select ignores the timeout on freebsd
 
 ### 2023-12
 

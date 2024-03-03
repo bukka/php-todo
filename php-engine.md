@@ -2,6 +2,11 @@
 
 ## Source issues
 
+### Execution
+
+- **Feat**: Allow setting time limit with float
+  - https://github.com/php/php-src/issues/13024 - set_time_limit function to accept float
+
 ### List / Array / HashTable
 
 - **Bug**: Check reference assigning to the list
@@ -20,6 +25,11 @@
 
 - **Bug**: Signal handling for ZTS
   - https://github.com/php/php-src/pull/10193 - fix: disable Zend Signals by default for ZTS builds
+
+### Shutdown and exit
+
+-  **Feat**: Look to handling shutdown callback after fatal error
+  - https://github.com/php/php-src/issues/12967 - set_error_handler should be able to handle fatal error once
 
 ## Docs
 

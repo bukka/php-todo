@@ -6,6 +6,8 @@
 
 - **Bug**: Check current return value
   - https://bugs.php.net/bug.php?id=74724 - current returns false but each returns value
+- **Feat**: Improve handling of negative limit for explode()
+  - https://github.com/php/php-src/issues/13074 - Explode from end with negative limit
 
 ### File System
 
