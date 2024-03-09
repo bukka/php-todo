@@ -4,8 +4,6 @@
 
 ### UNIX and request handling
 
-- **Bug**: main - run config test just once in daemonised mode
-  - https://github.com/php/php-src/issues/11086 - FPM: config test runs twice in daemonised mode
 - **Bug**: systemd - check strange output of the fpm process line in systemd (only some version of it)
   - https://github.com/php/php-src/issues/10204 - Weird systemctl status phpX.Y-fpm output on Ubuntu 22.04
 - **Feat**: proc - remove extra zeros in proc name
@@ -89,6 +87,8 @@
 
 ### Config
 
+- **Bug**: conf - invalid parsing of boolean value if in environment variable
+  - https://github.com/php/php-src/issues/13563 - Setting boolean values via env in php config fails for all values other than 1 and ""
 - **Bug**: conf - possibly incorrect order of ini setting
   - https://bugs.php.net/bug.php?id=75741 - enable_post_data_reading not working on PHP-FPM
   - https://github.com/php/php-src/issues/8157 - post_max_size evaluates .user.ini too late in php-fpm?
@@ -118,9 +118,9 @@
   - https://bugs.php.net/bug.php?id=78305 -	Injection of INI settings into FPM worker processes
   - https://bugs.php.net/bug.php?id=79417 - PHP-FPM: php_admin_value can be overwritten in .htaccess
   - https://bugs.php.net/bug.php?id=80385 - Response data preceded by post data
-- **Bug**: conf - setting env[LC_MESSAGES] does not work as expected
+- **Feat**: conf - allow syntax for not evaluating env keys
   - https://bugs.php.net/bug.php?id=81253 - unexpected result of setting env[LC_MESSAGES] in php-fpm pool config
-- **Feat**: conf - add support for environment variables in configuration
+- **Feat**: conf - add support for getting environment variables in configuration
   - https://bugs.php.net/bug.php?id=75994 - Environment permanently breaks for worker process.
   - https://bugs.php.net/bug.php?id=76798 - Can't configure PHP-FPM via environment variables (check if it worked before 7.1.15 and 7.2.1)
 - **Feat**: conf - allow multiple includes per file
@@ -133,12 +133,48 @@
   - https://bugs.php.net/bug.php?id=61073 - php-fpm config file path option lacking
 - **Feat**: conf - Review FPM_PHP_INI_TO_EXPAND list in fpm_php.h as some are outdated
 
-### Monitoring
+### Logs
 
-- **Bug**: status - Consider escaping script in status
-  - https://github.com/php/php-src/issues/11464 - FPM: Consider escaping script in status
-- **Bug**: status - start time invalid on Solaris
-  - https://bugs.php.net/bug.php?id=69289 - fpm_status uses wrong time_format for json and xml output
+- **Feat**: trace - slowlog - the SIGSTOP and SIGCONT stop script connection in stream (fsockopen) or mysql
+  - https://bugs.php.net/bug.php?id=67471 - fpm slow log && fsockopen :Operation now in progress
+  - https://bugs.php.net/bug.php?id=67087 - slowlog kills mysql connection
+- **Feat**: trace - slowlog - option to set file permission for slow log and possibly other log files
+  - https://bugs.php.net/bug.php?id=69509 - fpm slowlog file permissions feature
+  - https://bugs.php.net/bug.php?id=61435 - PHP-FPM logs are not readable by group/others by default
+  - https://github.com/php/php-src/pull/771 - fpm: relax log permissions (bug #61435)
+- **Feat**: error log - master logging should be separated from child logs (special option for master log)
+  - https://bugs.php.net/bug.php?id=69662 - PHP Startup errors are erroneously logged as master user in pool error log
+  - https://bugs.php.net/bug.php?id=72357 - Pool logs created with master owner:group
+- **Feat**: access log - long lines support - using the same logic as zlog ideally
+  - https://github.com/php/php-src/pull/5634 - PR to discussiong it and removing unused MAX_LINE_LENGTH
+  - https://github.com/php/php-src/issues/12302 - CONF Var log_limit and fpm_log_write show error "the log buffer is full ..."
+- **Feat**: error log - allow setting format with variables for zlog errors
+  - https://github.com/php/php-src/pull/11939 - Add URI in FPM logs (comment with suggestion)
+- **Feat**: trace - slowlog - add request information - maybe some custom configurable fmt
+  - https://bugs.php.net/bug.php?id=81501 - Log request information in slowlog
+  - https://bugs.php.net/bug.php?id=79137 - Add request parameters to slow log script report
+- **Feat**: access log - fmt flag for path info or available env to use
+  - https://bugs.php.net/bug.php?id=81670 - Access log contains wrong values for "%r" (request URI) format string
+- **Feat**: access log - respect locale for time - consider logging after request shutdown
+  - https://bugs.php.net/bug.php?id=69561 - FPM access.log strftime locale not configurable
+- **Feat**: access log - Allow suppression of queries
+  - https://github.com/php/php-src/issues/10116 - /status?json&full is not suppressed when access.suppress_path used
+- **Bug**: stdio - Nodaemonized FPM in Bash background process hangs
+  - https://github.com/php/php-src/issues/10058 - If "php-fpm --nodaemonize" is called to be sent into background it hangs the calling process
+- **Feat**: stdio - Use non blocking pipe for stderr
+  - https://github.com/php/php-src/issues/11447 - fpm: some workers get stuck on "\0fscf\0" write to master process over time
+- **Feat**: log - allow separation access and error log to stdout and stderr
+  - https://bugs.php.net/bug.php?id=73886 - Handle access log & error log on Docker
+  - https://github.com/php/php-src/pull/2310 - Fix #73886: Handle access log & error log on Docker (discussion)
+- **Feat**: error log - SAPI log message does not split logs in Apache logs
+  - https://github.com/php/php-src/issues/1089  0 - FPM: error_log entries all on same line
+- **Feat**: error log - Customizable decoration / log_message output
+  - https://github.com/php/php-src/issues/10671 - php-fpm decorate_workers_output = no removes timestamp
+- **Feat**: error log - Update config with better description of decoration behavior
+  - https://github.com/php/php-src/issues/13118 - Logs wrapped with newlines even when output decoration is disabled
+
+### Status
+
 - **Feat**: status - support full parameter for openmetrics
   - https://github.com/php/php-src/issues/9494 - FPM status with OpenMetrics format and FULL parameter
   - https://github.com/php/php-src/pull/9646 - expose per process metrics in fpm status
@@ -157,43 +193,10 @@
   - https://bugs.php.net/bug.php?id=68678 - FPM Ping should use a reserved worker
 - **Feat**: scoreboard - track number of terminated requests
   - https://bugs.php.net/bug.php?id=78789 - Count number of request_terminate_timeout reached + killed in scoreboard
-- **Bug**: stdio - Nodaemonized FPM in Bash background process hangs
-  - https://github.com/php/php-src/issues/10058 - If "php-fpm --nodaemonize" is called to be sent into background it hangs the calling process 
-- **Feat**: stdio - Use non blocking pipe for stderr
-  - https://github.com/php/php-src/issues/11447 - fpm: some workers get stuck on "\0fscf\0" write to master process over time
-- **Feat**: error log - master logging should be separated from child logs (special option for master log)
-  - https://bugs.php.net/bug.php?id=69662 - PHP Startup errors are erroneously logged as master user in pool error log
-  - https://bugs.php.net/bug.php?id=72357 - Pool logs created with master owner:group
-- **Feat**: error log - SAPI log message does not split logs in Apache logs
-  - https://github.com/php/php-src/issues/1089  0 - FPM: error_log entries all on same line
-- **Feat**: error log - Customizable decoration / log_message output
-  - https://github.com/php/php-src/issues/10671 - php-fpm decorate_workers_output = no removes timestamp
-- **Feat**: error log - Update config with better description of decoration behavior
-  - https://github.com/php/php-src/issues/13118 - Logs wrapped with newlines even when output decoration is disabled
-- **Feat**: access log - respect locale for time - consider logging after request shutdown
-  - https://bugs.php.net/bug.php?id=69561 - FPM access.log strftime locale not configurable
-- **Feat**: access log - fmt flag for path info or available env to use
-  - https://bugs.php.net/bug.php?id=81670 - Access log contains wrong values for "%r" (request URI) format string
-- **Feat**: access log - Allow suppression of queries
-  - https://github.com/php/php-src/issues/10116 - /status?json&full is not suppressed when access.suppress_path used
-- **Feat**: access log - long lines support - using the same logic as zlog ideally
-  - https://github.com/php/php-src/pull/5634 - PR to discussiong it and removing unused MAX_LINE_LENGTH
-  - https://github.com/php/php-src/issues/12302 - CONF Var log_limit and fpm_log_write show error "the log buffer is full ..."
-- **Feat**: error log - allow setting format with variables for zlog errors
-  - https://github.com/php/php-src/pull/11939 - Add URI in FPM logs (comment with suggestion)
-- **Feat**: log - allow separation access and error log to stdout and stderr
-  - https://bugs.php.net/bug.php?id=73886 - Handle access log & error log on Docker
-  - https://github.com/php/php-src/pull/2310 - Fix #73886: Handle access log & error log on Docker (discussion)
-- **Feat**: trace - slowlog - the SIGSTOP and SIGCONT stop script connection in stream (fsockopen) or mysql
-  - https://bugs.php.net/bug.php?id=67471 - fpm slow log && fsockopen :Operation now in progress
-  - https://bugs.php.net/bug.php?id=67087 - slowlog kills mysql connection
-- **Feat**: trace - slowlog - option to set file permission for slow log and possibly other log files
-  - https://bugs.php.net/bug.php?id=69509 - fpm slowlog file permissions feature
-  - https://bugs.php.net/bug.php?id=61435 - PHP-FPM logs are not readable by group/others by default
-  - https://github.com/php/php-src/pull/771 - fpm: relax log permissions (bug #61435)
-- **Feat**: trace - slowlog - add request information - maybe some custom configurable fmt
-  - https://bugs.php.net/bug.php?id=81501 - Log request information in slowlog
-  - https://bugs.php.net/bug.php?id=79137 - Add request parameters to slow log script report
+- **Bug**: status - Consider escaping script in status (unlikely so low priority)
+  - https://github.com/php/php-src/issues/11464 - FPM: Consider escaping script in status
+- **Bug**: status - start time invalid on Solaris (only Solaris 10 so it is a low priority)
+  - https://bugs.php.net/bug.php?id=69289 - fpm_status uses wrong time_format for json and xml output
 
 
 ### Event and pools
@@ -334,6 +337,11 @@ Status fields
 
 
 ## Changes
+
+### 2024-02
+
+- **Bug**: main - run config test just once in daemonised mode
+  - https://github.com/php/php-src/issues/11086 - FPM: config test runs twice in daemonised mode
 
 #### 2024-01
 
