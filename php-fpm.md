@@ -73,6 +73,8 @@
   - https://github.com/php/php-src/pull/11890 - sapi/fpm: adding listen.rtable option for OpenBSD
 - **Feat**: socket - Enable tcp_info for OpenBSD
   - https://github.com/php/php-src/pull/11561 - fpm: enable tcp_info api for OpenBSD
+- **Feat**: socket - listen backlog updates / improvements
+  - https://github.com/php/php-src/pull/12977 - Update listen backlog on reload and stop enforcing default backlog
 - **Feat**: socket - improve listen queue status info
   - https://github.com/php/php-src/issues/9943 - FPM improve listen queue status info
   - https://bugs.php.net/bug.php?id=76323 - FPM /status reports wrong number of listen queue len
@@ -89,6 +91,12 @@
 
 - **Bug**: conf - invalid parsing of boolean value if in environment variable
   - https://github.com/php/php-src/issues/13563 - Setting boolean values via env in php config fails for all values other than 1 and ""
+- **Feat**: conf - add support for getting environment variables in configuration
+  - https://bugs.php.net/bug.php?id=75994 - Environment permanently breaks for worker process.
+  - https://bugs.php.net/bug.php?id=76798 - Can't configure PHP-FPM via environment variables (check if it worked before 7.1.15 and 7.2.1)
+- **Feat**: conf - allow syntax for not evaluating env keys
+  - https://bugs.php.net/bug.php?id=81253 - unexpected result of setting env[LC_MESSAGES] in php-fpm pool config
+- **Feat**: conf - env file support (discussion with Arne)
 - **Bug**: conf - possibly incorrect order of ini setting
   - https://bugs.php.net/bug.php?id=75741 - enable_post_data_reading not working on PHP-FPM
   - https://github.com/php/php-src/issues/8157 - post_max_size evaluates .user.ini too late in php-fpm?
@@ -118,13 +126,11 @@
   - https://bugs.php.net/bug.php?id=78305 -	Injection of INI settings into FPM worker processes
   - https://bugs.php.net/bug.php?id=79417 - PHP-FPM: php_admin_value can be overwritten in .htaccess
   - https://bugs.php.net/bug.php?id=80385 - Response data preceded by post data
-- **Feat**: conf - allow syntax for not evaluating env keys
-  - https://bugs.php.net/bug.php?id=81253 - unexpected result of setting env[LC_MESSAGES] in php-fpm pool config
-- **Feat**: conf - add support for getting environment variables in configuration
-  - https://bugs.php.net/bug.php?id=75994 - Environment permanently breaks for worker process.
-  - https://bugs.php.net/bug.php?id=76798 - Can't configure PHP-FPM via environment variables (check if it worked before 7.1.15 and 7.2.1)
 - **Feat**: conf - allow multiple includes per file
   - https://bugs.php.net/bug.php?id=68022 -	FPM should allow multiple includes per file (patch)
+- **Feat**: conf - look to pool specific includes (discussion with Arne)
+- **Feat**: conf - Introduce -ttt config test mode to not print to log
+  - https://github.com/php/php-src/pull/13256#issuecomment-1925317214 - Let php-fpm -tt dump info regardless of log_level (comment)
 - **Bug**: conf - if error in the config, correctly put file name and file line of the error to the error message
   - https://bugs.php.net/bug.php?id=65500 - debug_backtrace doesn't identify file name when config contains invalid comment
 - **Feat**: conf - optional pool prefix support
@@ -338,7 +344,7 @@ Status fields
 
 ## Changes
 
-### 2024-02
+#### 2024-02
 
 - **Bug**: main - run config test just once in daemonised mode
   - https://github.com/php/php-src/issues/11086 - FPM: config test runs twice in daemonised mode
