@@ -84,6 +84,32 @@
 
 ### Network
 
+- **Bug**: Network - Check if php_tvtoto can still overflow
+  - https://bugs.php.net/bug.php?id=71507 - Overflow in php_tvtoto _(no vote)_
+- **Bug**: DNS - Look to incorrect handling of server errors 
+  - https://bugs.php.net/bug.php?id=73149 - dns_get_record(): A temporary server error occurred _(139 votes)_
+- **Bug**: DNS - correctly handle SERVFAIL
+  - https://bugs.php.net/bug.php?id=70473 - dns_get_record - Server error for any of DNS_A|DNS_AAAA bubbles up, no result _(5 votes)_
+- **Bug**: DNS - checkdnsrr should correctly check MX CNAME
+  - https://bugs.php.net/bug.php?id=68081 - checkdnsrr( 'example.com' ) returns `true` when no MX, only CNAME _(1 vote)_
+- **Bug**: DNS - Multistring DNS should not be terminated by '\0'
+  - https://bugs.php.net/bug.php?id=65478 - Multi-string DNS records obtained with dns_get_record contain nulls _(2 votes)_
+- **Feat**: Network - IPv6 support for gethostbyname()
+  - https://bugs.php.net/bug.php?id=49493 - Add IPv6 support in gethostbyname() _(123 votes)_
+- **Feat**: Network - Look to inconsistent IPv6 handling
+  - https://bugs.php.net/bug.php?id=76479 - Inconsistent IPv6 handling _(3 votes)_
+- **Feat**: DNS - Check if there is any point to add SPF record (deprecated)
+  - https://bugs.php.net/bug.php?id=54821 - Add support for SPF records to dns_get_record _(10 votes)_
+- **Feat**: DNS - Add DNAME support and consider removing A6
+  - https://bugs.php.net/bug.php?id=52632 - dns_get_record: Add DNAME, remove A6 _(3 votes)_
+- **Feat**: DNS - Add other missing records in dns_get_record()
+  - https://bugs.php.net/bug.php?id=65343 - Not all DNS types supported in dns_get_record _(6 votes)_
+- **Feat**: DNS - Reduce warnings in dns_get_record
+  - https://bugs.php.net/bug.php?id=50903 - dns_get_record sends warnings _(4 votes)_
+- **Feat**: Network - INI to globally set bindto default
+  -  https://bugs.php.net/bug.php?id=63076 - Force source IP on network operations _(3 votes)_
+- **Feat**: Network - Consider alternative to ip2long allowing numbers starting with zero
+  - https://bugs.php.net/bug.php?id=70845 - ip2long should not fail with number starting with zero _(no vote)_
 - **Feat**: Add new function to display response text (something like http_response_code but for text)
   - https://bugs.php.net/bug.php?id=68219 - Make http_response_code() also returns the text of response _(1 vote)_
 
@@ -175,6 +201,8 @@
   - https://bugs.php.net/bug.php?id=81079 - pathinfo() unexpected path/filename separation with trailing slash
 - **Doc**: FS - Add note about realpath cache and difference between ZTS and non ZTS logic in it
   - https://bugs.php.net/bug.php?id=78634 - realpath function caches results
+- **Doc**: Network - Clarify what happens if no argument for setcookie
+  - https://bugs.php.net/bug.php?id=66725 - Clarification required as to what happens if domain argument isn't passed
 
 ## Changes
 

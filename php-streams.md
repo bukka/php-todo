@@ -4,11 +4,20 @@
 
 - **Bug**: Look to a proper fix for socket name
   - https://bugs.php.net/bug.php?id=74556 - stream_socket_get_name returns \0 string instead of false
+- **Bug**: Investigate EINPROGRESS error issues happening in Redis ext
+  - https://github.com/php/php-src/pull/13252 - Fix EINPROGRESS very rarely occurring on synchronous php_network_connect_socket()
+- **Bug**: Make listen non blockign to prevent issues with not respecting timeout
+  - https://github.com/php/php-src/issues/13220 - stream_socket_accept() timeout sometimes doesn't work?
+- **Bug**: Disable usage of mmap that is causing segfaults
+  - https://github.com/php/php-src/issues/13011 - SIGBUS Signal 7 Issue
+- **Bug**: Fix error issue with fgets() when stream filter fails
+  - https://github.com/php/php-src/issues/13264 - fgets() does not return false on error from a zlib.inflate filtered stream with large content and invalid checksum
 - **Feat**: Look to addition solution for preserving socket errors and error notifications in general
   - https://bugs.php.net/bug.php?id=42387 - Streams layer has no error notification facility _(2 votes)_
   - https://bugs.php.net/bug.php?id=34380 - need stream equivalent to socket_last_error _(12 votes)_
   - https://bugs.php.net/bug.php?id=63793 - Provide direct access to socket errors without php_sockets _(9 votes)_
   - https://bugs.php.net/bug.php?id=64803 - async stream_socket_client return _(2 votes)_
+  - https://bugs.php.net/bug.php?id=65679 - stream_socket_client() does not set $errstr _(4 votes)_
   - https://github.com/php/php-src/pull/838 - preserve errno for stream_select and stream_socket_pair
   - https://github.com/php/php-src/issues/10109 - Change error code of fsockopen from E_WARNING to EXCEPTION
 - **Feat**: Consider some additional socket functions
@@ -39,9 +48,11 @@
 - **Feat**: Better handle interuption during polling
   - https://bugs.php.net/bug.php?id=79564 - poll() cannot be interrupted
   - https://github.com/php/php-src/pull/5521 - Don't continue polling on EINTR
-- **Feat**: Impleemnt stream_select checking of other streams when read buffered stream present
+- **Feat**: Implement stream_select checking of other streams when read buffered stream present
   - https://github.com/php/php-src/issues/10177 - stream_select checking of other streams when read buffered stream present
   - https://bugs.php.net/bug.php?id=75584 - Docs?: stream_select() ignores proc_open() streams for buffered fopen() streams
+- **Feat**: Consider some internal API for allowing external objects to use stream_select
+  - https://bugs.php.net/bug.php?id=78613 - Allow using curl handles with stream_select()
 - **Feat**: Look to support for select on filtered streams
   - https://github.com/php/php-src/pull/6926 - Allow to cast filtered streams to PHP_STREAM_AS_FD_FOR_SELECT
 - **Feat**: Issue with user stream filter after destruction
