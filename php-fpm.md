@@ -6,8 +6,6 @@
 
 - **Bug**: systemd - check strange output of the fpm process line in systemd (only some version of it)
   - https://github.com/php/php-src/issues/10204 - Weird systemctl status phpX.Y-fpm output on Ubuntu 22.04
-- **Feat**: proc - remove extra zeros in proc name
-  - https://bugs.php.net/bug.php?id=77044 - Process Name has lots of null appended
 - **Feat**: systemd - Add CapabilityBoundingSet
   - https://github.com/php/php-src/pull/4960 - Add CapabilityBoundingSet to systemd unit file (my PR)
 - **Feat**: systemd - Properly support PrivateTmp
@@ -89,8 +87,6 @@
 
 ### Config
 
-- **Bug**: conf - invalid parsing of boolean value if in environment variable
-  - https://github.com/php/php-src/issues/13563 - Setting boolean values via env in php config fails for all values other than 1 and ""
 - **Feat**: conf - add support for getting environment variables in configuration
   - https://bugs.php.net/bug.php?id=75994 - Environment permanently breaks for worker process.
   - https://bugs.php.net/bug.php?id=76798 - Can't configure PHP-FPM via environment variables (check if it worked before 7.1.15 and 7.2.1)
@@ -343,6 +339,13 @@ Status fields
 
 
 ## Changes
+
+#### 2024-03
+
+- **Bug**: conf - invalid parsing of boolean value if in environment variable
+  - https://github.com/php/php-src/issues/13563 - Setting boolean values via env in php config fails for all values other than 1 and ""
+- **Feat**: proc - remove extra zeros in proc name
+  - https://bugs.php.net/bug.php?id=77044 - Process Name has lots of null appended
 
 #### 2024-02
 
