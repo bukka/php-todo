@@ -12,6 +12,9 @@
   - https://github.com/php/php-src/issues/13011 - SIGBUS Signal 7 Issue
 - **Bug**: Fix error issue with fgets() when stream filter fails
   - https://github.com/php/php-src/issues/13264 - fgets() does not return false on error from a zlib.inflate filtered stream with large content and invalid checksum
+- **Bug**: Look to the inconsistencies in stream filters seeking
+  - https://bugs.php.net/bug.php?id=49874 - ftell() and fseek() inconsistency when using stream filters _(8 votes)_
+  - https://github.com/php/php-src/pull/6359 - Disallow seeking on filtered streams
 - **Feat**: Look to addition solution for preserving socket errors and error notifications in general
   - https://bugs.php.net/bug.php?id=42387 - Streams layer has no error notification facility _(2 votes)_
   - https://bugs.php.net/bug.php?id=34380 - need stream equivalent to socket_last_error _(12 votes)_

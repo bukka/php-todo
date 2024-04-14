@@ -11,12 +11,24 @@
 
 ### File System
 
-- **Bug**: Check if open_basedir bypass with symlink is still an issue
-  - https://bugs.php.net/bug.php?id=77850 - Open_basedir bypass _(4 votes)_
-- **Bug**: Look to open_basedir bypass in glob wrapper
-  - https://bugs.php.net/bug.php?id=76362 - Bypass open_basedir restriction via scandir and glob:// _(0 votes)_
-- **Bug**: Check handling of non existing of open_basedir value
-  - https://bugs.php.net/bug.php?id=81042 - open_basedir directories must exist
+- **Bug**: Get merged the chown fix for ZTS
+  - https://bugs.php.net/bug.php?id=68861 - chown does not work when php is compiling with ZTS _(10 votes)_
+  - https://github.com/php/php-src/pull/13876 - fix group/passwd api misuse if ZTS
+- **Bug**: Look to changing lchown land chgrp issue on ZTS
+  - https://bugs.php.net/bug.php?id=74357 - lchown fails to change ownership of symlink with ZTS _(0 votes)_
+- **Bug**: Fix removing ACL and extended attrs during move_uploaded_file and rename
+  - https://bugs.php.net/bug.php?id=65057 - move_uploaded_file() umask acl _(11 votes)_
+  - https://bugs.php.net/bug.php?id=81404 - rename() does not keep extended file attributes
+- **Bug**: Look to renaming directories across different file systems (copy recursively all files in them)
+  - https://bugs.php.net/bug.php?id=54097 - rename() of dirs accross devices produces confusing copy error _(64 votes)_
+- **Bug**: Look to the LFS support for 32bit
+  - https://bugs.php.net/bug.php?id=45040 - 64 bit inode stat fails without LFS flags (ex: recursive mkdir) _(9 votes)_
+  - https://bugs.php.net/bug.php?id=27792 - [PATCH] Functions fail on large files (filesize,is_file,is_dir,readdir) _(297 votes)
+  - https://bugs.php.net/bug.php?id=65445 - filesize() fails for files with high inode number _(0 votes)_
+- **Bug**: Look to the fseek inconsistency on 32bit past 2GB
+  - https://bugs.php.net/bug.php?id=54902 - fseek inconsistencies with large (>2GB) files _(3 votes)_
+- **Bug**: Look to the issue with opening anonymous pipes
+  - https://bugs.php.net/bug.php?id=67085 -	filesystem functions don't handle anonymous pipes correctly _(2 votes)_
 - **Bug**: Look to colon issue in files and possible support for relative colon paths on Windows
   - https://bugs.php.net/bug.php?id=81339 - NTFS streams on Windows are partially supported _(2 votes)_
   - https://bugs.php.net/bug.php?id=81725 - Colons in the filename when create file can cause problems _(0 votes)_
@@ -30,6 +42,23 @@
 - **Bug**: Investigage why is_writeable does not always correctly on Windows
   - https://bugs.php.net/bug.php?id=68926 - is_writable returns false but file_put_contents works _(21 votes)_
   - https://github.com/php/php-src/issues/12744 - is_readable() and is_writable() return false negative on Win32's network-mapped drives
+  - https://bugs.php.net/bug.php?id=73543 - Network drive file: is_readable() == false but file can be read _(5 votes)_
+- **Bug**: Look to the proper support of symplinks on Windows
+ - https://bugs.php.net/bug.php?id=69473 - bug in symlink() prevents relative symlinks on Windows _(11 votes)_
+- **Bug**: Look to the inconsisteny in simlinking of simlinks
+  - https://bugs.php.net/bug.php?id=66497 - symlink improperly creates recursive link on existing symlink without a target - _(3 votes)_
+- **Bug**: Check if open_basedir bypass with symlink is still an issue
+  - https://bugs.php.net/bug.php?id=77850 - Open_basedir bypass _(4 votes)_
+- **Bug**: Look to open_basedir bypass or root directory
+  - https://bugs.php.net/bug.php?id=78141 - open_basedir bug when write files on root directory  _(0 votes)_
+- **Bug**: Look to open_basedir bypass in glob wrapper
+  - https://bugs.php.net/bug.php?id=76362 - Bypass open_basedir restriction via scandir and glob:// _(0 votes)_
+- **Bug**: Check handling of non existing of open_basedir value
+  - https://bugs.php.net/bug.php?id=81042 - open_basedir directories must exist _(1 vote)_
+- **Bug**: Look to confusing open basedir message due to potentially invalid access check
+  - https://bugs.php.net/bug.php?id=64573 - Confusing open_basedir errors when parent folders are inaccessible _(2 votes)_
+- **Bug**: Look to real path normalization on OSX
+  - https://bugs.php.net/bug.php?id=67220 - realpath() on MacOSX doesn't normalize the case of characters _(3 votes)_
 - **Bug**: Investigate why calling clearstatcache() seems to not work in some cases
   - https://bugs.php.net/bug.php?id=52587 - Clearstatcache() has no effect _(5 votes)_
 - **Bug**: Clear stat cache after touch(), fopen(), fread() and fwrite()
@@ -42,9 +71,13 @@
 - **Feat**: Introduce new parameter for file lock in various functions
   - https://github.com/php/php-src/pull/11254 - make FILE_ constants not collide with LOCK_
 - **Feat**: Support LOCK_NB for file_put_contents and friends
-  - https://bugs.php.net/bug.php?id=81322 - file_put_contents should support LOCK_NB
+  - https://bugs.php.net/bug.php?id=81322 - file_put_contents should support LOCK_NB _(1 vote)_
+  - https://bugs.php.net/bug.php?id=54453 - LOCK_NB works with LOCK_SH when file locked with LOCK_EX ONLY _(5 votes)_
+  - https://bugs.php.net/bug.php?id=63709 - flock() doesn't trigger mandatory locks on linux _(6 votes)_
 - **Feat**: Add extra param to chown and lchown to change group
   - https://bugs.php.net/bug.php?id=77319 - Add an optional group paramter for chown() and lchown() _(1 vote)_
+- **Feak**: Look to the potential mulibyte support for fgetcsv
+  - https://bugs.php.net/bug.php?id=72861 - fgetcsv get line error _(3 votes)_
 - **Feat**: Refactore php_fgetcsv - horrible and flaky code (it can be optimized)
 - **Feat**: Look how to make optional suffix work on Win and be more acceptable
  - https://github.com/php/php-src/pull/11685 - Standard: Support optional suffix arg in tempnam

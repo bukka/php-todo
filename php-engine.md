@@ -7,6 +7,11 @@
 - **Feat**: Allow setting time limit with float
   - https://github.com/php/php-src/issues/13024 - set_time_limit function to accept float
 
+### INI
+
+- **Bug**: Look to parse ini tokens using keywords
+  - https://bugs.php.net/bug.php?id=68347 - parse_ini_file: warning on string containing "on"
+
 ### List / Array / HashTable
 
 - **Bug**: Check reference assigning to the list
