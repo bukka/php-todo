@@ -4,10 +4,6 @@
 
 ### TLS
 
-- **Bug**: Investigate why feof hangs on ssl stream
-  - https://github.com/php/php-src/issues/10495 - feof hangs indefinitely
-- **Bug**: Make liveness check if socket is also writable - switch to nonblocking socket - related to issue mainly visible with TLS 1.3 
-  - https://bugs.php.net/bug.php?id=79501 - TLS connections freezing on 7.4 (all versions after 7.3.17)
 - **Bug**: Check and fix SAN IP validation
   - https://github.com/php/php-src/issues/9356 - Incomplete validation of IP Address fields in subjectAltNames
   - https://github.com/php/php-src/pull/11145 - Fix GH-9356: Incomplete validation of IPv6 Address fields in subjectAltNames
@@ -167,6 +163,13 @@
   - https://bugs.php.net/bug.php?id=79401 - --with-openssl no longer accepts a directory
 
 ## Changes
+
+### 2024-03
+
+- **Bug**: Investigate why feof hangs on ssl stream
+  - https://github.com/php/php-src/issues/10495 - feof hangs indefinitely
+- **Bug**: Make liveness check if socket is also writable - switch to nonblocking socket - related to issue mainly visible with TLS 1.3 
+  - https://bugs.php.net/bug.php?id=79501 - TLS connections freezing on 7.4 (all versions after 7.3.17)
 
 ### 2024-01
 

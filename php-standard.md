@@ -31,7 +31,7 @@
   - https://bugs.php.net/bug.php?id=68926 - is_writable returns false but file_put_contents works _(21 votes)_
   - https://github.com/php/php-src/issues/12744 - is_readable() and is_writable() return false negative on Win32's network-mapped drives
 - **Bug**: Investigate why calling clearstatcache() seems to not work in some cases
-  - https://bugs.php.net/bug.php?id=52587 - Clearstatcache() has no effect
+  - https://bugs.php.net/bug.php?id=52587 - Clearstatcache() has no effect _(5 votes)_
 - **Bug**: Clear stat cache after touch(), fopen(), fread() and fwrite()
   - https://bugs.php.net/bug.php?id=72666 - touch(): stat cache clearing inconsistent between file:// paths and plain paths _(0 votes)_
 - **Feat**: Option to disable stat cache

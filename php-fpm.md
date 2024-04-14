@@ -245,8 +245,6 @@
 
 ### Process management
 
-- **Bug**: signal - look to the signal and zts issues
-  - https://github.com/php/php-src/pull/10219 - Properly forward the signal to the original handler if TSRM is shutdown
 - **Bug**: proc - ondemand race condition
   - https://github.com/php/php-src/pull/1308 - pm.ondemand forks fewer child workers than it should
   - https://bugs.php.net/bug.php?id=69724 - pm.ondemand forks fewer child workers than it should (bug for the above PR - contains extra patches)
