@@ -4,13 +4,10 @@
 
 ### TLS
 
-- **Bug**: Check and fix SAN IP validation
-  - https://github.com/php/php-src/issues/9356 - Incomplete validation of IP Address fields in subjectAltNames
-  - https://github.com/php/php-src/pull/11145 - Fix GH-9356: Incomplete validation of IPv6 Address fields in subjectAltNames
-- **Bug**: Roundcube peer veryfication issue
-  - https://bugs.php.net/bug.php?id=79909 - verify_peer => true, connection "Error: Login failed ... Unknown reason"
 - **Bug**: Check why mysqlnd still checks CN when peer veryfication disabled
   - https://github.com/php/php-src/issues/8577 - PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT still checking CN
+- **Bug**: Roundcube peer veryfication issue
+  - https://bugs.php.net/bug.php?id=79909 - verify_peer => true, connection "Error: Login failed ... Unknown reason"
 - **Bug**: Check issue with connection to server with chain containing 3 intermediates wiht RabbitMQ
   - https://bugs.php.net/bug.php?id=78414 - TLS handshake fails when the certificate chain has more than 2 certificates
 - **Bug**: Look to altering default context when https request goes through http proxy
@@ -197,6 +194,12 @@
   - https://github.com/php/php-src/issues/12128 - Unable to read the cert store when Using openssl_pkcs12_read with OpenSSL 3.x
 - **Bug**: CMS - openssl_cms_verify should clean exit if sigbio is NULL
   - https://github.com/php/php-src/issues/12489 - Missing sigbio creation checking in openssl_cms_verify
+
+### 2023-06
+
+- **Bug**: Check and fix SAN IP validation
+  - https://github.com/php/php-src/issues/9356 - Incomplete validation of IP Address fields in subjectAltNames
+  - https://github.com/php/php-src/pull/11145 - Fix GH-9356: Incomplete validation of IPv6 Address fields in subjectAltNames
 
 ### 2022-11
 
