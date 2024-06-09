@@ -178,6 +178,7 @@
 ### Status
 
 - **Bug**: ping - look to the issue with status listen and returned 404
+  - https://github.com/php/php-src/issues/14037 - PHP-FPM ping.path and ping.response config vars are ignored.
   - https://github.com/php/php-src/pull/13980 - Make /ping of php-fpm work again
 - **Feat**: status - support full parameter for openmetrics
   - https://github.com/php/php-src/issues/9494 - FPM status with OpenMetrics format and FULL parameter

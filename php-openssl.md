@@ -47,11 +47,34 @@
 
 ### Crypto
 
-- **Feat**: CSR - Correctly set SAN
-  - https://bugs.php.net/bug.php?id=71050 - SubjectAltName (SAN) is Not included in openssl_csr_sign of a new CSR
-- **Feat**: Add function for more detailed parsing of CSR - php openssl csr parser ignores SANs
-  - https://bugs.php.net/bug.php?id=55820 - php openssl csr parser ignores SANs
-  - https://bugs.php.net/bug.php?id=29961 - an openssl_csr_parse function would be handy
+- **Feat**: general - Use custom libctx - one for each thread in ZTS (up to line 3500)
+  - php_openssl_parse_config
+    - encrypt_key_cipher fetching
+    - default_md fetching
+    - consider named alternatives for encrypt_key_cipher and private_key_type constants (support string names as well)
+    - check if we should really convert curve name
+  - php_openssl_get_evp_md_from_algo should do proper fetching
+  - php_openssl_get_evp_cipher_from_algo should proper fetching
+  - PHP_GINIT_FUNCTION initialize libctx
+  - PHP_GSHUTDOWN_FUNCTION - destroy libctx
+  - php_openssl_x509_from_str - use empty libctx variants before loading: https://www.openssl.org/docs/man3.1/man3/PEM_read_bio_X509.html#EXAMPLES
+  - php_openssl_x509_fingerprint - replace EVP_get_digestbyname with fetch
+  - php_openssl_load_all_certs_from_file - Use PEM_X509_INFO_read_bio_ex instead of PEM_X509_INFO_read_bio
+  - php_openssl_setup_verify - Use X509_LOOKUP_load_file_ex instead of X509_LOOKUP_load_file and check libctx variant for X509_LOOKUP_add_dir
+  - openssl_pkcs12_export_to_file and openssl_pkcs12_export - use PKCS12_create_ex
+  - openssl_pkcs12_read - prepare p12 for d2i_PKCS12_bio
+  - php_openssl_csr_from_str - prepare X509_REQ for PEM_read_bio_X509_REQ
+  - openssl_csr_sign - use libctx for new_cert
+  - openssl_csr_new - use libctx for CSR created using X509_REQ_new
+- **Feat**: general - Support configurable provider loading
+  - https://github.com/php/php-src/issues/12369 - Configurable loading of OpenSSL providers
+- **Feat**: general - Look to the stream support for the input params (start with investigation and implemetation ideas)
+  - https://bugs.php.net/bug.php?id=50718 - OpenSSL* doesnt support streamwrappers
+- **Feat**: general - PKCS11 support (should be addressed by #12369 but needs checking)
+  - https://github.com/php/php-src/pull/6860 - RFC7512 URI support
+  - https://github.com/php/php-src/issues/7797 - SSL context options for in memory cert and pk (addressed by PKCS11 PR)
+- **Feat**: general - FIPS - check if it works - FIPS Support (partially addressed by #12369 but might need some extra things)
+  - https://bugs.php.net/bug.php?id=54339
 - **Bug**: X509 - Check new line parsing in subjectAltName
   - https://bugs.php.net/bug.php?id=60388 - openssl_x509_parse extensions=>subjectAltName
 - **Feat**: X509 - Analyse if returning large serial numbers can cause slow down
@@ -69,6 +92,11 @@
 - **Feat**: X509 - Add addition X509 purpose constants
   - https://github.com/php/php-src/pull/6312 - Add X509 purpose constant (requires changes to support 1.0.2)
 - **Feat**: X509 - Optimize order of operations in php_openssl_load_all_certs_from_file
+- **Feat**: CSR - Correctly set SAN
+  - https://bugs.php.net/bug.php?id=71050 - SubjectAltName (SAN) is Not included in openssl_csr_sign of a new CSR
+- **Feat**: Add function for more detailed parsing of CSR - php openssl csr parser ignores SANs
+  - https://bugs.php.net/bug.php?id=55820 - php openssl csr parser ignores SANs
+  - https://bugs.php.net/bug.php?id=29961 - an openssl_csr_parse function would be handy
 - **Bug**: config - add path check for config filename (possible break so only master probably)
   - https://github.com/php/php-src/issues/9317
   - php_openssl_parse_config function
@@ -98,15 +126,6 @@
   - https://github.com/php/php-src/issues/7737 - openssl_seal()/_open() is not able to handle gcm cipers, e.g. aes-256-gcm
 - **Feat**: constants - Consider defining LIBRESSL_VERSION_NUMBER when available
   - https://bugs.php.net/bug.php?id=71143 - Define LIBRESSL_VERSION_NUMBER when available
-- **Feat**: general - Support configurable provider loading
-  - https://github.com/php/php-src/issues/12369 - Configurable loading of OpenSSL providers
-- **Feat**: general - Look to the stream support for the input params (start with investigation and implemetation ideas)
-  - https://bugs.php.net/bug.php?id=50718 - OpenSSL* doesnt support streamwrappers
-- **Feat**: general - PKCS11 support (should be addressed by #12369 but needs checking)
-  - https://github.com/php/php-src/pull/6860 - RFC7512 URI support
-  - https://github.com/php/php-src/issues/7797 - SSL context options for in memory cert and pk (addressed by PKCS11 PR)
-- **Feat**: general - FIPS - check if it works - FIPS Support (partially addressed by #12369 but might need some extra things)
-  - https://bugs.php.net/bug.php?id=54339
 - **Feat**: general - Review binary file mode settings (PKCS7_BINARY and CMS_BINARY)
   - passing flags does not make much sense in many cases
 - **Feat**: PKCS7 - Add constants for all PKCS7 flags
@@ -160,6 +179,12 @@
   - https://bugs.php.net/bug.php?id=79401 - --with-openssl no longer accepts a directory
 
 ## Changes
+
+### 2024-06
+
+- **Bug**: X509 - Check ASN.1 time parsing issue and its break in OpenSSL 3.3
+  - https://github.com/php/php-src/issues/14036#issuecomment-2133459997 - Test failures on Alpinelinux using OpenSSL 3.2+
+  - https://github.com/php/php-src/issues/13343 - openssl_x509_parse should not allow omitted seconds in UTCTimes
 
 ### 2024-03
 
