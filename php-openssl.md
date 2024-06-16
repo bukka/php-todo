@@ -47,7 +47,7 @@
 
 ### Crypto
 
-- **Feat**: general - Use custom libctx - one for each thread in ZTS (up to line 3500)
+- **Feat**: general - Use custom libctx - one for each thread in ZTS (up to line 6138 - start of cms)
   - php_openssl_parse_config
     - encrypt_key_cipher fetching
     - default_md fetching
@@ -66,6 +66,25 @@
   - php_openssl_csr_from_str - prepare X509_REQ for PEM_read_bio_X509_REQ
   - openssl_csr_sign - use libctx for new_cert
   - openssl_csr_new - use libctx for CSR created using X509_REQ_new
+  - php_openssl_extract_public_key - use PEM_read_bio_PUBKEY_ex instead of PEM_read_bio_PUBKEY
+  - php_openssl_pkey_from_zval
+    - use PEM_read_bio_PUBKEY_ex instead of PEM_read_bio_PUBKEY
+    - use PEM_read_bio_PrivateKey_ex instead of PEM_read_bio_PrivateKey
+  - php_openssl_generate_private_key - Replace EVP_PKEY_CTX_new and EVP_PKEY_CTX_new_id with EVP_PKEY_CTX_new_from_name
+  - php_openssl_pkey_init_rsa - Replace EVP_PKEY_CTX_new_id with EVP_PKEY_CTX_new_from_name
+  - php_openssl_pkey_init_dsa - Replace EVP_PKEY_CTX_new_id with EVP_PKEY_CTX_new_from_name
+  - php_openssl_pkey_init_dh - Replace EVP_PKEY_CTX_new_id with EVP_PKEY_CTX_new_from_name
+  - php_openssl_pkey_init_ec - Replace EVP_PKEY_CTX_new_id with EVP_PKEY_CTX_new_from_name
+  - php_openssl_pkey_object_curve_25519_448 - Replace EVP_PKEY_CTX_new_id with EVP_PKEY_CTX_new_from_name
+  - openssl_pkey_export - passphrase default md EVP_des_ede3_cbc should be fetched
+  - openssl_pbkdf2
+    - digest should be fetched
+    - replace implementation with KDF using EVP_KDF_fetch as implemented in ossl_pkcs5_pbkdf2_hmac_ex
+  - openssl_pkcs7_verify - use SMIME_read_PKCS7_ex variant with pre-initialized with PKCS7_new_ex
+  - openssl_pkcs7_encrypt - replace PKCS7_encrypt with PKCS7_encrypt_ex
+  - openssl_pkcs7_read - Use PEM_read_bio_PKCS7_ex instead of PEM_read_bio_PKCS7 (check if it's defined)
+  - openssl_pkcs7_sign - Use PKCS7_sign_ex instead of PKCS7_sign
+  - openssl_pkcs7_decrypt - use SMIME_read_PKCS7_ex variant with pre-initialized with PKCS7_new_ex
 - **Feat**: general - Support configurable provider loading
   - https://github.com/php/php-src/issues/12369 - Configurable loading of OpenSSL providers
 - **Feat**: general - Look to the stream support for the input params (start with investigation and implemetation ideas)
