@@ -2,10 +2,12 @@
 
 ## Source issues
 
-- **Bug**: Look to a proper fix for socket name
-  - https://bugs.php.net/bug.php?id=74556 - stream_socket_get_name returns \0 string instead of false
 - **Bug**: Investigate EINPROGRESS error issues happening in Redis ext
   - https://github.com/php/php-src/pull/13252 - Fix EINPROGRESS very rarely occurring on synchronous php_network_connect_socket()
+- **Bug**: Look to a proper fix for socket name
+  - https://bugs.php.net/bug.php?id=74556 - stream_socket_get_name returns \0 string instead of false
+- **Bug**: stream_socket_get_name() IPv6 handling
+  - https://github.com/php/php-src/issues/16117 - stream_socket_get_name() can return ipv6 address even when ipv6 is not available
 - **Bug**: Make listen non blockign to prevent issues with not respecting timeout
   - https://github.com/php/php-src/issues/13220 - stream_socket_accept() timeout sometimes doesn't work?
 - **Bug**: Disable usage of mmap that is causing segfaults
@@ -106,6 +108,8 @@
   - https://github.com/php/php-src/issues/10506 - Add StreamWrapperInterface
 - **Feat**: Allow colon only scheme (not requiring //)
   - https://bugs.php.net/bug.php?id=36678 - Use of URL like about:config in streams _(2 votes)_
+- **Feat**: Warn or deprecate invalid context option
+  - https://github.com/php/php-src/issues/16105 - stream_context_create silently ignores invalid options
 - **Feat**: Consider ability to set default context options from ini
   - https://bugs.php.net/bug.php?id=70038 - peer verification needs to be a global option _(1 vote)_
 - **Feat**: Investigate disabling temp_file for input stream
