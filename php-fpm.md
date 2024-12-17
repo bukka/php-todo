@@ -4,8 +4,6 @@
 
 ### UNIX and request handling
 
-- **Bug**: systemd - check strange output of the fpm process line in systemd (only some version of it)
-  - https://github.com/php/php-src/issues/10204 - Weird systemctl status phpX.Y-fpm output on Ubuntu 22.04
 - **Feat**: systemd - Add CapabilityBoundingSet
   - https://github.com/php/php-src/pull/4960 - Add CapabilityBoundingSet to systemd unit file (my PR)
 - **Feat**: systemd - Properly support PrivateTmp
@@ -45,6 +43,8 @@
 - **Feat**: fcgi - allow missing content length and abort if supplied content length does not match as well as flag to restore current behavior
   - https://github.com/php/php-src/pull/7509 - Fixed reading in streamed body using fastcgi
   - https://github.com/php/php-src/issues/12343 - PHP processing a truncated POST request
+- **Feat**: fcgi / main - do not process requests that timeouts on client (e.g. nginx) - extra option to get client timeout - consider also fcgi request balancing process
+  - https://github.com/php/php-src/issues/14548 - New config to adjust timeouts between NGINX and PHP-FPM (fix PHP zombie process)
 - **Feat**: fcgi / main - refactore processing of fcgi env vars
 - **Feat**: fcgi - spec update to no content length bytes
   - https://bugs.php.net/bug.php?id=79723 - sapi_cgi_read_post() ignores EOF
@@ -169,7 +169,7 @@
   - https://bugs.php.net/bug.php?id=73886 - Handle access log & error log on Docker
   - https://github.com/php/php-src/pull/2310 - Fix #73886: Handle access log & error log on Docker (discussion)
 - **Feat**: error log - SAPI log message does not split logs in Apache logs
-  - https://github.com/php/php-src/issues/1089  0 - FPM: error_log entries all on same line
+  - https://github.com/php/php-src/issues/10890 - FPM: error_log entries all on same line
 - **Feat**: error log - Customizable decoration / log_message output
   - https://github.com/php/php-src/issues/10671 - php-fpm decorate_workers_output = no removes timestamp
 - **Feat**: error log - Update config with better description of decoration behavior
@@ -183,6 +183,9 @@
   - https://github.com/php/php-src/pull/12759 - expose metrics per process in fpm status
 - **Feat**: status - value queries and v2 openmetrics
   - https://github.com/php/php-src/pull/7291#discussion_r676184017
+- **Feat**: status - consider listing some config options values
+  - https://github.com/php/php-src/issues/15011 - FPM status add more process infos
+  - https://github.com/php/php-src/issues/16221 - Include the configured max_children in the fpm status page
 - **Feat**: status - add parameters to list extra fields for fcgi envs
   - https://github.com/php/php-src/issues/8880 - Support fastcgi parameter in FPM for status page to display request meta data
   - https://github.com/php/php-src/pull/2713 - Enhancement: php-fpm status page shows ip address of the client (closed but idea is there)
@@ -228,6 +231,7 @@
   - https://bugs.php.net/bug.php?id=74709 - PHP-FPM process eating 100% CPU attempting to use kill_all_lockers (separating opache MINIT)
   - https://github.com/php/php-src/issues/8072 - php-fpm trying to kill another user's pool results in an infinite loop and 99% cpu usage (separating opache MINIT)
   - https://bugs.php.net/bug.php?id=67141 - PHP FPM vhost pollution
+  - https://github.com/php/php-src/issues/14605 - Random Blank white page frequently while using php8.2-fpm
 - **Feat**: pool - look to the alternative way of dynamically loading pool configuration and restarting it
   - https://bugs.php.net/bug.php?id=61595 - implement dynamic loading of pools config via file or SQL
   - https://bugs.php.net/bug.php?id=51973 - a way to restart single pools, enable/disable modules per pool
@@ -332,15 +336,21 @@ Status fields
 
 - extend access log documentation - better document %e options for example
   - https://bugs.php.net/bug.php?id=62828 - Need documentation for access.format tokens
+  - add note for milisecond TYPO - find version when millisecond was introduced
 - proc - improve docs for pm directives - create a new section on process management
   - https://bugs.php.net/bug.php?id=81242 - Unclear documentation for process management directives
 
 
 ## Changes
 
+#### 2024-10
+
+- **Bug** - PHP_AUTH re-use mem corruption
+  - https://github.com/php/php-src/pull/16227 - Fix GH-15395: php-fpm: zend_mm_heap corrupted with cgi-fcgi request
+
 #### 2024-06
 
- ***Bug**: ping - look to the issue with status listen and returned 404
+- **Bug**: ping - look to the issue with status listen and returned 404
   - https://github.com/php/php-src/issues/14037 - PHP-FPM ping.path and ping.response config vars are ignored.
   - https://github.com/php/php-src/pull/13980 - Make /ping of php-fpm work again
 
