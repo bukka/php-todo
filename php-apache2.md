@@ -9,12 +9,14 @@
 
 - **Bug**: Check security bug
   - https://bugs.php.net/bug.php?id=68486
+- **Bug**: SSI include virtual did not seems to work correctly
+  - https://bugs.php.net/bug.php?id=48260 - Size of PHP file affects behaviour of virtual() or #include virtual _(0 votes)_
+- **Bug**: Investigate ErrorDocument failure
+  - https://bugs.php.net/bug.php?id=80558 - Apache ErrorDocument subrequest fails horribly
 - **Bug**: Look into handling of incomplete posts
   - https://bugs.php.net/bug.php?id=61471 - Incomplete POST does not timeout but is passed to PHP _(15 votes)_
 - **Bug**: Look into POST vars on 404
   - https://bugs.php.net/bug.php?id=64672 - POST variables not received by custom 404 _(1 vote)_
-- **Bug**: Investigate ErrorDocument failure
-  - https://bugs.php.net/bug.php?id=80558 - Apache ErrorDocument subrequest fails horribly
 - **Bug**: Look into incorrect setting of no_local_copy when mod_cache is used
   - https://bugs.php.net/bug.php?id=49106 - PHP incorrectly sets no_local_copy=1 on response as Apache 2 module _(28 votes)_
 - **Bug**: Check sending duplicite Set-Cookie headers
@@ -32,8 +34,6 @@
   - https://bugs.php.net/bug.php?id=75897 - error_log() results in inappropriate/inconsistent Apache severity
 - **Bug**: Look into env setting for walk to top - what issue can this create?
   - https://github.com/php/php-src/pull/14953 - sapi/apache2: apache env with walk_to_top going to the parent request
-- **Bug**: SSI include virtual did not seems to work correctly
-  - https://bugs.php.net/bug.php?id=48260 - Size of PHP file affects behaviour of virtual() or #include virtual _(0 votes)_
 - **Bug**: Look into freeing threads logic
   - https://bugs.php.net/bug.php?id=32220 - thread_resources for thread not getting freed when apache kills thread _(7 votes)_
 - **Bug**: Check possible shutdown crash
