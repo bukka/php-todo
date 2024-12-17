@@ -4,8 +4,6 @@
 
 ### TLS
 
-- **Bug**: Check why mysqlnd still checks CN when peer veryfication disabled
-  - https://github.com/php/php-src/issues/8577 - PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT still checking CN
 - **Bug**: Roundcube peer veryfication issue
   - https://bugs.php.net/bug.php?id=79909 - verify_peer => true, connection "Error: Login failed ... Unknown reason"
 - **Bug**: Check issue with connection to server with chain containing 3 intermediates wiht RabbitMQ
@@ -47,60 +45,6 @@
 
 ### Crypto
 
-- **Feat**: general - Use custom libctx - one for each thread in ZTS (up to line 6138 - start of cms)
-  - php_openssl_parse_config
-    - encrypt_key_cipher fetching
-    - default_md fetching
-    - consider named alternatives for encrypt_key_cipher and private_key_type constants (support string names as well)
-    - check if we should really convert curve name
-  - php_openssl_get_evp_md_from_algo should do proper fetching
-  - php_openssl_get_evp_cipher_from_algo should proper fetching
-  - PHP_GINIT_FUNCTION initialize libctx
-  - PHP_GSHUTDOWN_FUNCTION - destroy libctx
-  - php_openssl_x509_from_str - use empty libctx variants before loading: https://www.openssl.org/docs/man3.1/man3/PEM_read_bio_X509.html#EXAMPLES
-  - php_openssl_x509_fingerprint - replace EVP_get_digestbyname with fetch
-  - php_openssl_load_all_certs_from_file - Use PEM_X509_INFO_read_bio_ex instead of PEM_X509_INFO_read_bio
-  - php_openssl_setup_verify - Use X509_LOOKUP_load_file_ex instead of X509_LOOKUP_load_file and check libctx variant for X509_LOOKUP_add_dir
-  - openssl_pkcs12_export_to_file and openssl_pkcs12_export - use PKCS12_create_ex
-  - openssl_pkcs12_read - prepare p12 for d2i_PKCS12_bio
-  - php_openssl_csr_from_str - prepare X509_REQ for PEM_read_bio_X509_REQ
-  - openssl_csr_sign - use libctx for new_cert
-  - openssl_csr_new - use libctx for CSR created using X509_REQ_new
-  - php_openssl_extract_public_key - use PEM_read_bio_PUBKEY_ex instead of PEM_read_bio_PUBKEY
-  - php_openssl_pkey_from_zval
-    - use PEM_read_bio_PUBKEY_ex instead of PEM_read_bio_PUBKEY
-    - use PEM_read_bio_PrivateKey_ex instead of PEM_read_bio_PrivateKey
-  - php_openssl_generate_private_key - Replace EVP_PKEY_CTX_new and EVP_PKEY_CTX_new_id with EVP_PKEY_CTX_new_from_name
-  - php_openssl_pkey_init_rsa - Replace EVP_PKEY_CTX_new_id with EVP_PKEY_CTX_new_from_name
-  - php_openssl_pkey_init_dsa - Replace EVP_PKEY_CTX_new_id with EVP_PKEY_CTX_new_from_name
-  - php_openssl_pkey_init_dh - Replace EVP_PKEY_CTX_new_id with EVP_PKEY_CTX_new_from_name
-  - php_openssl_pkey_init_ec - Replace EVP_PKEY_CTX_new_id with EVP_PKEY_CTX_new_from_name
-  - php_openssl_pkey_object_curve_25519_448 - Replace EVP_PKEY_CTX_new_id with EVP_PKEY_CTX_new_from_name
-  - openssl_pkey_export - passphrase default md EVP_des_ede3_cbc should be fetched
-  - openssl_pbkdf2
-    - digest should be fetched
-    - replace implementation with KDF using EVP_KDF_fetch as implemented in ossl_pkcs5_pbkdf2_hmac_ex
-  - openssl_pkcs7_verify - use SMIME_read_PKCS7_ex variant with pre-initialized with PKCS7_new_ex
-  - openssl_pkcs7_encrypt - replace PKCS7_encrypt with PKCS7_encrypt_ex
-  - openssl_pkcs7_read - Use PEM_read_bio_PKCS7_ex instead of PEM_read_bio_PKCS7 (check if it's defined)
-  - openssl_pkcs7_sign - Use PKCS7_sign_ex instead of PKCS7_sign
-  - openssl_pkcs7_decrypt - use SMIME_read_PKCS7_ex variant with pre-initialized with PKCS7_new_ex
-- **Feat**: general - Support configurable provider loading
-  - https://github.com/php/php-src/issues/12369 - Configurable loading of OpenSSL providers
-- **Feat**: general - Look to the stream support for the input params (start with investigation and implemetation ideas)
-  - https://bugs.php.net/bug.php?id=50718 - OpenSSL* doesnt support streamwrappers
-- **Feat**: general - PKCS11 support (should be addressed by #12369 but needs checking)
-  - https://github.com/php/php-src/pull/6860 - RFC7512 URI support
-  - https://github.com/php/php-src/issues/7797 - SSL context options for in memory cert and pk (addressed by PKCS11 PR)
-- **Feat**: general - FIPS - check if it works - FIPS Support (partially addressed by #12369 but might need some extra things)
-  - https://bugs.php.net/bug.php?id=54339
-- **Bug**: X509 - Check new line parsing in subjectAltName
-  - https://bugs.php.net/bug.php?id=60388 - openssl_x509_parse extensions=>subjectAltName
-- **Feat**: X509 - Analyse if returning large serial numbers can cause slow down
-  - https://github.com/php/php-src/pull/6445 - Fix #77411 - large serialNumber returned as hex with OpenSSL 1.1
-  - https://bugs.php.net/bug.php?id=77411 - openssl_x509_parse serialNumber not always integer with OpenSSL version 1.1
-- **Feat**: X509 - Extend openssl_x509_parse with more info about pub key if possible
-  - https://bugs.php.net/bug.php?id=77761 - openssl_x509_parse does not create entries for public key type and size
 - **Bug**: X509 - Look to the issue with default certs added to store in setup_verify
   - https://bugs.php.net/bug.php?id=65154 - setup_verify implicitly adds default CA paths
 - **Bug**: X509 - Check why checking X509_PURPOSE_SSL_SERVER with openssl_x509_checkpurpose returns false
@@ -110,12 +54,19 @@
   - https://bugs.php.net/bug.php?id=55362 - X509_PURPOSE_ANY is not recognized by openssl
 - **Feat**: X509 - Add addition X509 purpose constants
   - https://github.com/php/php-src/pull/6312 - Add X509 purpose constant (requires changes to support 1.0.2)
-- **Feat**: X509 - Optimize order of operations in php_openssl_load_all_certs_from_file
-- **Feat**: CSR - Correctly set SAN
-  - https://bugs.php.net/bug.php?id=71050 - SubjectAltName (SAN) is Not included in openssl_csr_sign of a new CSR
-- **Feat**: Add function for more detailed parsing of CSR - php openssl csr parser ignores SANs
-  - https://bugs.php.net/bug.php?id=55820 - php openssl csr parser ignores SANs
-  - https://bugs.php.net/bug.php?id=29961 - an openssl_csr_parse function would be handy
+- **Feat**: constants - Consider defining LIBRESSL_VERSION_NUMBER when available
+  - https://bugs.php.net/bug.php?id=71143 - Define LIBRESSL_VERSION_NUMBER when available
+- **Feat**: general - Use custom libctx - one for each thread in ZTS
+  - https://github.com/php/php-src/issues/14734 - OpenSSL: Use custom libctx for each thread in ZTS
+- **Feat**: general - Support configurable provider loading
+  - https://github.com/php/php-src/issues/12369 - Configurable loading of OpenSSL providers
+- **Feat**: general - Look to the stream support for the input params (start with investigation and implemetation ideas)
+  - https://bugs.php.net/bug.php?id=50718 - OpenSSL* doesnt support streamwrappers
+- **Feat**: general - PKCS11 support (should be addressed by #12369 but needs checking)
+  - https://github.com/php/php-src/pull/6860 - RFC7512 URI support
+  - https://github.com/php/php-src/issues/7797 - SSL context options for in memory cert and pk (addressed by PKCS11 PR)
+- **Feat**: general - FIPS - check if it works - FIPS Support (partially addressed by #12369 but might need some extra things)
+  - https://bugs.php.net/bug.php?id=54339
 - **Bug**: config - add path check for config filename (possible break so only master probably)
   - https://github.com/php/php-src/issues/9317
   - php_openssl_parse_config function
@@ -143,8 +94,8 @@
   - https://github.com/php/php-src/issues/10857 - Support for other algorithms other than DSA, DH, RSA and EC?
 - **Feat**: seal/open - Allow AEAD
   - https://github.com/php/php-src/issues/7737 - openssl_seal()/_open() is not able to handle gcm cipers, e.g. aes-256-gcm
-- **Feat**: constants - Consider defining LIBRESSL_VERSION_NUMBER when available
-  - https://bugs.php.net/bug.php?id=71143 - Define LIBRESSL_VERSION_NUMBER when available
+- **Feat**: Add option for PBE algs in PKCS12
+  - https://github.com/php/php-src/issues/16797 - Add "legacy" option to openssl_pkcs12_export
 - **Feat**: general - Review binary file mode settings (PKCS7_BINARY and CMS_BINARY)
   - passing flags does not make much sense in many cases
 - **Feat**: PKCS7 - Add constants for all PKCS7 flags
@@ -161,6 +112,19 @@
 - **Feat**: CMS - Add AES GCM constant
   - https://bugs.php.net/bug.php?id=81724 - openssl_cms/pkcs7_encrypt only allows specific ciphers
 - **Feat**: CMS - Try to reuse CMS and PKCS7 code - reduce duplications
+- **Feat**: X509 - Optimize order of operations in php_openssl_load_all_certs_from_file
+- **Feat**: X509 - Analyse if returning large serial numbers can cause slow down
+  - https://github.com/php/php-src/pull/6445 - Fix #77411 - large serialNumber returned as hex with OpenSSL 1.1
+  - https://bugs.php.net/bug.php?id=77411 - openssl_x509_parse serialNumber not always integer with OpenSSL version 1.1
+- **Feat**: X509 - Add new option to openssl_x509_parse to allow raw parsing of extensions
+  - https://bugs.php.net/bug.php?id=60388 - openssl_x509_parse extra flag for raw extensions subjectAltName parsing _(14 votes)_
+- **Feat**: X509 - Extend openssl_x509_parse with more info about pub key if possible
+  - https://bugs.php.net/bug.php?id=77761 - openssl_x509_parse does not create entries for public key type and size
+- **Feat**: CSR - Correctly set SAN
+  - https://bugs.php.net/bug.php?id=71050 - SubjectAltName (SAN) is Not included in openssl_csr_sign of a new CSR
+- **Feat**: Add function for more detailed parsing of CSR - php openssl csr parser ignores SANs
+  - https://bugs.php.net/bug.php?id=55820 - php openssl csr parser ignores SANs
+  - https://bugs.php.net/bug.php?id=29961 - an openssl_csr_parse function would be handy
 - **Feat**: CRL functions support
   - https://bugs.php.net/bug.php?id=40046 - OpenSSL CRL generation support (patch)
 - **Feat**: crypt - Consider tag length veryfication
