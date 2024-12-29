@@ -9,8 +9,7 @@
 
 - **Bug**: Check security bug
   - https://bugs.php.net/bug.php?id=68486
-- **Bug**: SSI include virtual did not seems to work correctly
-  - https://bugs.php.net/bug.php?id=48260 - Size of PHP file affects behaviour of virtual() or #include virtual _(0 votes)_
+- **Bug**: Look into virtual() and session issue - https://www.php.net/manual/en/function.virtual.php#124597
 - **Bug**: Investigate ErrorDocument failure
   - https://bugs.php.net/bug.php?id=80558 - Apache ErrorDocument subrequest fails horribly
 - **Bug**: Look into handling of incomplete posts
@@ -64,6 +63,16 @@
   - https://bugs.php.net/bug.php?id=77758 - Warning: headers already sent should identify what triggered the send _(1 vote)_
 
 
+### Investigation of changes in https://github.com/gmoniker/php-apache2handler
+
+- php_apache_sapi_read_post
+  - apr_off_t theoretical overflow
+  - various read extra checks
+  - stored buffers
+- php_handler
+  - fast finish for 413
+  - hardening
+
 ## Build issues
 
 - **Bug**: APR 1.7.5 build issue
@@ -82,3 +91,11 @@
   - https://bugs.php.net/bug.php?id=71607 - putenv/getenv parameters are passed to subrequests
 - **Doc**: Document locale handling
   - https://bugs.php.net/bug.php?id=81596 - PHP in apache with mod_perl ignores locale, while CLI version doesn't.
+
+
+## Changes
+
+#### 2024-12
+
+- **Bug**: SSI include virtual did not seems to work correctly
+  - https://bugs.php.net/bug.php?id=48260 - Size of PHP file affects behaviour of virtual() or #include virtual _(0 votes)_
