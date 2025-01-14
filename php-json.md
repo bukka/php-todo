@@ -2,6 +2,8 @@
 
 ## Source issues
 
+### Encoding
+
 - **Feat**: encoding serialization - serializable generators
   - https://bugs.php.net/bug.php?id=72238 - Make Generator class serialisable in JSON
 - **Feat**: encoding - Check and possibly close JSON_NUMERIC_CHECK change request
@@ -18,6 +20,11 @@
   - https://bugs.php.net/bug.php?id=74419 - JSON_PRETTY_PRINT prints only Unix newlines
 - **Feat**: encoding - option to disallow objects
   - https://bugs.php.net/bug.php?id=78786 - json_encode should have an option to disallow objects
+
+###  Decoding
+
+- **Feat**: decoding - Option to ignore invalid UTF16
+  - https://github.com/php/php-src/issues/9858 - json_decode Failed to ignore incorrect utf8
 - **Feat**: decoding - Optional disallowing of duplicite keys
   - https://bugs.php.net/bug.php?id=78765 - enhancement to json_decode : treat a JSON string with duplicate keys as invalid
 - **Feat**: decoding - Consider option to return non parsed json string for recursion out of scope (not probably possible)
@@ -25,8 +32,15 @@
 - **Feat**: decoding - Look to simd support and possible replacing of json parser to be LL
 - **Feat**: Errors - Look to re-considering JSON_THROW_ON_ERROR behaviour
   - https://bugs.php.net/bug.php?id=77997 - json_last_error should work even if JSON_THROW_ON_ERROR
-- **Feat**: spec - JsonSchema support 
+
+### Common
+
+- **Feat**: spec - JsonSchema support
+  - https://github.com/bukka/jso
   - https://bugs.php.net/bug.php?id=69422 - json_encode() needs encoding specification
+- **Feat**: Option to reset last error on throw
+  - https://github.com/php/php-src/issues/10166 - Reset JSON_G(error_code) after calls with JSON_THROW_ON_ERROR
+
 
 
 ## Changes
