@@ -70,8 +70,14 @@
   - various read extra checks
   - stored buffers
 - php_handler
-  - fast finish for 413
-  - hardening
+  - request body limit checking
+    - counting the request body size
+    - including brigade clean up in bailout handling
+  - subrequest hardening
+    - checking for early subrequest (in init)
+    - checking if any filter set request entity too large error
+    - unclean shutdown handling
+    - no apr_pool_cleanup_run in bailout
 
 ## Build issues
 
