@@ -10,13 +10,26 @@
   - https://bugs.php.net/bug.php?id=77496 - mysqli->real_connect() overwrites MYSQLI_OPT_LOCAL_INFILE setting
 - **Bug**: Check mysqli_commit working when MYSQLI_ASYNC
   - https://bugs.php.net/bug.php?id=69656 - mysqli_commit does not commits with MYSQLI_ASYNC, mysqli_kill returns false _(10 votes)_
-- **Bug**: Test possible issues with persistent connection and ssl_set
-  - https://bugs.php.net/bug.php?id=78870 - Connection errors appear in error.log
+- **Bug**: Look into SSL connection errors setting
+  - https://bugs.php.net/bug.php?id=80001 - SSL connection error is not reported via mysqli::$connect_error
+- **Bug**: Test possible issues with persistent connection and possibly ssl_set (happens without too)
+  - https://bugs.php.net/bug.php?id=79638 - persistent connection with mysqli log as no password _(3 votes)_
+  - https://bugs.php.net/bug.php?id=78870 - Connection errors appear in error.log _(1 vote)_
   - https://bugs.php.net/bug.php?id=55283 - SSL options set by mysqli_ssl_set ignored for MySQLi persistent connections _(12 votes)_
 - **Bug**: ssl_set should try to enable peer veryfication
   - https://bugs.php.net/bug.php?id=54962 - either real_connect or ssl_set is not working properly _(1 vote)_
 - **Bug**: Look into improving timeout behavior
   - https://bugs.php.net/bug.php?id=76703 - MYSQLI_OPT_READ_TIMEOUT cannot be changed after connection established
+- **Bug**: Check UDS connection error under WSL
+  - https://bugs.php.net/bug.php?id=81055 - $mysqli->real_connect connecting to socket exception
+- **Bug**: Check connecting to Aurora with compression enabled
+  - https://bugs.php.net/bug.php?id=81406 - MYSQLI_CLIENT_COMPRESS does not work with aurora MySQL Compatible
+- **Bug**: Check that typed properties related regression for bind
+  - https://bugs.php.net/bug.php?id=80604 - Changed behaviour of mysqli_stmt::bind_result in PHP-7.4
+- **Bug**: Check return value of mysqli_rollback issue
+  - https://bugs.php.net/bug.php?id=81533 - mysqli_rollback() returns TRUE if there's no active transaction
+- **Feat**: Introduce a way to check the connection state
+  - https://bugs.php.net/bug.php?id=79469 - Property access is not allowed yet on a non-initlized connection
 
 ## MySQLnd issues
 
@@ -36,6 +49,8 @@
   - https://github.com/php/php-src/issues/10063 - max_allowed_packet=16777216 causes test failure on ext/mysqli/tests/mysqli_real_connect_compression_error.phpt
 - **Bug**: Possible crash in stmt eof and result
   - https://github.com/php/php-src/blob/62e53e6f4965f37d379a3fd21f65a4210c5c86b5/ext/mysqlnd/mysqlnd_ps.c#L351-L355
+- **Bug**: Look into not using interned string for column names
+  - https://bugs.php.net/bug.php?id=79163 - SQL SELECT EXISTS fills up memory _(no vote)_
 - **Bug**: Look into the port setting issues and IPv6 parsing
   - https://github.com/php/php-src/issues/8978 - MySQLi: SSL certificate verification fails (port doubled) 
   - https://github.com/php/php-src/pull/10922 - Fix implicit/explicit port in mysqlnd
