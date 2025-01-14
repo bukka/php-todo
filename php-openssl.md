@@ -45,15 +45,14 @@
 
 ### Crypto
 
-- **Bug**: X509 - Look to the issue with default certs added to store in setup_verify
-  - https://bugs.php.net/bug.php?id=65154 - setup_verify implicitly adds default CA paths
 - **Bug**: X509 - Check why checking X509_PURPOSE_SSL_SERVER with openssl_x509_checkpurpose returns false
   - https://github.com/php/php-src/issues/8371 - check_cert() insists on all provides certificates to validate against system CA store
   - https://github.com/php/php-src/issues/8372 - check_cert() and php_openssl_store_errors do not pick up validation errors
 - **Bug**: X509 - Check why checking X509_PURPOSE_ANY with openssl_x509_checkpurpose returns false
   - https://bugs.php.net/bug.php?id=55362 - X509_PURPOSE_ANY is not recognized by openssl
-- **Feat**: X509 - Add addition X509 purpose constants
-  - https://github.com/php/php-src/pull/6312 - Add X509 purpose constant (requires changes to support 1.0.2)
+
+- **Feat**: X509 - Look to introducing new flags for functions using setup_verify to disallows default cainfo cert paths and dirs addition
+  - https://bugs.php.net/bug.php?id=65154 - setup_verify implicitly adds default CA paths
 - **Feat**: constants - Consider defining LIBRESSL_VERSION_NUMBER when available
   - https://bugs.php.net/bug.php?id=71143 - Define LIBRESSL_VERSION_NUMBER when available
 - **Feat**: general - Use custom libctx - one for each thread in ZTS
@@ -180,6 +179,9 @@
 
 - **Feat**: CSR - Extra param to openssl_csr_sign for hex serial string
   - https://github.com/php/php-src/pull/9851 - Allow passing serial as string in openssl_csr_sign
+- **Feat**: X509 - Add addition X509 purpose constants
+  - https://github.com/php/php-src/pull/6312 - Add X509 purpose constant (requires changes to support 1.0.2)
+  - https://github.com/php/php-src/pull/13149 - Add X509 purpose constant v2
 
 ### 2023-12
 

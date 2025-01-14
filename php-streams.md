@@ -2,8 +2,6 @@
 
 ## Source issues
 
-- **Bug**: Investigate EINPROGRESS error issues happening in Redis ext
-  - https://github.com/php/php-src/pull/13252 - Fix EINPROGRESS very rarely occurring on synchronous php_network_connect_socket()
 - **Bug**: Look to a proper fix for socket name
   - https://bugs.php.net/bug.php?id=74556 - stream_socket_get_name returns \0 string instead of false
 - **Bug**: stream_socket_get_name() IPv6 handling
@@ -168,6 +166,11 @@
 
 
 ## Changes
+
+### 2024-11
+
+- **Bug**: Fix EINPROGRESS error issues happening in Redis ext
+  - https://github.com/php/php-src/pull/13252 - Fix EINPROGRESS very rarely occurring on synchronous php_network_connect_socket()
 
 ### 2024-01
 
