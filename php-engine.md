@@ -11,6 +11,10 @@
 
 - **Bug**: Look to parse ini tokens using keywords
   - https://bugs.php.net/bug.php?id=68347 - parse_ini_file: warning on string containing "on"
+- **Feat**: Look into supporting namespaced contants parsing
+  - https://bugs.php.net/bug.php?id=52227 - parse_ini_* does not parse namespaced constants _(9 votes)_
+- **Feat**: Add support for INI variables pointing to other INIs with section scope
+  - https://bugs.php.net/bug.php?id=34274 - parse_ini_file does not recognize ${key} _(4 votes)_
 
 ### List / Array / HashTable
 
@@ -42,3 +46,5 @@
   - https://bugs.php.net/bug.php?id=75868 - is_resource() gettype() get_resources() inconsistent result on closed resource
 - **Doc**: static variable in class usage
   - https://bugs.php.net/bug.php?id=74198 - static (variables) docs do not explain behavior in class methods
+- **Doc**: INI - Document parsing of new lines
+  - https://bugs.php.net/bug.php?id=55091 - parse_ini_file: last escaped double-quote of multiline ends read

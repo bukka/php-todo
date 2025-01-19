@@ -8,9 +8,18 @@
   - https://bugs.php.net/bug.php?id=74724 - current returns false but each returns value
 - **Feat**: Improve handling of negative limit for explode()
   - https://github.com/php/php-src/issues/13074 - Explode from end with negative limit
+- **Feat**: Look into recursive replace of item with empty data
+  - https://github.com/php/php-src/issues/17377 - array_replace_recursive doesn't replace array filled with data by empty array
 
 ### File System
 
+- **Bug**: Investigate why calling clearstatcache() seems to not work in some cases
+  - https://bugs.php.net/bug.php?id=52587 - Clearstatcache() has no effect _(5 votes)_
+- **Bug**: Clear stat cache after touch(), fopen(), fread() and fwrite()
+  - https://bugs.php.net/bug.php?id=72666 - touch(): stat cache clearing inconsistent between file:// paths and plain paths _(0 votes)_
+- **Feat**: Option to disable stat cache
+  - https://bugs.php.net/bug.php?id=28790 - Add php.ini option to disable stat cache
+  - https://github.com/php/php-src/pull/5894 - Feature Request #28790 Add php.ini option to disable stat cache
 - **Bug**: Get merged the chown fix for ZTS
   - https://bugs.php.net/bug.php?id=68861 - chown does not work when php is compiling with ZTS _(10 votes)_
   - https://github.com/php/php-src/pull/13876 - fix group/passwd api misuse if ZTS
@@ -27,6 +36,7 @@
   - https://bugs.php.net/bug.php?id=65445 - filesize() fails for files with high inode number _(0 votes)_
 - **Bug**: Look to the fseek inconsistency on 32bit past 2GB
   - https://bugs.php.net/bug.php?id=54902 - fseek inconsistencies with large (>2GB) files _(3 votes)_
+  - https://bugs.php.net/bug.php?id=65222 -  	Allow big-values (float) in size/offset for file open/read/write/seek functions _(34 votes)_
 - **Bug**: Look to the issue with opening anonymous pipes
   - https://bugs.php.net/bug.php?id=67085 -	filesystem functions don't handle anonymous pipes correctly _(2 votes)_
 - **Bug**: Look to colon issue in files and possible support for relative colon paths on Windows
@@ -43,10 +53,14 @@
   - https://bugs.php.net/bug.php?id=68926 - is_writable returns false but file_put_contents works _(21 votes)_
   - https://github.com/php/php-src/issues/12744 - is_readable() and is_writable() return false negative on Win32's network-mapped drives
   - https://bugs.php.net/bug.php?id=73543 - Network drive file: is_readable() == false but file can be read _(5 votes)_
-- **Bug**: Look to the proper support of symplinks on Windows
+- **Bug**: Look to the proper support of symlinks on Windows
  - https://bugs.php.net/bug.php?id=69473 - bug in symlink() prevents relative symlinks on Windows _(11 votes)_
+ - https://bugs.php.net/bug.php?id=79795 - Support SYMBOLIC_LINK_FLAG_ALLOW_UNPRIVILEGED_CREATE
+ - https://bugs.php.net/bug.php?id=54122 - symlink should create backslashs _(1 vote)_
 - **Bug**: Look to the inconsisteny in simlinking of simlinks
   - https://bugs.php.net/bug.php?id=66497 - symlink improperly creates recursive link on existing symlink without a target - _(3 votes)_
+- **Bug**: Look into ZTS and non ZTS inconsistent behavior:
+  - https://bugs.php.net/bug.php?id=39065 - undocumented: symlink() changes behaviour depending on ZTS
 - **Bug**: Check if open_basedir bypass with symlink is still an issue
   - https://bugs.php.net/bug.php?id=77850 - Open_basedir bypass _(4 votes)_
 - **Bug**: Look to open_basedir bypass or root directory
@@ -59,28 +73,42 @@
   - https://bugs.php.net/bug.php?id=64573 - Confusing open_basedir errors when parent folders are inaccessible _(2 votes)_
 - **Bug**: Look to real path normalization on OSX
   - https://bugs.php.net/bug.php?id=67220 - realpath() on MacOSX doesn't normalize the case of characters _(3 votes)_
-- **Bug**: Investigate why calling clearstatcache() seems to not work in some cases
-  - https://bugs.php.net/bug.php?id=52587 - Clearstatcache() has no effect _(5 votes)_
-- **Bug**: Clear stat cache after touch(), fopen(), fread() and fwrite()
-  - https://bugs.php.net/bug.php?id=72666 - touch(): stat cache clearing inconsistent between file:// paths and plain paths _(0 votes)_
-- **Feat**: Option to disable stat cache
-  - https://bugs.php.net/bug.php?id=28790 - Add php.ini option to disable stat cache
-  - https://github.com/php/php-src/pull/5894 - Feature Request #28790 Add php.ini option to disable stat cache
+- **Feat**: Add tempnam suffix parameter and look into dir param behavior (Look how to make optional suffix work on Win and be more acceptable)
+  - https://bugs.php.net/bug.php?id=37613 - tempnam suffix support and dir behavior change _(10 votes)_
+  - https://github.com/php/php-src/pull/11685 - Standard: Support optional suffix arg in tempnam
 - **Feat**: Extend glob() with parameter limiting number of returned paths
   - https://bugs.php.net/bug.php?id=81989 - Glob() miss a scope limit parameter, to limit the max returned paths _(5 votes)_
+- **Feat**: Look into glob sensitivity on Windows
+  - https://bugs.php.net/bug.php?id=50164 - glob is case sensitive on windows where filenames are case insensitive. _(7 votes)_
+- **Feat**: Look into supporting glob escaping
+  - https://bugs.php.net/bug.php?id=75959 - Support a function to escape glob metacharacters
 - **Feat**: Introduce new parameter for file lock in various functions
   - https://github.com/php/php-src/pull/11254 - make FILE_ constants not collide with LOCK_
+- **Feat**: Look into supporting LOCK_SH in file_get_contents
+  - https://bugs.php.net/bug.php?id=47115 - Can't use flag LOCK_SH in file_get_contents _(13 votes)_
 - **Feat**: Support LOCK_NB for file_put_contents and friends
   - https://bugs.php.net/bug.php?id=81322 - file_put_contents should support LOCK_NB _(1 vote)_
   - https://bugs.php.net/bug.php?id=54453 - LOCK_NB works with LOCK_SH when file locked with LOCK_EX ONLY _(5 votes)_
   - https://bugs.php.net/bug.php?id=63709 - flock() doesn't trigger mandatory locks on linux _(6 votes)_
+- **Feat**: Look into supressing warning in filemtime
+  - https://bugs.php.net/bug.php?id=60957 - if function returns false on error, don't emit a warning _(4 votes)_
+- **Feat**: Add lower seconds granularity for stat function
+  - https://bugs.php.net/bug.php?id=65717 - stat() should supply nano second granularity
 - **Feat**: Add extra param to chown and lchown to change group
   - https://bugs.php.net/bug.php?id=77319 - Add an optional group paramter for chown() and lchown() _(1 vote)_
+- **Feat**: Look into new param for pathinfo to combine DIRNAME and FILENAME
+  - https://bugs.php.net/bug.php?id=76702 - pathinfo's $options should have a value for DIRNAME + FILENAME
 - **Feak**: Look to the potential mulibyte support for fgetcsv
   - https://bugs.php.net/bug.php?id=72861 - fgetcsv get line error _(3 votes)_
 - **Feat**: Refactore php_fgetcsv - horrible and flaky code (it can be optimized)
-- **Feat**: Look how to make optional suffix work on Win and be more acceptable
- - https://github.com/php/php-src/pull/11685 - Standard: Support optional suffix arg in tempnam
+- **Feat**: Look into symlinks resolving in realpath
+  - https://bugs.php.net/bug.php?id=50366 - realpath() doesn't correctly resolve symlink _(1 vote)_
+- **Feat**: Look into introducing INI for max open files limit
+  - https://bugs.php.net/bug.php?id=68093 - Request feature option to bypass limit of maximum opened files _(5 votes)_
+- **Feat**: Look into support absolute driver paths on Windows
+  - https://bugs.php.net/bug.php?id=60841 - expand_filepath fails to resolve symlinks that point to \xxx\yyy _(7 votes)_
+- **Feat**: Add function to list Windows drives
+  - https://bugs.php.net/bug.php?id=52647 - Function to get Windows drive letters _(7 votes)_
 
 
 ### Image
@@ -145,9 +173,13 @@
   - https://bugs.php.net/bug.php?id=70845 - ip2long should not fail with number starting with zero _(no vote)_
 - **Feat**: Add new function to display response text (something like http_response_code but for text)
   - https://bugs.php.net/bug.php?id=68219 - Make http_response_code() also returns the text of response _(1 vote)_
+- **Feat**: Consider addition of handler for setcookie
+  - https://github.com/php/php-src/issues/13697 - set_setcookie_handler() function
 
 ### Process and shell
 
+- **Bug**: Look into releasing lock in putenv
+  - https://github.com/php/php-src/issues/17403 - The lock is not released when putenv fails
 - **Bug**: Investigate issues with locale handling in escapeshellarg
   - https://bugs.php.net/bug.php?id=54391 - escapeshellarg strip non-ascii characters _(10 votes)_
 - **Bug**: Look to the shell (dash) escaping issue in escapeshellarg
@@ -218,24 +250,38 @@
 
 ## Docs
 
-- **Doc**: Types - Better document is_callable
-  - https://bugs.php.net/bug.php?id=70088 - is_callable() doesn't check if a class/method syntax is valid
-- **Doc**: Output - Document output buffering
-  - https://bugs.php.net/bug.php?id=60984 - Document output buffering mechanism
-- **Doc**: Mail - Document introduction of mail.mixed_lf_and_crlf INI and previous CRLF changes
- - https://bugs.php.net/bug.php?id=81158 - Mails sent by mail function broken since PHP 8.0
-- **Doc**: Mail - Fix mail function example
-  - https://bugs.php.net/bug.php?id=70082 - mail() function description should provide right example of multi-part mail
+- **Doc**: Document clear stat cache behavior
+  - https://bugs.php.net/bug.php?id=64971 - clearstatcache
+- **Doc**: FS - Improve realpath_cache docs
+  - https://bugs.php.net/bug.php?id=81677 - realpath result is cached
+  - https://bugs.php.net/bug.php?id=78634 - realpath function caches results (Add note about realpath cache and difference between ZTS and non ZTS logic in it)
 - **Doc**: FS - Add note to file_exists docs that it is not cache and slower
   - https://bugs.php.net/bug.php?id=78285 - file_exists is 30 times slover than is_dir
+- **Doc**: FS - Document that fileperms does not use ACL
+  - https://bugs.php.net/bug.php?id=65482 - fileperms function reports wrong permissions on a file with ACL
+- **Doc**: FS - Improve umask docs and add examples
+  - https://bugs.php.net/bug.php?id=79915 - Explanation about umask parameter
+  - https://bugs.php.net/bug.php?id=80885 - No clear example of umask() utility
 - **Doc**: FS - Document locale dependency in pathinfo
   - https://bugs.php.net/bug.php?id=77239 -  pathinfo strips umlauts only at the beginning
 - **Doc**: FS - Add note about trailing slash handling in pathinfo
   - https://bugs.php.net/bug.php?id=81079 - pathinfo() unexpected path/filename separation with trailing slash
-- **Doc**: FS - Add note about realpath cache and difference between ZTS and non ZTS logic in it
-  - https://bugs.php.net/bug.php?id=78634 - realpath function caches results
+- **Doc**: FS - Fix docs for null byte safe file paths
+  - https://bugs.php.net/bug.php?id=60985 - filesystem functions null-byte safe now
+- **Doc**: FS - Check whether to keep note about b flag in fopen
+  - https://bugs.php.net/bug.php?id=77781 - fopen() b flag recommendation no longer necessary?
+- **Doc**: FS - Look into document error reporting changes
+  - https://bugs.php.net/bug.php?id=78885 - hash_file now shows a notice for directories and returns false
+- **Doc**: Output - Document output buffering
+  - https://bugs.php.net/bug.php?id=60984 - Document output buffering mechanism
 - **Doc**: Network - Clarify what happens if no argument for setcookie
   - https://bugs.php.net/bug.php?id=66725 - Clarification required as to what happens if domain argument isn't passed
+- **Doc**: Mail - Document introduction of mail.mixed_lf_and_crlf INI and previous CRLF changes
+ - https://bugs.php.net/bug.php?id=81158 - Mails sent by mail function broken since PHP 8.0
+- **Doc**: Mail - Fix mail function example
+  - https://bugs.php.net/bug.php?id=70082 - mail() function description should provide right example of multi-part mail
+- **Doc**: Types - Better document is_callable
+  - https://bugs.php.net/bug.php?id=70088 - is_callable() doesn't check if a class/method syntax is valid
 
 ## Changes
 

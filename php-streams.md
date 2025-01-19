@@ -48,6 +48,8 @@
   - https://bugs.php.net/bug.php?id=61168 - fwrite() should allow for buffering _(5 votes)_
 - **Feat**: Look to possibility of not copying var string but instead introduce cow
   - https://github.com/php/php-src/issues/11106 - Use zval storage for php://memory stream
+- **Feat**: Look into copying proc files
+  - https://bugs.php.net/bug.php?id=62072 - The "copy" function can't copy files from /proc
 - **Feat**: Better handle interuption during polling
   - https://bugs.php.net/bug.php?id=79564 - poll() cannot be interrupted
   - https://github.com/php/php-src/pull/5521 - Don't continue polling on EINTR
@@ -144,6 +146,8 @@
 
 - **Doc**: Document changes in return value for fwrite and fread in PHP 7.4 migration guide
   - https://bugs.php.net/bug.php?id=79965 - Why does the manual say fread/fwrite changed in PHP 7.4?
+- **Doc**: Consider documentation of stream types
+  - https://bugs.php.net/bug.php?id=72804 - docs on rewind explicitly says it must be opened by fopen()
 - **Doc**: Better document stream_copy_to_stream
   - https://github.com/php/php-src/issues/9994 - stream_copy_to_stream() returns on socket timeout
 - **Doc**: Better document stream_select behaviour for passed array streams
