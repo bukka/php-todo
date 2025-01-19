@@ -47,8 +47,6 @@
 
 ### Crypto
 
-- **Bug**: X509 - Check why checking X509_PURPOSE_ANY with openssl_x509_checkpurpose returns false
-  - https://bugs.php.net/bug.php?id=55362 - X509_PURPOSE_ANY is not recognized by openssl
 - **Bug**: X509 - Check error handling for openssl_x509_checkpurpose
   - https://github.com/php/php-src/issues/8372 - check_cert() and php_openssl_store_errors do not pick up validation errors
 - **Feat**: X509 - Use partial chain validation by default for openssl_x509_checkpurpose and introduce parameter to disable
@@ -165,6 +163,11 @@
   - https://bugs.php.net/bug.php?id=79401 - --with-openssl no longer accepts a directory
 
 ## Changes
+
+### 2025-01
+
+- **Bug**: X509 - Check why checking X509_PURPOSE_ANY with openssl_x509_checkpurpose returns false
+  - https://bugs.php.net/bug.php?id=55362 - X509_PURPOSE_ANY is not recognized by openssl
 
 ### 2024-06
 

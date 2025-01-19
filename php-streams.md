@@ -118,6 +118,8 @@
   - https://bugs.php.net/bug.php?id=76444 - can't read stream from multipart requests _(1 vote)_
 - **Feat**: Make HTTP stream selectable even if filters are used
   - https://github.com/php/php-src/pull/6926 - Allow to cast filtered streams to PHP_STREAM_AS_FD_FOR_SELECT
+- **Feat**: Clean up php_stdiop_cast fd type handling
+  - https://github.com/php/php-src/issues/17524 - Cleaning up types in php_stdiop_cast
 - **Feat**: Handle setting of EOF for keep alive connections that are not closed by server
   - https://bugs.php.net/bug.php?id=80931 - file_get_contents() hangs with HTTP/1.1 if server doesn't close connection
   - https://github.com/php/php-src/pull/6874 - Fix #80931: HTTP stream hangs if server doesn't close connection
