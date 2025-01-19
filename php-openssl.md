@@ -33,6 +33,8 @@
 - **Feat**: Simplify and improve liveness checking - remove polling
   - https://github.com/php/php-src/issues/13489 - OpenSSL streams liveness check should be always non blocking
   - https://github.com/php/php-src/pull/8829  - Improve php_openssl_sockop_set_option logic for liveness poll skipping (not worth it)
+- **Feat**: Add channel binding support
+  - https://github.com/php/php-src/issues/16766 - Add support for SCRAM-SHA-*-PLUS channel binding in PHP streams (e.g., tls-unique, tls-exporter)
 - **Feat**: Add option to not add SSL_OP_IGNORE_UNEXPECTED_EOF (opt in protection for truncation attack) - create a proper test with proxy and TCP FIN
   - https://github.com/php/php-src/issues/8369#issuecomment-1126940364 - note about that in the bug
 - **Feat**: Allow multiple peer fingerprints in the context
@@ -45,12 +47,12 @@
 
 ### Crypto
 
-- **Bug**: X509 - Check why checking X509_PURPOSE_SSL_SERVER with openssl_x509_checkpurpose returns false
-  - https://github.com/php/php-src/issues/8371 - check_cert() insists on all provides certificates to validate against system CA store
-  - https://github.com/php/php-src/issues/8372 - check_cert() and php_openssl_store_errors do not pick up validation errors
 - **Bug**: X509 - Check why checking X509_PURPOSE_ANY with openssl_x509_checkpurpose returns false
   - https://bugs.php.net/bug.php?id=55362 - X509_PURPOSE_ANY is not recognized by openssl
-
+- **Bug**: X509 - Check error handling for openssl_x509_checkpurpose
+  - https://github.com/php/php-src/issues/8372 - check_cert() and php_openssl_store_errors do not pick up validation errors
+- **Feat**: X509 - Use partial chain validation by default for openssl_x509_checkpurpose and introduce parameter to disable
+  - https://github.com/php/php-src/issues/8371 - check_cert() insists on all provides certificates to validate against system CA store
 - **Feat**: X509 - Look to introducing new flags for functions using setup_verify to disallows default cainfo cert paths and dirs addition
   - https://bugs.php.net/bug.php?id=65154 - setup_verify implicitly adds default CA paths
 - **Feat**: constants - Consider defining LIBRESSL_VERSION_NUMBER when available
@@ -134,6 +136,8 @@
 
 ## Tests
 
+- **Test**: Make tests work with RHEL default crypto policies
+  - https://github.com/php/php-src/issues/14201 - Update tests to support RHEL legacy crypto policy
 - **Test**: PKCS7/CMS - rewrite tests to use cert generator and no tmp file with proper cleanup
 - **Test**: General - Replace all other tests using static certs to use cert generator when possible
 
