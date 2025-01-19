@@ -7,8 +7,8 @@
 
 ## Source issues
 
-- **Bug**: Check security bug
-  - https://bugs.php.net/bug.php?id=68486
+- **Bug**: Check double bailout issue with virtual
+  - https://github.com/php/php-src/issues/17509 - Transfer closed for httpd parent and subrequest double bailout
 - **Bug**: Look into virtual() and session issue - https://www.php.net/manual/en/function.virtual.php#124597
 - **Bug**: Investigate ErrorDocument failure
   - https://bugs.php.net/bug.php?id=80558 - Apache ErrorDocument subrequest fails horribly
@@ -35,7 +35,8 @@
   - https://github.com/php/php-src/pull/14953 - sapi/apache2: apache env with walk_to_top going to the parent request
 - **Bug**: Look into freeing threads logic
   - https://bugs.php.net/bug.php?id=32220 - thread_resources for thread not getting freed when apache kills thread _(7 votes)_
-- **Bug**: Check possible shutdown crash
+- **Bug**: Check possible shutdown crashes
+  - https://github.com/php/php-src/issues/17348 - Apache SIGTERM causes module shutdown to run at runtime
   - https://bugs.php.net/bug.php?id=78619 - PHP7.4RC2 ZTS zend_signal_handler_defer crashes on apache shutdown
 - **Bug**: Investigate more FreeBSD shutdown crash
   - https://github.com/php/php-src/issues/12844 - mod_php 8.1.26 crashes on apache graceful restart
@@ -67,7 +68,7 @@
 
 - php_apache_sapi_read_post
   - apr_off_t theoretical overflow
-  - various read extra checks
+  - request status extra checks
   - stored buffers
 - php_handler
   - request body limit checking
@@ -101,7 +102,12 @@
 
 ## Changes
 
-#### 2024-12
+### 2025-01
+
+- **Bug**: Checking apache2handler crash bug and related
+  - https://bugs.php.net/bug.php?id=68486 - Segfault in apache2handler with Apache 2.4
+
+### 2024-12
 
 - **Bug**: SSI include virtual did not seems to work correctly
   - https://bugs.php.net/bug.php?id=48260 - Size of PHP file affects behaviour of virtual() or #include virtual _(0 votes)_
