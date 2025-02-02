@@ -247,6 +247,27 @@
 - **Feat**: Introduce keyval function for key casting
   - https://bugs.php.net/bug.php?id=70378 - keyval (=effective value as array key) to complement strval/intval
 
+### URL
+
+- **Bug**: Parse URL IPv6 parsing has some issues
+  - https://bugs.php.net/bug.php?id=72811 - parse_url fails with IPv6 host _(4 votes)_
+- **Bug**: Parse URL issues spec (more features probably and might be better to close after URI ext introduced)
+  - https://bugs.php.net/bug.php?id=74881 - host parsing - marked private but it is not a security issue
+  - https://github.com/php/php-src/security/advisories/GHSA-vjq4-xgmm-jc98 - same as above
+- **Feat**: Look into better multibyte support for parse_url
+  - https://bugs.php.net/bug.php?id=52923 - parse_url corrupts some UTF-8 strings _(40 votes)_
+- **Feat**: Allow ports higher than 65535 when parsing url using parse_url
+  - https://bugs.php.net/bug.php?id=62159 - All ports greater than 65535 in parse_url _(4 votes)_
+- **Feat**: Look into supporting special UDS URLs
+  - https://bugs.php.net/bug.php?id=68899 - Support HTTP over Unix sockets via `http://localhost:[/tmp/socket]/foo`
+- **Feat**: Look into argument separation option for parse_url and parse_str like in http_build_query
+  - https://bugs.php.net/bug.php?id=52343 - add argument_separator as parameter to parse_str/parse_url
+- **Feat**: Add option to disable root key sanitization in parse_str
+  - https://bugs.php.net/bug.php?id=55102 - add parameter to parse_str to avoid sanitizing of root keys _(7 votes)_
+- **Feat**: Look into a flag for dense numerical format for compat with some external tools
+  - https://bugs.php.net/bug.php?id=80536 - http_build_query dense numerically indexed arrays without brackets flag? _(1 vote)_
+- **Feat**: Look into urlencode encoding issues
+  - https://bugs.php.net/bug.php?id=69409 - urlencode() does not conform to current w3 html5 recommendations _(1 vote)_
 
 ## Docs
 
@@ -276,6 +297,8 @@
   - https://bugs.php.net/bug.php?id=60984 - Document output buffering mechanism
 - **Doc**: Network - Clarify what happens if no argument for setcookie
   - https://bugs.php.net/bug.php?id=66725 - Clarification required as to what happens if domain argument isn't passed
+- **Doc**: URL - Document http_build_query behavior
+  - https://bugs.php.net/bug.php?id=66966 - __toString not call by http_build_query
 - **Doc**: Mail - Document introduction of mail.mixed_lf_and_crlf INI and previous CRLF changes
  - https://bugs.php.net/bug.php?id=81158 - Mails sent by mail function broken since PHP 8.0
 - **Doc**: Mail - Fix mail function example
