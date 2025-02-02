@@ -2,6 +2,11 @@
 
 ## Source issues
 
+### Logging
+
+- **Feat**: Look to html escaping
+  - https://github.com/php/php-src/security/advisories/GHSA-pg5r-7jj7-wvf9 - html escaping (closed advisory)
+
 ### Output
 
 - **Bug**: Errors - Properly escape html for all error types
