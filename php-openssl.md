@@ -4,8 +4,6 @@
 
 ### TLS
 
-- **Bug**: Roundcube peer veryfication issue
-  - https://bugs.php.net/bug.php?id=79909 - verify_peer => true, connection "Error: Login failed ... Unknown reason"
 - **Bug**: Check issue with connection to server with chain containing 3 intermediates wiht RabbitMQ
   - https://bugs.php.net/bug.php?id=78414 - TLS handshake fails when the certificate chain has more than 2 certificates
 - **Bug**: Look to altering default context when https request goes through http proxy
@@ -166,6 +164,8 @@
 
 ### 2025-01
 
+- **Bug**: Roundcube peer veryfication issue
+  - https://bugs.php.net/bug.php?id=79909 - verify_peer => true, connection "Error: Login failed ... Unknown reason"
 - **Bug**: X509 - Check why checking X509_PURPOSE_ANY with openssl_x509_checkpurpose returns false
   - https://bugs.php.net/bug.php?id=55362 - X509_PURPOSE_ANY is not recognized by openssl
 
