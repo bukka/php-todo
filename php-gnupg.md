@@ -3,10 +3,14 @@
 ## Source issues
 
 - **Feat**: CI - Add GitHub actions CI for running tests with multiple gpg and PHP versions
+- **Bug**: engine - check issue with not checking engine selection error
+  - https://github.com/php-gnupg/php-gnupg/issues/47 - Return value of gpgme_ctx_set_engine_info is not checked, causes confusing errors
 - **Bug**: sign - Investigate why setarmor for sign doesn't work
   - https://github.com/php-gnupg/php-gnupg/issues/38 - gnupg::setarmor(0) not respected
 - **Bug**: crypt - mem leak for encrypting empty key
   - https://github.com/php-gnupg/php-gnupg/issues/37 - gnupg_decrypt() will return boolean false for decrypting an encrypted empty string
+- **Bug**: crypt - segfault when using some private keys with passphrase in gpg 2.3
+  - https://github.com/php-gnupg/php-gnupg/issues/46 - gnupg.so error with gnupg 2.3.7
 - **Bug**: crypt - Investigate issues with encrypting with multiple keys
   - https://github.com/php-gnupg/php-gnupg/issues/32 - Can't decrypt for every recipient if the message was encrypted using multiple keys
   - https://github.com/php-gnupg/php-gnupg/pull/33 - Fix decryption using multiple keys (needs test and proper review)
@@ -14,8 +18,16 @@
   - https://github.com/php-gnupg/php-gnupg/issues/10 - Adding Support for exporting multiple Keys
 - **Feat**: export - Way to export message keys
   - https://github.com/php-gnupg/php-gnupg/pull/12 - Adding messagekeys($enctext) method which returns recipient info
-- **Feat**: verify - look to some more descriptive status
+- **Feat**: generate - Introduce support for generating / creating keys - preferrably using gpgme_op_createkey
+- **Feat**: keyinfo - Add `can_encrypt`, `can_sign`, `can_certify` and `can_authenticate` to the main key
+- **Feat**: keyinfo - Add user signatures
+- **Feat**: sign - support key signing using gpgme_op_keysign
+- **Feat**: verify - Look to some more descriptive status
   - https://github.com/php-gnupg/php-gnupg/issues/19 - Improve status on gnupg_verify function result
+  - https://github.com/php-gnupg/php-gnupg/issues/45 - Verification of Valid Signature fails - potentially because key is expired
+- **Feat**: manipulate - Add support for key manupaltion - gpgme_op_setexpire, gpgme_op_setownertrust
+- **Feat**: errors - Introduce error constants for easier matching of error code from error info
+- **Feat**: gpg - Check if there is some way to identify issues caused by gpg configuration
 - **Feat**: core - Replace resource with object
 - **Feat**: core - Use snake case for object method names
 - **Feat**: Build - static extension compilation
@@ -28,6 +40,16 @@
 - https://github.com/php-gnupg/php-gnupg/issues/39 - How can i install php-gnupg extension?
 - https://github.com/php-gnupg/php-gnupg/issues/31 - Can't get php-gnupg to work
 - https://github.com/php-gnupg/php-gnupg/issues/42 - PHP 8.0 Mac Apple Silicon - configure: error: Please reinstall the gpgme distribution
+
+
+## Docs
+
+- Add missing tests for following functions:
+  - `gnupg_getprotocol`
+  - `gnupg_clearsignkeys`
+  - `gnupg_clearencryptkeys`
+  - `gnupg_cleardecryptkeys`
+  - `gnupg_gettrustlist`
 
 ## Docs
 
