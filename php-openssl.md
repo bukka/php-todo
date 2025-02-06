@@ -4,8 +4,6 @@
 
 ### TLS
 
-- **Bug**: Check issue with connection to server with chain containing 3 intermediates wiht RabbitMQ
-  - https://bugs.php.net/bug.php?id=78414 - TLS handshake fails when the certificate chain has more than 2 certificates
 - **Bug**: Look to altering default context when https request goes through http proxy
   - https://bugs.php.net/bug.php?id=74796 - Requests through https:// with http proxy set altering default context
 - **Bug**: Issue with proxied file_get_contents with https
@@ -45,16 +43,13 @@
 
 ### Crypto
 
-- **Bug**: X509 - Check error handling for openssl_x509_checkpurpose
-  - https://github.com/php/php-src/issues/8372 - check_cert() and php_openssl_store_errors do not pick up validation errors
-- **Feat**: X509 - Use partial chain validation by default for openssl_x509_checkpurpose and introduce parameter to disable
-  - https://github.com/php/php-src/issues/8371 - check_cert() insists on all provides certificates to validate against system CA store
-- **Feat**: X509 - Look to introducing new flags for functions using setup_verify to disallows default cainfo cert paths and dirs addition
-  - https://bugs.php.net/bug.php?id=65154 - setup_verify implicitly adds default CA paths
+- **Feat**: general - Bump LibreSSL minimum version
 - **Feat**: constants - Consider defining LIBRESSL_VERSION_NUMBER when available
   - https://bugs.php.net/bug.php?id=71143 - Define LIBRESSL_VERSION_NUMBER when available
 - **Feat**: general - Use custom libctx - one for each thread in ZTS
   - https://github.com/php/php-src/issues/14734 - OpenSSL: Use custom libctx for each thread in ZTS
+    - first seperate all parts where the custom libctx will be applied to v1 and v3 backends
+    - add changes for passing custom libctx
 - **Feat**: general - Support configurable provider loading
   - https://github.com/php/php-src/issues/12369 - Configurable loading of OpenSSL providers
 - **Feat**: general - Look to the stream support for the input params (start with investigation and implemetation ideas)
@@ -109,6 +104,12 @@
 - **Feat**: CMS - Add AES GCM constant
   - https://bugs.php.net/bug.php?id=81724 - openssl_cms/pkcs7_encrypt only allows specific ciphers
 - **Feat**: CMS - Try to reuse CMS and PKCS7 code - reduce duplications
+- **Feat**: X509 - Introduce a way to get verify errors
+  - https://github.com/php/php-src/issues/8372 - check_cert() and php_openssl_store_errors do not pick up validation errors
+- **Feat**: X509 - Use partial chain validation by default for openssl_x509_checkpurpose and introduce parameter to disable
+  - https://github.com/php/php-src/issues/8371 - check_cert() insists on all provides certificates to validate against system CA store
+- **Feat**: X509 - Look to introducing new flags for functions using setup_verify to disallows default cainfo cert paths and dirs addition
+  - https://bugs.php.net/bug.php?id=65154 - setup_verify implicitly adds default CA paths
 - **Feat**: X509 - Optimize order of operations in php_openssl_load_all_certs_from_file
 - **Feat**: X509 - Analyse if returning large serial numbers can cause slow down
   - https://github.com/php/php-src/pull/6445 - Fix #77411 - large serialNumber returned as hex with OpenSSL 1.1
@@ -161,6 +162,11 @@
   - https://bugs.php.net/bug.php?id=79401 - --with-openssl no longer accepts a directory
 
 ## Changes
+
+### 2025-02
+
+- **Bug**: Check issue with connection to server with chain containing 3 intermediates wiht RabbitMQ
+  - https://bugs.php.net/bug.php?id=78414 - TLS handshake fails when the certificate chain has more than 2 certificates
 
 ### 2025-01
 

@@ -73,6 +73,8 @@
   - https://bugs.php.net/bug.php?id=64573 - Confusing open_basedir errors when parent folders are inaccessible _(2 votes)_
 - **Bug**: Look to real path normalization on OSX
   - https://bugs.php.net/bug.php?id=67220 - realpath() on MacOSX doesn't normalize the case of characters _(3 votes)_
+- **Feat**: Look into introducing function for normalized realpath
+  - https://github.com/php/php-src/issues/17520 - Realpath() alternative for nonexisting paths
 - **Feat**: Add tempnam suffix parameter and look into dir param behavior (Look how to make optional suffix work on Win and be more acceptable)
   - https://bugs.php.net/bug.php?id=37613 - tempnam suffix support and dir behavior change _(10 votes)_
   - https://github.com/php/php-src/pull/11685 - Standard: Support optional suffix arg in tempnam
@@ -145,8 +147,6 @@
 
 ### Network
 
-- **Bug**: Network - Check if php_tvtoto can still overflow
-  - https://bugs.php.net/bug.php?id=71507 - Overflow in php_tvtoto _(no vote)_
 - **Bug**: DNS - Look to incorrect handling of server errors 
   - https://bugs.php.net/bug.php?id=73149 - dns_get_record(): A temporary server error occurred _(139 votes)_
 - **Bug**: DNS - correctly handle SERVFAIL
