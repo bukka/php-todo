@@ -2,7 +2,6 @@
 
 ## Source issues
 
-- **Feat**: CI - Add GitHub actions CI for running tests with multiple gpg and PHP versions
 - **Bug**: engine - check issue with not checking engine selection error
   - https://github.com/php-gnupg/php-gnupg/issues/47 - Return value of gpgme_ctx_set_engine_info is not checked, causes confusing errors
 - **Bug**: sign - Investigate why setarmor for sign doesn't work
@@ -28,8 +27,10 @@
 - **Feat**: manipulate - Add support for key manupaltion - gpgme_op_setexpire, gpgme_op_setownertrust
 - **Feat**: errors - Introduce error constants for easier matching of error code from error info
 - **Feat**: gpg - Check if there is some way to identify issues caused by gpg configuration
-- **Feat**: core - Replace resource with object
+- **Feat**: core - Replace resource with object and get rid of phpc as part of it
 - **Feat**: core - Use snake case for object method names
+- **Feat**: CI - cover more gpgme and PHP versions
+- **Feat**: CI - add macos and arm runners
 - **Feat**: Build - static extension compilation
   - https://bugs.php.net/bug.php?id=73509 - static extension compilation problem
 - **Feat**: Build - Windows try to get gpg4win to work with PHP build (message to mailing list)
@@ -59,6 +60,10 @@
 
 
 ## Changes
+
+### 2025-02
+
+- **Feat**: CI - Add GitHub actions CI for running tests with multiple gpg and PHP versions
 
 ### 2022-03
 
