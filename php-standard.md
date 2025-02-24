@@ -13,13 +13,8 @@
 
 ### File System
 
-- **Bug**: Investigate why calling clearstatcache() seems to not work in some cases
-  - https://bugs.php.net/bug.php?id=52587 - Clearstatcache() has no effect _(5 votes)_
-- **Bug**: Clear stat cache after touch(), fopen(), fread() and fwrite()
-  - https://bugs.php.net/bug.php?id=72666 - touch(): stat cache clearing inconsistent between file:// paths and plain paths _(0 votes)_
-- **Feat**: Option to disable stat cache
-  - https://bugs.php.net/bug.php?id=28790 - Add php.ini option to disable stat cache
-  - https://github.com/php/php-src/pull/5894 - Feature Request #28790 Add php.ini option to disable stat cache
+- **Bug**: Investigate is_file caching issue
+  - https://github.com/php/php-src/issues/17915 - PHP 8.3.17 - Very strange is_file() issue on CLI 
 - **Bug**: Get merged the chown fix for ZTS
   - https://bugs.php.net/bug.php?id=68861 - chown does not work when php is compiling with ZTS _(10 votes)_
   - https://github.com/php/php-src/pull/13876 - fix group/passwd api misuse if ZTS
@@ -96,6 +91,11 @@
   - https://bugs.php.net/bug.php?id=60957 - if function returns false on error, don't emit a warning _(4 votes)_
 - **Feat**: Add lower seconds granularity for stat function
   - https://bugs.php.net/bug.php?id=65717 - stat() should supply nano second granularity
+- **Feat**: Option to disable stat cache
+  - https://bugs.php.net/bug.php?id=28790 - Add php.ini option to disable stat cache
+  - https://github.com/php/php-src/pull/5894 - Feature Request #28790 Add php.ini option to disable stat cache
+- **Feat**: Look into supporting creation time in touch
+  - https://github.com/php/php-src/issues/14900 - Set file creation/change time in touch
 - **Feat**: Add extra param to chown and lchown to change group
   - https://bugs.php.net/bug.php?id=77319 - Add an optional group paramter for chown() and lchown() _(1 vote)_
 - **Feat**: Look into new param for pathinfo to combine DIRNAME and FILENAME
@@ -147,14 +147,15 @@
 
 ### Network
 
-- **Bug**: DNS - Look to incorrect handling of server errors 
-  - https://bugs.php.net/bug.php?id=73149 - dns_get_record(): A temporary server error occurred _(139 votes)_
 - **Bug**: DNS - correctly handle SERVFAIL
   - https://bugs.php.net/bug.php?id=70473 - dns_get_record - Server error for any of DNS_A|DNS_AAAA bubbles up, no result _(5 votes)_
 - **Bug**: DNS - checkdnsrr should correctly check MX CNAME
   - https://bugs.php.net/bug.php?id=68081 - checkdnsrr( 'example.com' ) returns `true` when no MX, only CNAME _(1 vote)_
 - **Bug**: DNS - Multistring DNS should not be terminated by '\0'
   - https://bugs.php.net/bug.php?id=65478 - Multi-string DNS records obtained with dns_get_record contain nulls _(2 votes)_
+- **Feat**: DNS - Improve error handling of dns_get_record and dns_check_record
+  - https://github.com/php/php-src/issues/17919 - Improve dns_get_record / dns_check_record error handling
+  - https://bugs.php.net/bug.php?id=73149 - dns_get_record(): A temporary server error occurred _(139 votes)_
 - **Feat**: Network - IPv6 support for gethostbyname()
   - https://bugs.php.net/bug.php?id=49493 - Add IPv6 support in gethostbyname() _(123 votes)_
 - **Feat**: Network - Look to inconsistent IPv6 handling
@@ -242,6 +243,11 @@
 - **Bug**: Fix implode() function signature (BC breaking)
   - https://github.com/php/php-src/pull/11991 - Fix implode() function signature
 
+### Time
+
+- **Feat**: Look into Y2038 Win issues
+  - https://github.com/php/php-src/issues/17856 - time() and friends have Y2038 problem on 64 Windows
+
 ### Type
 
 - **Feat**: Introduce keyval function for key casting
@@ -253,6 +259,7 @@
   - https://bugs.php.net/bug.php?id=72811 - parse_url fails with IPv6 host _(4 votes)_
 - **Bug**: Parse URL issues spec (more features probably and might be better to close after URI ext introduced)
   - https://bugs.php.net/bug.php?id=74881 - host parsing - marked private but it is not a security issue
+  - https://github.com/php/php-src/issues/7890 - parse_url() and incorrect port definition
   - https://github.com/php/php-src/security/advisories/GHSA-vjq4-xgmm-jc98 - same as above
 - **Feat**: Look into better multibyte support for parse_url
   - https://bugs.php.net/bug.php?id=52923 - parse_url corrupts some UTF-8 strings _(40 votes)_
@@ -307,6 +314,13 @@
   - https://bugs.php.net/bug.php?id=70088 - is_callable() doesn't check if a class/method syntax is valid
 
 ## Changes
+
+### 2023-02
+
+- **Bug**: Investigate why calling clearstatcache() seems to not work in some cases
+  - https://bugs.php.net/bug.php?id=52587 - Clearstatcache() has no effect _(5 votes)_
+- **Bug**: Clear stat cache after touch(), fopen(), fread() and fwrite()
+  - https://bugs.php.net/bug.php?id=72666 - touch(): stat cache clearing inconsistent between file:// paths and plain paths _(0 votes)_
 
 ### 2023-01
 

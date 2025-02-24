@@ -45,7 +45,7 @@
 - **Bug**: MPM ITK hang due opcache - killing locker perm issue - similar to FPM one
   - https://github.com/php/php-src/issues/9910 - opcache + MPM ITK might cause apache2 to hang
 - **Feat**: Review mpm_winnt relate issue fix
-  - Don't involve PHP in Apache mpm_winnt control process
+  - https://github.com/php/php-src/pull/7865 - Don't involve PHP in Apache mpm_winnt control process
 - **Feat**: Review apache_connection_stream addition
   - https://github.com/php/php-src/pull/14047 - RFC - Added the apache_connection_stream() function for CGI WebSockets
 - **Feat**: Introduce apache_finish_request

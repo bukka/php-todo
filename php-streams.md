@@ -2,6 +2,8 @@
 
 ## Source issues
 
+- **Bug**: Look into HTTP header parsing consistency
+  - https://github.com/php/php-src/issues/17829 - PHP behavior for parsing http header value is not consistent across http APIs
 - **Bug**: Look to a proper fix for socket name
   - https://bugs.php.net/bug.php?id=74556 - stream_socket_get_name returns \0 string instead of false
 - **Bug**: stream_socket_get_name() IPv6 handling
