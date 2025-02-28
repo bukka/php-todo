@@ -2,10 +2,6 @@
 
 ## Source issues
 
-- **Bug**: engine - check issue with not checking engine selection error
-  - https://github.com/php-gnupg/php-gnupg/issues/47 - Return value of gpgme_ctx_set_engine_info is not checked, causes confusing errors
-- **Bug**: sign - Investigate why setarmor for sign doesn't work
-  - https://github.com/php-gnupg/php-gnupg/issues/38 - gnupg::setarmor(0) not respected
 - **Bug**: crypt - mem leak for encrypting empty key
   - https://github.com/php-gnupg/php-gnupg/issues/37 - gnupg_decrypt() will return boolean false for decrypting an encrypted empty string
 - **Bug**: crypt - segfault when using some private keys with passphrase in gpg 2.3
@@ -36,6 +32,11 @@
 - **Feat**: Build - Windows try to get gpg4win to work with PHP build (message to mailing list)
   - https://github.com/php-gnupg/php-gnupg/issues/21 - add config.w32 to aid compilation on windows
 
+## Dodcumentation issues
+
+- **Doc**: sign - Document gnupg constants
+  - https://github.com/php-gnupg/php-gnupg/issues/38 - gnupg::setarmor(0) not respected
+
 ## Feedback required
 
 - https://github.com/php-gnupg/php-gnupg/issues/39 - How can i install php-gnupg extension?
@@ -63,6 +64,8 @@
 
 ### 2025-02
 
+- **Bug**: engine - check issue with not checking engine selection error
+  - https://github.com/php-gnupg/php-gnupg/issues/47 - Return value of gpgme_ctx_set_engine_info is not checked, causes confusing errors
 - **Feat**: CI - Add GitHub actions CI for running tests with multiple gpg and PHP versions
 
 ### 2022-03
