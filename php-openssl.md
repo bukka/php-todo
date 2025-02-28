@@ -33,6 +33,8 @@
   - https://github.com/php/php-src/issues/16766 - Add support for SCRAM-SHA-*-PLUS channel binding in PHP streams (e.g., tls-unique, tls-exporter)
 - **Feat**: Add option to not add SSL_OP_IGNORE_UNEXPECTED_EOF (opt in protection for truncation attack) - create a proper test with proxy and TCP FIN
   - https://github.com/php/php-src/issues/8369#issuecomment-1126940364 - note about that in the bug
+- **Feat**: Look into the way to identify current security level
+  - https://github.com/php/php-src/issues/14201#issuecomment-2639712190 - Update tests to support RHEL legacy crypto policy
 - **Feat**: Allow multiple peer fingerprints in the context
   - https://bugs.php.net/bug.php?id=81528 - Support multiple peer_fingerprint values per algorithm
 - **Feat**: Support TLS PSK
@@ -74,6 +76,8 @@
   - https://github.com/php/php-src/issues/9422 - openssl ext sm2 compatibility
   - https://github.com/php/php-src/pull/9991 - Improve ext-openssl generate EC keys under OpenSSL 3.0
   - https://github.com/php/php-src/commit/0dadd6616a491418871fb0b41590a73b128aa212#commitcomment-122069972 - follow up check for fedora
+- **Feat**: Identify the custem EC points creation that is not supported on RHEL so it can be nicely skipped
+  - https://github.com/php/php-src/issues/14201#issuecomment-2639712190 - Update tests to support RHEL legacy crypto policy
 - **Feat**: pkey - Improve php_openssl_dh_compute_key to support ECDH before OpenSSL 3.0 and extend tests
 - **Feat**: pkey - Skip all usage of DH if OpenSSL compiled with no-dh (only works with OpenSSL 3.0+)
 - **Feat**: pkey - Skip all usage of DSA if OpenSSL compiled with no-dsa (only works with OpenSSL 3.0+)
@@ -133,7 +137,7 @@
 
 ## Tests
 
-- **Test**: Make tests work with RHEL default crypto policies
+- **Test**: Make sure all issues get fixed and it can be closed
   - https://github.com/php/php-src/issues/14201 - Update tests to support RHEL legacy crypto policy
 - **Test**: PKCS7/CMS - rewrite tests to use cert generator and no tmp file with proper cleanup
 - **Test**: General - Replace all other tests using static certs to use cert generator when possible
