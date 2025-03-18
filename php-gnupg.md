@@ -2,10 +2,8 @@
 
 ## Source issues
 
-- **Bug**: crypt - mem leak for encrypting empty key
-  - https://github.com/php-gnupg/php-gnupg/issues/37 - gnupg_decrypt() will return boolean false for decrypting an encrypted empty string
-- **Bug**: crypt - segfault when using some private keys with passphrase in gpg 2.3
-  - https://github.com/php-gnupg/php-gnupg/issues/46 - gnupg.so error with gnupg 2.3.7
+- **Task**: crypt - Investigate if User ID hint is always 16 bytes
+  - https://github.com/bukka/php-gnupg/blob/a32dc2f988ee9b3afe1234642a2febb9a0cc435e/gnupg.c#L685 - line that relies on 16 bytes uid_hint
 - **Bug**: crypt - Investigate issues with encrypting with multiple keys
   - https://github.com/php-gnupg/php-gnupg/issues/32 - Can't decrypt for every recipient if the message was encrypted using multiple keys
   - https://github.com/php-gnupg/php-gnupg/pull/33 - Fix decryption using multiple keys (needs test and proper review)
@@ -61,6 +59,13 @@
 
 
 ## Changes
+
+### 2025-03
+
+- **Bug**: crypt - mem leak for encrypting empty key
+  - https://github.com/php-gnupg/php-gnupg/issues/37 - gnupg_decrypt() will return boolean false for decrypting an encrypted empty string
+- **Bug**: crypt - segfault when using some private keys with passphrase in gpg 2.3
+  - https://github.com/php-gnupg/php-gnupg/issues/46 - gnupg.so error with gnupg 2.3.7
 
 ### 2025-02
 
