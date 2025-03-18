@@ -45,9 +45,8 @@
 
 ### Crypto
 
-- **Feat**: general - Bump LibreSSL minimum version
-- **Feat**: constants - Consider defining LIBRESSL_VERSION_NUMBER when available
-  - https://bugs.php.net/bug.php?id=71143 - Define LIBRESSL_VERSION_NUMBER when available
+- **Feat**: general - Clean up 1.0.2 code
+  - https://github.com/php/php-src/pull/18032 - Remove OpenSSL 1.0.2 specific code
 - **Feat**: general - Use custom libctx - one for each thread in ZTS
   - https://github.com/php/php-src/issues/14734 - OpenSSL: Use custom libctx for each thread in ZTS
     - first seperate all parts where the custom libctx will be applied to v1 and v3 backends
@@ -131,6 +130,9 @@
   - https://bugs.php.net/bug.php?id=40046 - OpenSSL CRL generation support (patch)
 - **Feat**: crypt - Consider tag length veryfication
   - https://bugs.php.net/bug.php?id=75804 - authenticated encryption tag is broken
+- **Feat**: constants - Consider defining LIBRESSL_VERSION_NUMBER when available
+  - https://bugs.php.net/bug.php?id=71143 - Define LIBRESSL_VERSION_NUMBER when available
+- **Feat**: build - Add minimal version check for LibreSSL (the last time it was checked, it was 3.5.0)
 - **Bug**: build - Check shared build issue
   - https://bugs.php.net/bug.php?id=73609 - "run-tests.php" don't respect configuration
 
@@ -141,6 +143,7 @@
   - https://github.com/php/php-src/issues/14201 - Update tests to support RHEL legacy crypto policy
 - **Test**: PKCS7/CMS - rewrite tests to use cert generator and no tmp file with proper cleanup
 - **Test**: General - Replace all other tests using static certs to use cert generator when possible
+- **Test**: Fix LibreSSL tests (requires LIBRESSL_VERSION_NUMBER introduction) - currently minimum LibreSSL version that compiles is 3.5.0
 
 ## Docs
 

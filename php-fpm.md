@@ -4,20 +4,17 @@
 
 ### UNIX and request handling
 
-- **Feat**: systemd - Add CapabilityBoundingSet
-  - https://github.com/php/php-src/pull/4960 - Add CapabilityBoundingSet to systemd unit file (my PR)
-- **Feat**: systemd - Properly support PrivateTmp
-  - https://bugs.php.net/bug.php?id=73466 - systemd option PrivateTmp= having no effect for a pool that is chrooted.
-- **Feat**: unix - add option to rewrite fcgi path envs if chroot enabled
-  - https://bugs.php.net/bug.php?id=62279 - PHP-FPM chroot never-solved problems (extends #55322)
-  - https://bugs.php.net/bug.php?id=55322 - Apache : TRANSLATED_PATH doesn't consider chroot
+
 - **Test**: main - properly test the logic for processing env vars (especially the httpd logic) and verify it works with httpd balancer
+- **Feat**: fcgi / main - refactore processing of fcgi env vars
 - **Feat**: main - Identify Apache load balancer by SERVER_SOFTWARE
   - https://bugs.php.net/bug.php?id=71379 - Add support for Apache 2.4 mod_proxy_balancer to FPM
 - **Feat**: main - Change PHP_SELF to SCRIPT_NAME without pathinfo fix and enabled path discard
   - https://github.com/php/php-src/issues/11025 - FPM: Always use script name in PHP_SELF if cgi.discard_path = 1 and cgi.fix_pathinfo = 0
 - **Feat**: main - look to the option to disable setting envs to $_SERVER
   - https://github.com/php/php-src/issues/13110 - Add option to hide Environment Variables from $_SERVER
+- **Feat**: main - look to the implementation of the worker mode
+  - https://externals.io/message/122027 - RFC proposal: worker mode primitives for SAPIs 
 - **Feat**: unix - look more to setting CPU affinity and test it
   - https://github.com/php/php-src/pull/10075 - fpm binding master and children processes to specific core(s)
 - **Feat**: unix - extra check for selinux deny_ptrace
@@ -26,7 +23,13 @@
   - https://bugs.php.net/bug.php?id=71532 - Child terminates when SELinux denies access to library
 - **Feat**: unix - middle ground between chrooted and non-chrooted env (ideas from suphp)
   - https://bugs.php.net/bug.php?id=68125 - FPM check if script is in specified path before execute (ie docroot)
-
+- **Feat**: unix - add option to rewrite fcgi path envs if chroot enabled
+  - https://bugs.php.net/bug.php?id=62279 - PHP-FPM chroot never-solved problems (extends #55322)
+  - https://bugs.php.net/bug.php?id=55322 - Apache : TRANSLATED_PATH doesn't consider chroot
+- **Feat**: systemd - Add CapabilityBoundingSet
+  - https://github.com/php/php-src/pull/4960 - Add CapabilityBoundingSet to systemd unit file (my PR)
+- **Feat**: systemd - Properly support PrivateTmp
+  - https://bugs.php.net/bug.php?id=73466 - systemd option PrivateTmp= having no effect for a pool that is chrooted.
 
 ### FastCGI and other protocols
 
@@ -45,7 +48,6 @@
   - https://github.com/php/php-src/issues/12343 - PHP processing a truncated POST request
 - **Feat**: fcgi / main - do not process requests that timeouts on client (e.g. nginx) - extra option to get client timeout - consider also fcgi request balancing process
   - https://github.com/php/php-src/issues/14548 - New config to adjust timeouts between NGINX and PHP-FPM (fix PHP zombie process)
-- **Feat**: fcgi / main - refactore processing of fcgi env vars
 - **Feat**: fcgi - spec update to no content length bytes
   - https://bugs.php.net/bug.php?id=79723 - sapi_cgi_read_post() ignores EOF
   - https://bugs.php.net/bug.php?id=51191 - Request body is 0-size when chunked requests are used 
@@ -87,6 +89,8 @@
 
 ### Config
 
+- **Bug**: conf - look to uid and gid possible overflow
+  - found as a bug in security audit
 - **Feat**: conf - add support for getting environment variables in configuration
   - https://bugs.php.net/bug.php?id=75994 - Environment permanently breaks for worker process.
   - https://bugs.php.net/bug.php?id=76798 - Can't configure PHP-FPM via environment variables (check if it worked before 7.1.15 and 7.2.1)
@@ -206,10 +210,6 @@
 
 ### Event and pools
 
-- **Bug**: event - check for the maximum file descriptors in devpoll
-  - https://bugs.php.net/bug.php?id=65774 - no max file descriptor check for events.mechanism = /dev/poll
-- **Bug**: event - FreeBSD kqueue time outs
-  - https://bugs.php.net/bug.php?id=76630 - php-fpm time outs unexpectedly
 - **Feat**: event - make default timeout in event loop configurable (currently hard coded 1s)
   - https://bugs.php.net/bug.php?id=71854 - FPM: Please make epoll sleep interval configurable
 - **Feat**: event - Cleaning up child events when the child is killed
@@ -222,7 +222,7 @@
   - https://bugs.php.net/bug.php?id=67553 - Add SIGHUP as a reload signal
 - **Feat**: reload - reduce number of reallocation or use buffering (stack or smart str) for sockets clean up env
   - https://github.com/php/php-src/blob/b0b416b705f5b535d95dc7d275347f89f3ef87ea/sapi/fpm/fpm/fpm_sockets.c#L71
-- **Feat**: pool - look to introducing pool manager process handlig - reduce load on master and better (possibly more secure) separation and reload
+- **Feat**: pool - look to introducing pool manager process handlig - reduce load on master and better (possibly more secure) separation and reload and balancing protocol
   - https://github.com/php/php-src/issues/11723 - FPM pool manager
   - https://bugs.php.net/bug.php?id=75440 - Fpm reload should be graceful, not killing running processes (possibly master could just re-read config and let proc mangers deal with it
   - https://bugs.php.net/bug.php?id=60961 - Graceful Restart (USR2) isn't very graceful (similar to above bug listing problems with graceful reload)
@@ -232,6 +232,7 @@
   - https://github.com/php/php-src/issues/8072 - php-fpm trying to kill another user's pool results in an infinite loop and 99% cpu usage (separating opache MINIT)
   - https://bugs.php.net/bug.php?id=67141 - PHP FPM vhost pollution
   - https://github.com/php/php-src/issues/14605 - Random Blank white page frequently while using php8.2-fpm
+  - https://github.com/php/php-src/pull/6772 - Add FPM early bootstrapping mode
 - **Feat**: pool - look to the alternative way of dynamically loading pool configuration and restarting it
   - https://bugs.php.net/bug.php?id=61595 - implement dynamic loading of pools config via file or SQL
   - https://bugs.php.net/bug.php?id=51973 - a way to restart single pools, enable/disable modules per pool
@@ -274,8 +275,6 @@
 - **Feat**: proc - consider defining timeout when no children available
   - https://bugs.php.net/bug.php?id=65503 - Timeout when max_children reached
   - https://github.com/php/php-src/issues/11260 - Timeout when max-childrens reached
-- **Feat**: proc and main - Bootstrapping mode
-  - https://github.com/php/php-src/pull/6772 - Add FPM early bootstrapping mode
 - **Feat**: proc - Introduce delay for process restarts to prevent CPU exhaustion
   - https://github.com/php/php-src/issues/9632 - FPM delayed process restarting
 - **Feat**: proc - add function to terminate child (this should be probably explicitly enabled in pool config)
@@ -343,10 +342,20 @@ Status fields
 
 ## Changes
 
+#### 2024-12
+
+- **Bug**: event - FreeBSD kqueue time outs
+  - https://bugs.php.net/bug.php?id=76630 - php-fpm time outs unexpectedly
+
 #### 2024-10
 
 - **Bug** - PHP_AUTH re-use mem corruption
   - https://github.com/php/php-src/pull/16227 - Fix GH-15395: php-fpm: zend_mm_heap corrupted with cgi-fcgi request
+
+#### 2024-07
+
+- **Bug**: event - check for the maximum file descriptors in devpoll
+  - https://bugs.php.net/bug.php?id=65774 - no max file descriptor check for events.mechanism = /dev/poll
 
 #### 2024-06
 

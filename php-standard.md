@@ -147,15 +147,14 @@
 
 ### Network
 
-- **Bug**: DNS - correctly handle SERVFAIL
-  - https://bugs.php.net/bug.php?id=70473 - dns_get_record - Server error for any of DNS_A|DNS_AAAA bubbles up, no result _(5 votes)_
-- **Bug**: DNS - checkdnsrr should correctly check MX CNAME
-  - https://bugs.php.net/bug.php?id=68081 - checkdnsrr( 'example.com' ) returns `true` when no MX, only CNAME _(1 vote)_
 - **Bug**: DNS - Multistring DNS should not be terminated by '\0'
   - https://bugs.php.net/bug.php?id=65478 - Multi-string DNS records obtained with dns_get_record contain nulls _(2 votes)_
+- **Bug**: DNS - checkdnsrr should correctly check MX CNAME
+  - https://bugs.php.net/bug.php?id=68081 - checkdnsrr( 'example.com' ) returns `true` when no MX, only CNAME _(1 vote)_
 - **Feat**: DNS - Improve error handling of dns_get_record and dns_check_record
   - https://github.com/php/php-src/issues/17919 - Improve dns_get_record / dns_check_record error handling
   - https://bugs.php.net/bug.php?id=73149 - dns_get_record(): A temporary server error occurred _(139 votes)_
+  - https://bugs.php.net/bug.php?id=70473 - dns_get_record - Server error for any of DNS_A|DNS_AAAA bubbles up, no result _(5 votes)_
 - **Feat**: Network - IPv6 support for gethostbyname()
   - https://bugs.php.net/bug.php?id=49493 - Add IPv6 support in gethostbyname() _(123 votes)_
 - **Feat**: Network - Look to inconsistent IPv6 handling
@@ -206,6 +205,8 @@
   - https://bugs.php.net/bug.php?id=77656 - proc_open() ignores invalid cwd argument
 - **Bug**: Leaked file discriptor in the legacy proc_open implementation (fork)
   - https://bugs.php.net/bug.php?id=67905 - proc_open leaks file descriptors on error _(1 vote)_
+- **Bug**: Look into pty handling
+  - https://github.com/php/php-src/pull/18013 - fix(proc_open): fix pty being on the same fd
 - **Feat**: Look into solution to clean up open file descriptors on request end
   - https://bugs.php.net/bug.php?id=38915 - Apache: system() (and similar) don't cleanup opened handles of Apache _(209 votes)_
 - **Feat**: Look to the option to disable open handles inheritance in popen / proc_open

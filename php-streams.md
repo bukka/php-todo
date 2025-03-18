@@ -12,6 +12,8 @@
   - https://github.com/php/php-src/issues/13220 - stream_socket_accept() timeout sometimes doesn't work?
 - **Bug**: Disable usage of mmap that is causing segfaults
   - https://github.com/php/php-src/issues/13011 - SIGBUS Signal 7 Issue
+- **Bug**: Look into proc_open breakage wit user stream
+  - https://github.com/php/php-src/issues/17943 - Using stream wrappers breaks proc_open
 - **Bug**: Fix error issue with fgets() when stream filter fails
   - https://github.com/php/php-src/issues/13264 - fgets() does not return false on error from a zlib.inflate filtered stream with large content and invalid checksum
 - **Bug**: Look to the inconsistencies in stream filters seeking
@@ -79,6 +81,8 @@
   - https://bugs.php.net/bug.php?id=71641 - Proper error-reporting in php_network_addresses() calls 
 - **Feat**: Set IP(6)_RECVERR on connected datagram
   - https://github.com/php/php-src/pull/8635 -  set IP(6)_RECVERR on connected datagram sockets
+- **Feat**: Support for SO_LINGER socket option
+  - https://github.com/php/php-src/pull/14129 - GH-14111 main/streams: adding SO_LINGER to stream options.
 - **Feat**: Support multiple persistent connections on UDS
   - https://bugs.php.net/bug.php?id=63293 - Add support to establish > 1 persistent connection to the same UNIX socket _(7 votes)_
 - **Bug**: Look to the issue with occasionally missing STREAM_NOTIFY_PROGRESS on Win
