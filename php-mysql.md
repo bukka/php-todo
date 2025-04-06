@@ -36,6 +36,9 @@
 - **Bug**: Look into special hostname based peer veryfication enabling
   - https://bugs.php.net/bug.php?id=72048 - No way to disable peer name verification _(58 votes)_
   - https://github.com/php/php-src/issues/8769 - ext-mysqlnd: can't set SSL server hostname verification independent of general certificate validation
+- **Bug**: Look into fractional seconds handling
+  - https://github.com/php/php-src/issues/16910 - mysqlnd: Fractional seconds truncated in prepared statements, if value of decimals is AUTO_SEC_PART_DIGITS (=39).
+  - https://github.com/php/php-src/pull/16911 - Fix for Issue #16910
 - **Bug**: Investigate MySQL perf and scaling issue:s 
   - https://github.com/php/php-src/commit/58006537fc5f133ae8549efe5118cde418b3ace9
   - https://github.com/php/php-src/issues/9634
@@ -59,12 +62,26 @@
   - https://bugs.php.net/bug.php?id=43812 - MYSQLI_READ_DEFAULT_FILE option ignored when using mysqlnd
 - **Bug**: Look into JWT auth failure
   - https://github.com/php/php-src/issues/10800 - mysqli::real_connect(): Authentication data too long. Won't fit into the buffer and will be truncated. Authentication will thus fail
+- **Feat**: Check dropping unused auth variables
+  - https://github.com/php/php-src/pull/18023 - Drop unused variables
+  - https://github.com/php/php-src/pull/18014 - ext/mysqlnd: fix passing wrong parameter after a893a49
+- **Feat**: Look into changes in protocol errors
+  - https://github.com/php/php-src/pull/16421 - Fix mysqlnd protocol errors
 - **Feat**: Support ED25519 auth
   - https://github.com/php/php-src/issues/14258 - Implement ED25519 auth for mysqlnd
 
+## PDO_MySQL
+
+- **Feat**: Add addition field metadata
+  - https://github.com/php/php-src/issues/15093 - Add support for all flags from mysql in the PDO MySql driver in the getColumnMeta function.h i uikmtlph/b]nimuiummmmmmmmmmmmmm
+  - https://github.com/php/php-src/pull/15114 - Fix #15093: Add additional field type metadata for pdo_mysql in getColumnMeta response.
+
 ## Tests
 
-- Look to adding MariaDB to CI
+- **Test**: Look into MariaDB SSL failing tests
+  - https://github.com/php/php-src/pull/13500 - Fixed tests failing on MariaDB
+  - https://github.com/php/php-src/pull/13808 - Changed the test expected result of `pdo_mysql/bug76815 to %d
+- **Test**: Look to adding MariaDB to CI
   - https://github.com/php/php-src/pull/10062 - Add MariaDB to the Github actions
-- Extend fake server coverage
+- **Test**: Extend fake server coverage
 
