@@ -9,6 +9,7 @@
   - https://github.com/php-gnupg/php-gnupg/issues/10 - Adding Support for exporting multiple Keys
 - **Feat**: export - Way to export message keys
   - https://github.com/php-gnupg/php-gnupg/pull/12 - Adding messagekeys($enctext) method which returns recipient info
+- **Feat**: core - Bump minimal PHP version to 7.2 and get rid of phpc
 - **Feat**: generate - Introduce support for generating / creating keys - preferrably using gpgme_op_createkey
 - **Feat**: keyinfo - Add `can_encrypt`, `can_sign`, `can_certify` and `can_authenticate` to the main key
 - **Feat**: keyinfo - Add user signatures
@@ -19,7 +20,7 @@
 - **Feat**: manipulate - Add support for key manupaltion - gpgme_op_setexpire, gpgme_op_setownertrust
 - **Feat**: errors - Introduce error constants for easier matching of error code from error info
 - **Feat**: gpg - Check if there is some way to identify issues caused by gpg configuration
-- **Feat**: core - Replace resource with object and get rid of phpc as part of it
+- **Feat**: core - Replace resource with object
 - **Feat**: core - Use snake case for object method names
 - **Feat**: CI - cover more gpgme and PHP versions
 - **Feat**: CI - add macos and arm runners
