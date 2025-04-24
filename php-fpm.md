@@ -4,7 +4,9 @@
 
 ### UNIX and request handling
 
-
+- **Bug**: unix - ACL entries check missing
+  - https://github.com/php/php-src/issues/18357 - php-fpm listen.acl_users and listen.acl_groups not checking for duplicate ACL entries causing Invalid argument (22)
+  - https://github.com/php/php-src/pull/18362 - check for duplicate ACL entries when applying listen.acl_*
 - **Test**: main - properly test the logic for processing env vars (especially the httpd logic) and verify it works with httpd balancer
 - **Feat**: fcgi / main - refactore processing of fcgi env vars
 - **Feat**: main - Identify Apache load balancer by SERVER_SOFTWARE
@@ -33,9 +35,11 @@
 
 ### FastCGI and other protocols
 
+- **Bug**: fcgi - Investigate keepalive header mess up with nginx
+  -  - https://github.com/php/php-src/issues/18275 - fastcgi_finish_request() doesn't eof requests with no body, allowing setting response headers for othe requests
 - **Bug**: fcgi - Investigate deadlock for keepalive connection after fastcgi_finish_request()
   - https://github.com/php/php-src/issues/10335 - FPM: keepalived connection with fastcgi_finish_request causes dead lock
-- **Feat**: fcgi / main - look to support for close parameter in fastcgi_finish_request
+ - **Feat**: fcgi / main - look to support for close parameter in fastcgi_finish_request
   - https://github.com/php/php-src/pull/10273 - FPM: fastcgi_finish_request supports force close connection param
 - **Feat**: fcgi - Allow flushing of headers if no content
   - https://github.com/php/php-src/issues/12385 - flush with fastcgi does not force headers to be sent
@@ -141,6 +145,16 @@
 
 ### Logs
 
+- **Feat**: access log - long lines support - using the same logic as zlog ideally
+  - https://github.com/php/php-src/pull/5634 - PR to discussiong it and removing unused MAX_LINE_LENGTH
+  - https://github.com/php/php-src/issues/12302 - CONF Var log_limit and fpm_log_write show error "the log buffer is full ..."
+  - https://github.com/php/php-src/pull/18415 - bump FPM_LOG_BUFFER from 1024 to 2048
+  - https://github.com/php/php-src/pull/18328 - Allow FPM_LOG_BUFFER to be adjusted in conf file, changed the buffer to be dynamically allocated
+- **Feat**: error log - master logging should be separated from child logs (special option for master log)
+  - https://bugs.php.net/bug.php?id=69662 - PHP Startup errors are erroneously logged as master user in pool error log
+  - https://bugs.php.net/bug.php?id=72357 - Pool logs created with master owner:group
+- **Feat**: error log - allow setting format with variables for zlog errors
+  - https://github.com/php/php-src/pull/11939 - Add URI in FPM logs (comment with suggestion)
 - **Feat**: trace - slowlog - the SIGSTOP and SIGCONT stop script connection in stream (fsockopen) or mysql
   - https://bugs.php.net/bug.php?id=67471 - fpm slow log && fsockopen :Operation now in progress
   - https://bugs.php.net/bug.php?id=67087 - slowlog kills mysql connection
@@ -148,14 +162,6 @@
   - https://bugs.php.net/bug.php?id=69509 - fpm slowlog file permissions feature
   - https://bugs.php.net/bug.php?id=61435 - PHP-FPM logs are not readable by group/others by default
   - https://github.com/php/php-src/pull/771 - fpm: relax log permissions (bug #61435)
-- **Feat**: error log - master logging should be separated from child logs (special option for master log)
-  - https://bugs.php.net/bug.php?id=69662 - PHP Startup errors are erroneously logged as master user in pool error log
-  - https://bugs.php.net/bug.php?id=72357 - Pool logs created with master owner:group
-- **Feat**: access log - long lines support - using the same logic as zlog ideally
-  - https://github.com/php/php-src/pull/5634 - PR to discussiong it and removing unused MAX_LINE_LENGTH
-  - https://github.com/php/php-src/issues/12302 - CONF Var log_limit and fpm_log_write show error "the log buffer is full ..."
-- **Feat**: error log - allow setting format with variables for zlog errors
-  - https://github.com/php/php-src/pull/11939 - Add URI in FPM logs (comment with suggestion)
 - **Feat**: trace - slowlog - add request information - maybe some custom configurable fmt
   - https://bugs.php.net/bug.php?id=81501 - Log request information in slowlog
   - https://bugs.php.net/bug.php?id=79137 - Add request parameters to slow log script report
@@ -178,6 +184,7 @@
   - https://github.com/php/php-src/issues/10671 - php-fpm decorate_workers_output = no removes timestamp
 - **Feat**: error log - Update config with better description of decoration behavior
   - https://github.com/php/php-src/issues/13118 - Logs wrapped with newlines even when output decoration is disabled
+
 
 ### Status
 
