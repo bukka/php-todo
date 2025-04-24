@@ -7,11 +7,6 @@
 
 ## Source issues
 
-- **Bug**: Check double bailout issue with virtual
-  - https://github.com/php/php-src/issues/17509 - Transfer closed for httpd parent and subrequest double bailout
-- **Bug**: Look into virtual() and session issue - https://www.php.net/manual/en/function.virtual.php#124597
-- **Bug**: Investigate ErrorDocument failure
-  - https://bugs.php.net/bug.php?id=80558 - Apache ErrorDocument subrequest fails horribly
 - **Bug**: Look into handling of incomplete posts
   - https://bugs.php.net/bug.php?id=61471 - Incomplete POST does not timeout but is passed to PHP _(15 votes)_
 - **Bug**: Look into POST vars on 404
@@ -44,6 +39,10 @@
   - https://github.com/php/php-src/issues/8445 - libphp.so dumps core in sapi_register_post_entry+0x31()
 - **Bug**: MPM ITK hang due opcache - killing locker perm issue - similar to FPM one
   - https://github.com/php/php-src/issues/9910 - opcache + MPM ITK might cause apache2 to hang
+- **Bug**: Check double bailout issue with virtual (master only)
+  - https://github.com/php/php-src/issues/17509 - Transfer closed for httpd parent and subrequest double bailout
+  - https://www.php.net/manual/en/function.virtual.php#124597 - related virtual() session issue
+  - https://bugs.php.net/bug.php?id=80558 - Apache ErrorDocument subrequest fails horribly
 - **Feat**: Review mpm_winnt relate issue fix
   - https://github.com/php/php-src/pull/7865 - Don't involve PHP in Apache mpm_winnt control process
 - **Feat**: Review apache_connection_stream addition
