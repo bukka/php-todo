@@ -2,10 +2,6 @@
 
 ## Source issues
 
-- **Bug**: Look into HTTP header parsing consistency
-  - https://github.com/php/php-src/issues/17829 - PHP behavior for parsing http header value is not consistent across http APIs
-- **Bug**: Look into handling of NL in header value
-  - https://github.com/php/php-src/issues/18238 - Double Content-Type headers added to request if context->http->header is a multiline string
 - **Bug**: Look to a proper fix for socket name
   - https://bugs.php.net/bug.php?id=74556 - stream_socket_get_name returns \0 string instead of false
 - **Bug**: stream_socket_get_name() IPv6 handling
@@ -131,6 +127,8 @@
 - **Feat**: Handle setting of EOF for keep alive connections that are not closed by server
   - https://bugs.php.net/bug.php?id=80931 - file_get_contents() hangs with HTTP/1.1 if server doesn't close connection
   - https://github.com/php/php-src/pull/6874 - Fix #80931: HTTP stream hangs if server doesn't close connection
+- **Feat**: Add stream context request header value validation (e.g. checking for LF)
+  - https://github.com/php/php-src/issues/18238 - Double Content-Type headers added to request if context->http->header is a multiline string
 - **Feat**: Look to the trailer support
 - **Feat**: Investigate alternative / setting of http_response_header in relation to custom http stream wrapper
   - https://bugs.php.net/bug.php?id=63897 - Custom http stream wrappers should be able to set $http_response_header _(3 votes)_
@@ -180,6 +178,11 @@
 
 
 ## Changes
+
+### 2025-04
+
+- **Bug**: Look into HTTP header parsing consistency
+  - https://github.com/php/php-src/issues/17829 - PHP behavior for parsing http header value is not consistent across http APIs
 
 ### 2024-11
 
