@@ -6,7 +6,6 @@
 
 - **Bug**: Look to altering default context when https request goes through http proxy
   - https://bugs.php.net/bug.php?id=74796 - Requests through https:// with http proxy set altering default context
-- **Bug**: Issue with proxied file_get_contents with https
   - https://bugs.php.net/bug.php?id=76196 - proxied file_get_contents calls lag the cert check one behind for further calls
 - **Bug**: Check corrupted wsdl fetching result if fetching gzip
   - https://bugs.php.net/bug.php?id=79575 - Content-Length header name is getting corrupted
@@ -45,21 +44,20 @@
 
 ### Crypto
 
-- **Feat**: general - Clean up 1.0.2 code
-  - https://github.com/php/php-src/pull/18032 - Remove OpenSSL 1.0.2 specific code
 - **Feat**: general - Use custom libctx - one for each thread in ZTS
   - https://github.com/php/php-src/issues/14734 - OpenSSL: Use custom libctx for each thread in ZTS
     - first seperate all parts where the custom libctx will be applied to v1 and v3 backends
     - add changes for passing custom libctx
 - **Feat**: general - Support configurable provider loading
   - https://github.com/php/php-src/issues/12369 - Configurable loading of OpenSSL providers
-- **Feat**: general - Look to the stream support for the input params (start with investigation and implemetation ideas)
-  - https://bugs.php.net/bug.php?id=50718 - OpenSSL* doesnt support streamwrappers
 - **Feat**: general - PKCS11 support (should be addressed by #12369 but needs checking)
   - https://github.com/php/php-src/pull/6860 - RFC7512 URI support
   - https://github.com/php/php-src/issues/7797 - SSL context options for in memory cert and pk (addressed by PKCS11 PR)
 - **Feat**: general - FIPS - check if it works - FIPS Support (partially addressed by #12369 but might need some extra things)
   - https://bugs.php.net/bug.php?id=54339
+  - https://github.com/php/php-src/issues/18468 - openssl_pkey_export() Fails Under OpenSSL 3.x FIPS Mode (due to legacy PEM encryption APIs)
+- **Feat**: general - Look to the stream support for the input params (start with investigation and implemetation ideas)
+  - https://bugs.php.net/bug.php?id=50718 - OpenSSL* doesnt support streamwrappers
 - **Bug**: config - add path check for config filename (possible break so only master probably)
   - https://github.com/php/php-src/issues/9317
   - php_openssl_parse_config function
