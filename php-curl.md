@@ -2,9 +2,6 @@
 
 ## Source issues
 
-- **Bug**: MacOS - Look more into that MacOS issue and curl initialization
-  - https://bugs.php.net/bug.php?id=81394 - Apache faults when using cURL with IMAP enabled
-  - https://github.com/php/php-src/issues/11818 - macOS now crashes fork() process instead of just warning output
 - **Bug**: TLS - Check curl with alternative TLS backend 
   - https://bugs.php.net/bug.php?id=81276 - Using curl/libcurl with NSS backend fails to load curl extension
 - **Bug**: TLS - Check possible memory leak with verify peer enabled
@@ -45,7 +42,8 @@
   - https://bugs.php.net/bug.php?id=79318 - curl_errno() is always 0 if there was an error while used with curl_multi()
 - **Bug**: Check content type return value changes (BC)
   - https://github.com/php/php-src/issues/16929 - curl_getinfo($ch, CURLINFO_CONTENT_TYPE) returns false when Content-Type header is not set
-
+- **Feat**: Look into curl how the MacOS issue could be resolved in the library
+  - https://github.com/php/php-src/issues/11818 - macOS now crashes fork() process instead of just warning output
 
 ## Docs
 
@@ -61,3 +59,11 @@
   - https://bugs.php.net/bug.php?id=62942 - Setting CURLOPT_COOKIE with curl_setopt_array problem _(3 votes)_
 - **Doc**: Document pkg-config changes
   - https://bugs.php.net/bug.php?id=81661 - curl uses pkg-config as of PHP 7.4.0
+
+
+## Changes
+
+### 2025-05
+
+- **Bug**: MacOS - Look more into that MacOS issue and curl initialization
+  - https://bugs.php.net/bug.php?id=81394 - Apache faults when using cURL with IMAP enabled
