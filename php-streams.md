@@ -2,8 +2,6 @@
 
 ## Source issues
 
-- **Bug**: Look to a proper fix for socket name
-  - https://bugs.php.net/bug.php?id=74556 - stream_socket_get_name returns \0 string instead of false
 - **Bug**: stream_socket_get_name() IPv6 handling
   - https://github.com/php/php-src/issues/16117 - stream_socket_get_name() can return ipv6 address even when ipv6 is not available
 - **Bug**: Make listen non blockign to prevent issues with not respecting timeout
@@ -178,6 +176,11 @@
 
 
 ## Changes
+
+### 2025-05
+
+- **Bug**: Look to a proper fix for socket name
+  - https://bugs.php.net/bug.php?id=74556 - stream_socket_get_name returns \0 string instead of false
 
 ### 2025-04
 

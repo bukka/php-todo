@@ -2,9 +2,8 @@
 
 ## Source issues
 
-- **Bug**: crypt - Investigate issues with encrypting with multiple keys
-  - https://github.com/php-gnupg/php-gnupg/issues/32 - Can't decrypt for every recipient if the message was encrypted using multiple keys
-  - https://github.com/php-gnupg/php-gnupg/pull/33 - Fix decryption using multiple keys (needs test and proper review)
+- **Feat**: Add PIE support
+  - https://github.com/php-gnupg/php-gnupg/issues/56 - Add support for PIE command
 - **Feat**: export - Add support for exporting multiple keys
   - https://github.com/php-gnupg/php-gnupg/issues/10 - Adding Support for exporting multiple Keys
 - **Feat**: export - Way to export message keys
@@ -61,6 +60,10 @@
 
 ### 2025-04
 
+- **Bug**: crypt - Investigate issues with encrypting with multiple keys
+  - https://github.com/php-gnupg/php-gnupg/issues/32 - Can't decrypt for every recipient if the message was encrypted using multiple keys
+  - https://github.com/php-gnupg/php-gnupg/pull/33 - Fix decryption using multiple keys (needs test and proper review)
+  - https://github.com/php-gnupg/php-gnupg/pull/55 - Fix #32: Decryption of message encrypted with multiple keys
 - **Task**: crypt - Investigate if User ID hint is always 16 bytes
   - https://github.com/bukka/php-gnupg/blob/a32dc2f988ee9b3afe1234642a2febb9a0cc435e/gnupg.c#L685 - line that relies on 16 bytes uid_hint
 

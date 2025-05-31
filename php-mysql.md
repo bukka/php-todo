@@ -60,8 +60,12 @@
   - https://bugs.php.net/bug.php?id=67563 - mysqli compiled with mysqlnd does not take ipv6 adress as parameter _(17 votes)_
 - **Bug**: Implement missing `MYSQL_READ_DEFAULT_FILE`
   - https://bugs.php.net/bug.php?id=43812 - MYSQLI_READ_DEFAULT_FILE option ignored when using mysqlnd
+- **Bug**: Look into build dependencies with OpenSSL
+  - https://github.com/php/php-src/issues/18003 - mysqlnd depends on openssl when build shared
 - **Bug**: Look into JWT auth failure
   - https://github.com/php/php-src/issues/10800 - mysqli::real_connect(): Authentication data too long. Won't fit into the buffer and will be truncated. Authentication will thus fail
+- **Feat**: Look into changing the default auth plugin and proper support of MySQL 8.4 and 9.0
+  - https://github.com/php/php-src/issues/18659 - mysql: change default auth plugin from mysql_native_password 
 - **Feat**: Check dropping unused auth variables
   - https://github.com/php/php-src/pull/18023 - Drop unused variables
   - https://github.com/php/php-src/pull/18014 - ext/mysqlnd: fix passing wrong parameter after a893a49
@@ -73,7 +77,7 @@
 ## PDO_MySQL
 
 - **Feat**: Add addition field metadata
-  - https://github.com/php/php-src/issues/15093 - Add support for all flags from mysql in the PDO MySql driver in the getColumnMeta function.h i uikmtlph/b]nimuiummmmmmmmmmmmmm
+  - https://github.com/php/php-src/issues/15093 - Add support for all flags from mysql in the PDO MySql driver in the getColumnMeta function.
   - https://github.com/php/php-src/pull/15114 - Fix #15093: Add additional field type metadata for pdo_mysql in getColumnMeta response.
 
 ## Tests

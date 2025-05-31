@@ -131,6 +131,11 @@
 - **Feat**: constants - Consider defining LIBRESSL_VERSION_NUMBER when available
   - https://bugs.php.net/bug.php?id=71143 - Define LIBRESSL_VERSION_NUMBER when available
 - **Feat**: build - Add minimal version check for LibreSSL (the last time it was checked, it was 3.5.0)
+
+### Build
+
+- **Bug**: Look into build dependencies with OpenSSL
+  - https://github.com/php/php-src/issues/18003 - mysqlnd depends on openssl when build shared
 - **Bug**: build - Check shared build issue
   - https://bugs.php.net/bug.php?id=73609 - "run-tests.php" don't respect configuration
 

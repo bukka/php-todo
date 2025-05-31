@@ -2,8 +2,7 @@
 
 ## Source issues
 
-- **Bug**: TLS - Check curl with alternative TLS backend 
-  - https://bugs.php.net/bug.php?id=81276 - Using curl/libcurl with NSS backend fails to load curl extension
+
 - **Bug**: TLS - Check possible memory leak with verify peer enabled
   - https://bugs.php.net/bug.php?id=76484 - emory leakage with CURLOPT_SSL_VERIFYPEER set to TRUE _(2 votes)_
 - **Bug**: TLS - Look into removing the OpenSSL crypto locks clean up
@@ -65,5 +64,7 @@
 
 ### 2025-05
 
+- **Bug**: TLS - Check curl with alternative TLS backend 
+  - https://bugs.php.net/bug.php?id=81276 - Using curl/libcurl with NSS backend fails to load curl extension
 - **Bug**: MacOS - Look more into that MacOS issue and curl initialization
   - https://bugs.php.net/bug.php?id=81394 - Apache faults when using cURL with IMAP enabled

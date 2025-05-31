@@ -112,6 +112,11 @@
 - **Feat**: Add function to list Windows drives
   - https://bugs.php.net/bug.php?id=52647 - Function to get Windows drive letters _(7 votes)_
 
+### HTML
+
+- **Feat**: Entity / special chars encoding and decoding optimizations (wait for review changes and possibly do it)
+  - https://github.com/php/php-src/pull/18126 - Optimization for htmlspecialchars function
+  - https://github.com/php/php-src/pull/18092 - Optimize PHP html_entity_decode function
 
 ### Image
 
@@ -149,6 +154,8 @@
 
 - **Bug**: DNS - Multistring DNS should not be terminated by '\0'
   - https://bugs.php.net/bug.php?id=65478 - Multi-string DNS records obtained with dns_get_record contain nulls _(2 votes)_
+- **Bug**: DNS - Look into checkdnsrr issue wiht mod_php on MacOS
+  - https://github.com/php/php-src/issues/18548 - checkdnsrr/dns_check_record works in CLI but not in mod_php on macOS
 - **Bug**: DNS - checkdnsrr should correctly check MX CNAME
   - https://bugs.php.net/bug.php?id=68081 - checkdnsrr( 'example.com' ) returns `true` when no MX, only CNAME _(1 vote)_
 - **Feat**: DNS - Improve error handling of dns_get_record and dns_check_record
@@ -219,6 +226,8 @@
 
 ### Serialization and export
 
+- **Bug**: Look into issue with unserialization of aliased class (using class_alias)
+  - https://github.com/php/php-src/issues/18542 - unserialize doesn't respect class_alias for properties
 - **Bug**: Proper handling of serialization locking
   - https://github.com/php/php-src/pull/5039 - Properly handle serialization locking
 - **Bug**: Look to wekup issue
