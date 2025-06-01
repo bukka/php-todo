@@ -165,6 +165,7 @@
 - **Feat**: trace - slowlog - add request information - maybe some custom configurable fmt
   - https://bugs.php.net/bug.php?id=81501 - Log request information in slowlog
   - https://bugs.php.net/bug.php?id=79137 - Add request parameters to slow log script report
+  - https://github.com/php/php-src/issues/18536 - PHP-FPM slow log entires should include the request URL
 - **Feat**: access log - fmt flag for path info or available env to use
   - https://bugs.php.net/bug.php?id=81670 - Access log contains wrong values for "%r" (request URI) format string
 - **Feat**: access log - respect locale for time - consider logging after request shutdown
