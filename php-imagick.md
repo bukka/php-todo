@@ -14,27 +14,39 @@
   - https://github.com/Imagick/imagick/issues/681 - Leaking temp files in PHP-FPM when max_execution_time interrupts the script
 - **Bug**: Look into backtick issue in the ImageMagick policy
   - https://github.com/Imagick/imagick/issues/670 - Backticks in XML Comment breaks policy in /etc/ImageMagick-6/policy.xml
+- **Bug**: Investigate policy and other XML files usage on Windows
+  - https://github.com/Imagick/imagick/issues/599 - Windows test failing due to missing dither info
 - **Bug**: Investigate perf regression between PHP 7.2 and 8.2 when using distort
   - https://github.com/Imagick/imagick/issues/731 - Performance Regression with Imagick between PHP 7.2 and 8.2
 - **Bug**: Fix reference leaks in subimageMatch and possibly elsewhere
   - https://github.com/Imagick/imagick/issues/725 - References can cause leaks
 - **Bug**: Look into unexpected ignoring of blur parameter
   - https://github.com/Imagick/imagick/issues/680 - Imagick::resize doesn't use the filter parameter...
+- **Bug**: Fix signature of setImageBiasQuantum
+  - https://github.com/Imagick/imagick/issues/569 - setImageBiasQuantum has wrong signature
+- **Bug**: Look into signature issue in convolveImage
+  - https://github.com/Imagick/imagick/issues/577 - Imagick::convolveImage signature changed on im7...
 - **Bug**: Look into issue with coalescing image (looks like ImageMagick issue potentially as it's related to its version)
   - https://github.com/Imagick/imagick/issues/647 - Call coalesceImages() turns image white
 - **Bug**: Look into how image CLUT works
+  - https://github.com/Imagick/imagick/issues/589 - Clut image follow up
+  - https://github.com/ImageMagick/ImageMagick/issues/5951 - ClutImage with transparent color
   - https://github.com/Imagick/imagick/issues/656 - Can't make sense of Imagick::clutImage result
+- **Bug**: Check if Imagick::roundCornersImage works correctly
+  - https://github.com/Imagick/imagick/issues/549 - php imagick roundCorners can't use how to resolve it
 - **Bug**: Look into shadowImage params effect
   - https://github.com/Imagick/imagick/issues/686 - shadowImage() Coordinates Have no Effect
 - **Bug**: Look into shadow webp issue
   - https://github.com/Imagick/imagick/issues/665 - Shadow-like line&row compression artefacts when saving to webp
 - **Feat**: Improve docs to show available webp options
   - https://github.com/Imagick/imagick/issues/621 - Where can I see in the code what arguments are accepted by setOption()?
+- **Bug**: Add error check for MagickGetImageBlob in Imagick::__toString
+  - https://github.com/Imagick/imagick/issues/561 - No error check in Imagick::__toString()
+- **Bug**: Check why output from getImagesBlob is empty for HEIC
+  - https://github.com/Imagick/imagick/issues/707 - Empty HEIC-encoding result with Ubuntu 24.04
 - **Bug**: Check why compression quality is ignored for HEIC / AVIC
   - https://github.com/Imagick/imagick/issues/711 - AVIF/HEIC compression quality settings have no effect on output file size
   - https://github.com/Imagick/imagick/issues/696 - Highest compression for AVIF images and google pagespeed
-- **Bug**: Check why output from getImagesBlob is empty for HEIC
-  - https://github.com/Imagick/imagick/issues/707 - Empty HEIC-encoding result with Ubuntu 24.04
 - **Bug**: Look into incorrect usage of preview image in NEF images
   - https://github.com/Imagick/imagick/issues/685 - PHP Imagick::readImageFile NEF filehandle detected as TIFF
 - **Bug**: Look into issue with reading base64 encoded image
@@ -55,11 +67,14 @@
   - https://github.com/Imagick/imagick/issues/637 - OpenMP segmentation fault when compiling with clang+preload is enabled
 - **Bug**: OMP - Investigate libgomp segfault on Ubuntu 23 (check dockerfile that reproduces it)
   - https://github.com/Imagick/imagick/issues/636 - Segmentation fault on Ubuntu 23
-- **Bug**: Check support for RTL languagues not working on Ubuntu
+- **Bug**: Check support for RTL (e.g. Arabic) languagues
+  - https://github.com/Imagick/imagick/issues/550 - Imagick Arabic Text Direction Problem
   - https://github.com/Imagick/imagick/issues/712 - Long standing problem with RTL languages
 - **Bug**: Look to PNG to SVG conversion issues
   - https://github.com/Imagick/imagick/issues/622 - PNG -> SVG
 - **Bug**: Look into SVG to png/jpg conversion issues
+  - https://github.com/Imagick/imagick/issues/551 - Results of svg->png given by php code and convert command differs
+  - https://github.com/Imagick/imagick/issues/581 - SVG to PNG
   - https://github.com/Imagick/imagick/issues/614 - Convert SVG to JPG/PNG
 - **Bug**: Look into SVG color issue
   - https://github.com/Imagick/imagick/issues/632 - Color bug in newest version
@@ -67,10 +82,14 @@
   - https://github.com/Imagick/imagick/issues/706 - does not support transform attributes which contain more than one transform
 - **Bug**: Look what imagick SVG does not work on Google App Engine
   - https://github.com/Imagick/imagick/issues/687 - Imagick not working with GAE runtime php82 or php83
+- **Bug**: Look into SVG deps build requirements check
+  - https://github.com/Imagick/imagick/issues/565 - php Imagick class throws exception when instantiated with uploaded SVG file
 - **Bug**: Win - Check the relative path issue
   - https://github.com/Imagick/imagick/issues/607 - Problems Opening PNG on Windows Apache Server with PHP, ImageMagick, & Imagick
 - **Bug**: Win - Try Ghostscript generation
   - https://github.com/Imagick/imagick/issues/713 - Ghostscript call by imagick doesn't work
+- **Feat**: Better handling of newPseudoImage
+  - https://github.com/Imagick/imagick/issues/570 - newPseudoImage multiple parameters
 
 
 ## Feedback required
@@ -78,6 +97,13 @@
 - **Feat**: config path
   - https://github.com/Imagick/imagick/issues/736 - [Feature Request] Config directive to set path
 
+
+## Docs
+
+- **Docs**: Document delegate command line usage
+  - https://github.com/Imagick/imagick/issues/552 - Document delegate command line usage
+- **Docs**: Document usage of raqm for fong layouts
+  - https://github.com/Imagick/imagick/issues/599 - document --raqm
 
 ## Tasks
 
