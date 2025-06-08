@@ -4,11 +4,6 @@
 
 ### TLS
 
-- **Bug**: Look to altering default context when https request goes through http proxy
-  - https://bugs.php.net/bug.php?id=74796 - Requests through https:// with http proxy set altering default context
-  - https://bugs.php.net/bug.php?id=76196 - proxied file_get_contents calls lag the cert check one behind for further calls
-- **Bug**: Check corrupted wsdl fetching result if fetching gzip
-  - https://bugs.php.net/bug.php?id=79575 - Content-Length header name is getting corrupted
 - **Bug**: Allow getting client certificate when provided
   - https://bugs.php.net/bug.php?id=80770 - It is not possible to get client peer certificate with stream_socket_server
 - **Bug**: Check why stream_context_set_default does not set options for veryfying self signed cert
@@ -144,6 +139,8 @@
 
 - **Test**: Make sure all issues get fixed and it can be closed
   - https://github.com/php/php-src/issues/14201 - Update tests to support RHEL legacy crypto policy
+- **Test**: Look into changing ServerClientTestCase notification logic to allow proxy to server comms
+  - https://github.com/php/php-src/pull/18775 - 
 - **Test**: PKCS7/CMS - rewrite tests to use cert generator and no tmp file with proper cleanup
 - **Test**: General - Replace all other tests using static certs to use cert generator when possible
 - **Test**: Fix LibreSSL tests (requires LIBRESSL_VERSION_NUMBER introduction) - currently minimum LibreSSL version that compiles is 3.5.0
@@ -172,6 +169,14 @@
   - https://bugs.php.net/bug.php?id=79401 - --with-openssl no longer accepts a directory
 
 ## Changes
+
+### 2025-05
+
+- **Bug**: Look to altering default context when https request goes through http proxy
+  - https://bugs.php.net/bug.php?id=74796 - Requests through https:// with http proxy set altering default context
+  - https://bugs.php.net/bug.php?id=76196 - proxied file_get_contents calls lag the cert check one behind for further calls
+- **Bug**: Check corrupted wsdl fetching result if fetching gzip
+  - https://bugs.php.net/bug.php?id=79575 - Content-Length header name is getting corrupted
 
 ### 2025-02
 

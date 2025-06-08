@@ -182,8 +182,6 @@
 
 ### Process and shell
 
-- **Bug**: Look into releasing lock in putenv
-  - https://github.com/php/php-src/issues/17403 - The lock is not released when putenv fails
 - **Bug**: Investigate issues with locale handling in escapeshellarg
   - https://bugs.php.net/bug.php?id=54391 - escapeshellarg strip non-ascii characters _(10 votes)_
 - **Bug**: Look to the shell (dash) escaping issue in escapeshellarg

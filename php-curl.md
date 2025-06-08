@@ -2,11 +2,6 @@
 
 ## Source issues
 
-
-- **Bug**: TLS - Check possible memory leak with verify peer enabled
-  - https://bugs.php.net/bug.php?id=76484 - emory leakage with CURLOPT_SSL_VERIFYPEER set to TRUE _(2 votes)_
-- **Bug**: TLS - Look into removing the OpenSSL crypto locks clean up
-  - https://bugs.php.net/bug.php?id=50966 - Some resource leak (odbc_connect and odbc_close) using dbase or Microsoft Acces _(1 vote)_
 - **Bug**: TLS - Look into Win IIS extend protection issue
   - https://github.com/php/php-src/issues/14039 - php_curl does not work with IIS extended protection 
 - **Test**: TLS - Check failing curl_setopt_ssl.phpt on macOS
@@ -61,6 +56,13 @@
 
 
 ## Changes
+
+### 2025-06
+
+- **Bug**: TLS - Look into removing the OpenSSL crypto locks clean up
+  - https://bugs.php.net/bug.php?id=50966 - Some resource leak (odbc_connect and odbc_close) using dbase or Microsoft Acces _(1 vote)_
+- **Bug**: TLS - Check possible memory leak with verify peer enabled
+  - https://bugs.php.net/bug.php?id=76484 - emory leakage with CURLOPT_SSL_VERIFYPEER set to TRUE _(2 votes)_
 
 ### 2025-05
 

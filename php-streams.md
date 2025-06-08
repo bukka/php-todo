@@ -4,14 +4,14 @@
 
 - **Bug**: stream_socket_get_name() IPv6 handling
   - https://github.com/php/php-src/issues/16117 - stream_socket_get_name() can return ipv6 address even when ipv6 is not available
+- **Bug**: Fix error issue with fgets() when stream filter fails
+  - https://github.com/php/php-src/issues/13264 - fgets() does not return false on error from a zlib.inflate filtered stream with large content and invalid checksum
+- **Bug**: Look into proc_open breakage with user stream
+  - https://github.com/php/php-src/issues/17943 - Using stream wrappers breaks proc_open
 - **Bug**: Make listen non blockign to prevent issues with not respecting timeout
   - https://github.com/php/php-src/issues/13220 - stream_socket_accept() timeout sometimes doesn't work?
 - **Bug**: Disable usage of mmap that is causing segfaults
   - https://github.com/php/php-src/issues/13011 - SIGBUS Signal 7 Issue
-- **Bug**: Look into proc_open breakage wit user stream
-  - https://github.com/php/php-src/issues/17943 - Using stream wrappers breaks proc_open
-- **Bug**: Fix error issue with fgets() when stream filter fails
-  - https://github.com/php/php-src/issues/13264 - fgets() does not return false on error from a zlib.inflate filtered stream with large content and invalid checksum
 - **Bug**: Look to the inconsistencies in stream filters seeking
   - https://bugs.php.net/bug.php?id=49874 - ftell() and fseek() inconsistency when using stream filters _(8 votes)_
   - https://github.com/php/php-src/pull/6359 - Disallow seeking on filtered streams
