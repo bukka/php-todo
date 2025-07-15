@@ -18,10 +18,14 @@
   - https://github.com/Imagick/imagick/issues/599 - Windows test failing due to missing dither info
 - **Bug**: Investigate perf regression between PHP 7.2 and 8.2 when using distort
   - https://github.com/Imagick/imagick/issues/731 - Performance Regression with Imagick between PHP 7.2 and 8.2
+- **Bug**: Look into imagickpixeliterator segfault
+  - https://github.com/Imagick/imagick/issues/530 - imagickpixeliterator probably shouldn't segfault
 - **Bug**: Fix reference leaks in subimageMatch and possibly elsewhere
   - https://github.com/Imagick/imagick/issues/725 - References can cause leaks
 - **Bug**: Look into unexpected ignoring of blur parameter
   - https://github.com/Imagick/imagick/issues/680 - Imagick::resize doesn't use the filter parameter...
+- **Bug**: Fix caption in polariod image
+  - https://github.com/Imagick/imagick/issues/521 - Imagick::polaroidImage - has a todo
 - **Bug**: Fix signature of setImageBiasQuantum
   - https://github.com/Imagick/imagick/issues/569 - setImageBiasQuantum has wrong signature
 - **Bug**: Look into signature issue in convolveImage
@@ -67,6 +71,8 @@
   - https://github.com/Imagick/imagick/issues/637 - OpenMP segmentation fault when compiling with clang+preload is enabled
 - **Bug**: OMP - Investigate libgomp segfault on Ubuntu 23 (check dockerfile that reproduces it)
   - https://github.com/Imagick/imagick/issues/636 - Segmentation fault on Ubuntu 23
+- **Bug**: Look into issue with setting font weight and style
+  - https://github.com/Imagick/imagick/issues/544 - setFontWeight and setFontStyle not works
 - **Bug**: Check support for RTL (e.g. Arabic) languagues
   - https://github.com/Imagick/imagick/issues/550 - Imagick Arabic Text Direction Problem
   - https://github.com/Imagick/imagick/issues/712 - Long standing problem with RTL languages
@@ -88,8 +94,20 @@
   - https://github.com/Imagick/imagick/issues/607 - Problems Opening PNG on Windows Apache Server with PHP, ImageMagick, & Imagick
 - **Bug**: Win - Try Ghostscript generation
   - https://github.com/Imagick/imagick/issues/713 - Ghostscript call by imagick doesn't work
+- **Bug**: Investigate PDF generation issue
+  - https://github.com/Imagick/imagick/issues/537 - $imagick->getNumberImages(); always returns 41
+- **Feat**: Look into storing SVG extra properties in jpg or possibly other formats
+  - https://github.com/Imagick/imagick/issues/545 - Importing clipping path to jpeg file
 - **Feat**: Better handling of newPseudoImage
   - https://github.com/Imagick/imagick/issues/570 - newPseudoImage multiple parameters
+- **Feat**: Look into better error message when pixel is outside of image
+  - https://github.com/Imagick/imagick/issues/540 - setImagePixel has bizarre error message
+- **Feat**: Look into better handling missing fonts
+  - https://github.com/Imagick/imagick/issues/543 - Bug(?) non-conforming drawing primitive definition `text' @ error/draw.c/RenderMVGContent/4469
+- **Feat**: Update phpinfo details
+  - https://github.com/Imagick/imagick/issues/531 - Update info for phpinfo()
+- **Faet**: Look into adding 32bit CI pipeline
+  - https://github.com/Imagick/imagick/issues/533 - 32bit container for testing
 
 
 ## Feedback required
@@ -102,10 +120,16 @@
 
 - **Docs**: Document delegate command line usage
   - https://github.com/Imagick/imagick/issues/552 - Document delegate command line usage
-- **Docs**: Document usage of raqm for fong layouts
+- **Docs**: Document usage of raqm for font layouts
   - https://github.com/Imagick/imagick/issues/599 - document --raqm
+- **Docs**: Document need for coalescing before getting geometry
+  - https://github.com/Imagick/imagick/issues/539 - Imagick::getImageGeometry() returning wrong dimensions
+- **Docs**: Consider adding some notes about upgrading to IM 7
+  - https://github.com/Imagick/imagick/issues/529 - IM 7 upgrade notes
 
 ## Tasks
 
 - Blog post about PHP Foundation support
-  - https://github.com/Imagick/imagick/issues/718 - New Maintainers introduction? 
+  - https://github.com/Imagick/imagick/issues/718 - New Maintainers introduction?
+- Check Dan's TODO list
+  - https://github.com/Imagick/imagick/issues/532 - TODO list

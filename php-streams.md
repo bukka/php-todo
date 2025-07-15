@@ -2,10 +2,6 @@
 
 ## Source issues
 
-- **Bug**: stream_socket_get_name() IPv6 handling
-  - https://github.com/php/php-src/issues/16117 - stream_socket_get_name() can return ipv6 address even when ipv6 is not available
-- **Bug**: Fix error issue with fgets() when stream filter fails
-  - https://github.com/php/php-src/issues/13264 - fgets() does not return false on error from a zlib.inflate filtered stream with large content and invalid checksum
 - **Bug**: Look into proc_open breakage with user stream
   - https://github.com/php/php-src/issues/17943 - Using stream wrappers breaks proc_open
 - **Bug**: Make listen non blockign to prevent issues with not respecting timeout
@@ -176,6 +172,11 @@
 
 
 ## Changes
+
+### 2025-06
+
+- **Bug**: Fix error issue with fgets() when stream filter fails
+  - https://github.com/php/php-src/issues/13264 - fgets() does not return false on error from a zlib.inflate filtered stream with large content and invalid checksum
 
 ### 2025-05
 

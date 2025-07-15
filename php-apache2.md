@@ -7,6 +7,8 @@
 
 ## Source issues
 
+- **Bug**: Look into php_admin_value handling of disabled functions
+  - https://github.com/php/php-src/issues/19018 - php_admin_value disable_functions /upload_tmp_dir ignored
 - **Bug**: Look into handling of incomplete posts
   - https://bugs.php.net/bug.php?id=61471 - Incomplete POST does not timeout but is passed to PHP _(15 votes)_
 - **Bug**: Look into POST vars on 404

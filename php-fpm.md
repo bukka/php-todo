@@ -283,6 +283,8 @@
 - **Feat**: proc - consider defining timeout when no children available
   - https://bugs.php.net/bug.php?id=65503 - Timeout when max_children reached
   - https://github.com/php/php-src/issues/11260 - Timeout when max-childrens reached
+- **Feat**: proc - Look into scaling limit based on memory usage for max_children
+  - https://github.com/php/php-src/issues/18863 - php-fpm scaling limit for pm.max_children
 - **Feat**: proc - Introduce delay for process restarts to prevent CPU exhaustion
   - https://github.com/php/php-src/issues/9632 - FPM delayed process restarting
 - **Feat**: proc - add function to terminate child (this should be probably explicitly enabled in pool config)

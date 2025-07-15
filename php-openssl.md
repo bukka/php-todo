@@ -4,8 +4,6 @@
 
 ### TLS
 
-- **Bug**: Allow getting client certificate when provided
-  - https://bugs.php.net/bug.php?id=80770 - It is not possible to get client peer certificate with stream_socket_server
 - **Bug**: Check why stream_context_set_default does not set options for veryfying self signed cert
   - https://bugs.php.net/bug.php?id=69319 - stream_context_set_default() options not set as default in streaming functions
 - **Bug**: Consider notice for unsupported method flag
@@ -169,6 +167,11 @@
   - https://bugs.php.net/bug.php?id=79401 - --with-openssl no longer accepts a directory
 
 ## Changes
+
+### 2025-07
+
+- **Bug**: Allow getting client certificate when provided
+  - https://bugs.php.net/bug.php?id=80770 - It is not possible to get client peer certificate with stream_socket_server
 
 ### 2025-05
 

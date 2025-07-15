@@ -131,8 +131,6 @@
 
 - **Bug**: Investigate why mail.mixed_lf_and_crlf is not always woring
   - https://github.com/php/php-src/issues/8086#issuecomment-1983073957 - Mail() function not working correctly in PHP 8.x
-- **Bug**: mail() should not return true if fails (Windows related)
-  - https://bugs.php.net/bug.php?id=43327 - wrong return value from mail(), if sendmail_path is wrong _(8 votes)_
 - **Bug**: possible issue with preventing mail.force_extra_parameters to be set in PHP_INI_PERDIR
   - https://bugs.php.net/bug.php?id=71901 - mail.force_extra_parameters is not PHP_INI_PERDIR _(5 votes)_
 - **Feat**: Look to restricing sendmail options
@@ -319,6 +317,11 @@
   - https://bugs.php.net/bug.php?id=70088 - is_callable() doesn't check if a class/method syntax is valid
 
 ## Changes
+
+### 2025-06
+
+- **Bug**: mail() should not return true if fails (Windows related)
+  - https://bugs.php.net/bug.php?id=43327 - wrong return value from mail(), if sendmail_path is wrong _(8 votes)_
 
 ### 2023-02
 
