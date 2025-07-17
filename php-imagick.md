@@ -4,26 +4,41 @@
 
 - **Bug**: Fix README link to https://phpimagick.com/
   - https://github.com/Imagick/imagick/issues/631 - Invalid link inside README Examples Section
+- **Bug**: Image similarity issue with ImageMagick-7.1.2
+  - https://github.com/Imagick/imagick/issues/737 - Test failure with IM 7.1.2 (regression ?)
 - **Bug**: CI build issue for ImageMagick-6.7.8-0
   - https://github.com/Imagick/imagick/issues/734 - ImageMagick-6.7.8-0 librsvg compilation issues
 - **Bug**: Investigate failures when `--enable-debug` is used
   - https://github.com/Imagick/imagick/issues/626 - Building against PHP with enabled debug breaks tests (and function)
 - **Bug**: Investigate parse error for `php -ri imagick`
   - https://github.com/Imagick/imagick/issues/694 - php -ri imagick fails with error
+- **Bug**: Look into the util/check_methods.php issue
+  - https://github.com/Imagick/imagick/issues/488 - Detection of missing methods should be against build imagick extension. 
+- **Feat**: Bump minimal PHP version to 7.2 and clean up
+- **Feat**: Bump minimal ImageMagic version to 6.7.8 and clean up
+- **Bug**: Look through code for potential incorrect types in ZPP
+  - https://github.com/Imagick/imagick/issues/496 - Follow up on potential stack corruption
 - **Bug**: Look into cleaning up temp files when FPM kill the process (more for policy options)
   - https://github.com/Imagick/imagick/issues/681 - Leaking temp files in PHP-FPM when max_execution_time interrupts the script
 - **Bug**: Look into backtick issue in the ImageMagick policy
   - https://github.com/Imagick/imagick/issues/670 - Backticks in XML Comment breaks policy in /etc/ImageMagick-6/policy.xml
 - **Bug**: Investigate policy and other XML files usage on Windows
   - https://github.com/Imagick/imagick/issues/599 - Windows test failing due to missing dither info
+- **Bug**: Look into dithering issue
+  - https://github.com/Imagick/imagick/issues/472 - Dithering doesn't appear to be working.
 - **Bug**: Investigate perf regression between PHP 7.2 and 8.2 when using distort
   - https://github.com/Imagick/imagick/issues/731 - Performance Regression with Imagick between PHP 7.2 and 8.2
 - **Bug**: Look into imagickpixeliterator segfault
   - https://github.com/Imagick/imagick/issues/530 - imagickpixeliterator probably shouldn't segfault
+- **Bug**: Check usage of some Magick getter to make sure there are no memory leaks
+  - https://github.com/Imagick/imagick/issues/506 - Check usage of these functions for mem-leaks
 - **Bug**: Fix reference leaks in subimageMatch and possibly elsewhere
   - https://github.com/Imagick/imagick/issues/725 - References can cause leaks
 - **Bug**: Look into unexpected ignoring of blur parameter
   - https://github.com/Imagick/imagick/issues/680 - Imagick::resize doesn't use the filter parameter...
+  - https://github.com/Imagick/imagick/issues/477 - Imagick::resizeImage has nasty BC break.
+- **Bug**: Look into jaggy Imagick::annotateImage
+  - https://github.com/Imagick/imagick/issues/482 - Imagick::annotateImage seems jaggy.
 - **Bug**: Fix caption in polariod image
   - https://github.com/Imagick/imagick/issues/521 - Imagick::polaroidImage - has a todo
 - **Bug**: Fix signature of setImageBiasQuantum
@@ -36,12 +51,16 @@
   - https://github.com/Imagick/imagick/issues/589 - Clut image follow up
   - https://github.com/ImageMagick/ImageMagick/issues/5951 - ClutImage with transparent color
   - https://github.com/Imagick/imagick/issues/656 - Can't make sense of Imagick::clutImage result
+- **Bug**: Look into issue with HSL colorspace
+  - https://github.com/Imagick/imagick/issues/511 - investigate HSL colorspace shenanigans.
 - **Bug**: Check if Imagick::roundCornersImage works correctly
   - https://github.com/Imagick/imagick/issues/549 - php imagick roundCorners can't use how to resolve it
 - **Bug**: Look into shadowImage params effect
   - https://github.com/Imagick/imagick/issues/686 - shadowImage() Coordinates Have no Effect
 - **Bug**: Look into shadow webp issue
   - https://github.com/Imagick/imagick/issues/665 - Shadow-like line&row compression artefacts when saving to webp
+- **Bug**: Look whether the webp settings issue got fixed
+  - https://github.com/Imagick/imagick/issues/508 - Follow up and test webp settings
 - **Feat**: Improve docs to show available webp options
   - https://github.com/Imagick/imagick/issues/621 - Where can I see in the code what arguments are accepted by setOption()?
 - **Bug**: Add error check for MagickGetImageBlob in Imagick::__toString
@@ -71,8 +90,10 @@
   - https://github.com/Imagick/imagick/issues/637 - OpenMP segmentation fault when compiling with clang+preload is enabled
 - **Bug**: OMP - Investigate libgomp segfault on Ubuntu 23 (check dockerfile that reproduces it)
   - https://github.com/Imagick/imagick/issues/636 - Segmentation fault on Ubuntu 23
-- **Bug**: Look into issue with setting font weight and style
+- **Bug**: Look into issue with setting font weight, style and stretch
   - https://github.com/Imagick/imagick/issues/544 - setFontWeight and setFontStyle not works
+  - https://github.com/Imagick/imagick/issues/471 - setFontStyle looks broken
+  - https://github.com/Imagick/imagick/issues/470 - setFontStretch looks broken still.
 - **Bug**: Check support for RTL (e.g. Arabic) languagues
   - https://github.com/Imagick/imagick/issues/550 - Imagick Arabic Text Direction Problem
   - https://github.com/Imagick/imagick/issues/712 - Long standing problem with RTL languages
@@ -94,18 +115,32 @@
   - https://github.com/Imagick/imagick/issues/607 - Problems Opening PNG on Windows Apache Server with PHP, ImageMagick, & Imagick
 - **Bug**: Win - Try Ghostscript generation
   - https://github.com/Imagick/imagick/issues/713 - Ghostscript call by imagick doesn't work
+  - https://github.com/Imagick/imagick/issues/480 - PHP script - Fatal error when try to convert PDF to JPG on XAMPP
 - **Bug**: Investigate PDF generation issue
   - https://github.com/Imagick/imagick/issues/537 - $imagick->getNumberImages(); always returns 41
 - **Feat**: Look into storing SVG extra properties in jpg or possibly other formats
   - https://github.com/Imagick/imagick/issues/545 - Importing clipping path to jpeg file
+- **Feat**: Add method parameter for Imagick::spreadImage
+  - https://github.com/Imagick/imagick/issues/483 - Imagick::spreadImage needs to allow PixelInterpolateMethod to be set.
+- **Feat**: Add sanity check to Imagick::polynomialImage
+  - https://github.com/Imagick/imagick/issues/520 - Should add a sanity check add Imagick::polynomialImage
 - **Feat**: Better handling of newPseudoImage
   - https://github.com/Imagick/imagick/issues/570 - newPseudoImage multiple parameters
+- **Feat**: Check alternative for setImageClipMask
+  - https://github.com/Imagick/imagick/issues/492 - setImageClipMask() in imagick v7? Where is it or alternative?
+- **Feat**: Investigate and add test for setImageMatteColor
+  - https://github.com/Imagick/imagick/issues/484 - what does setImageMatteColor do?
 - **Feat**: Look into better error message when pixel is outside of image
   - https://github.com/Imagick/imagick/issues/540 - setImagePixel has bizarre error message
+- **Feat**: Undeprecate ImagickDraw::setFillAlpha
+  - https://github.com/Imagick/imagick/issues/469 - Undeprecate things
 - **Feat**: Look into better handling missing fonts
   - https://github.com/Imagick/imagick/issues/543 - Bug(?) non-conforming drawing primitive definition `text' @ error/draw.c/RenderMVGContent/4469
+  - https://github.com/Imagick/imagick/issues/468 - Indecipherable error message.
 - **Feat**: Update phpinfo details
   - https://github.com/Imagick/imagick/issues/531 - Update info for phpinfo()
+- **Feat**: Look into using enums
+  - https://github.com/Imagick/imagick/issues/505 - Check enums as well as entries.
 - **Faet**: Look into adding 32bit CI pipeline
   - https://github.com/Imagick/imagick/issues/533 - 32bit container for testing
 
@@ -124,8 +159,12 @@
   - https://github.com/Imagick/imagick/issues/599 - document --raqm
 - **Docs**: Document need for coalescing before getting geometry
   - https://github.com/Imagick/imagick/issues/539 - Imagick::getImageGeometry() returning wrong dimensions
+- **Docs**: Document php_imagick_thumbnail_dimensions
+  - https://github.com/Imagick/imagick/issues/474 - Document php_imagick_thumbnail_dimensions
 - **Docs**: Consider adding some notes about upgrading to IM 7
   - https://github.com/Imagick/imagick/issues/529 - IM 7 upgrade notes
+- **Docs**: Add docs for building on Windows
+  - https://github.com/Imagick/imagick/issues/491 - Add notes on building for windows:
 
 ## Tasks
 
