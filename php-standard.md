@@ -13,8 +13,6 @@
 
 ### File System
 
-- **Bug**: Investigate is_file caching issue
-  - https://github.com/php/php-src/issues/17915 - PHP 8.3.17 - Very strange is_file() issue on CLI 
 - **Bug**: Get merged the chown fix for ZTS
   - https://bugs.php.net/bug.php?id=68861 - chown does not work when php is compiling with ZTS _(10 votes)_
   - https://github.com/php/php-src/pull/13876 - fix group/passwd api misuse if ZTS
@@ -120,8 +118,6 @@
 
 ### Image
 
-- **Feat**: SVG support in getimagesize()
-  - https://bugs.php.net/bug.php?id=71517 - Implement SVG support for getimagesize() and friends _(31 votes)_
 - **Feat**: Respecting orientation flag in getimagesize()
   - https://bugs.php.net/bug.php?id=66516 - getimagesize() should cater to orientation flag _(3 votes)_
 - **Feat**: Support strem resources in getimagesize()
@@ -129,10 +125,10 @@
 
 ### Mail
 
-- **Bug**: Investigate why mail.mixed_lf_and_crlf is not always woring
-  - https://github.com/php/php-src/issues/8086#issuecomment-1983073957 - Mail() function not working correctly in PHP 8.x
 - **Bug**: possible issue with preventing mail.force_extra_parameters to be set in PHP_INI_PERDIR
   - https://bugs.php.net/bug.php?id=71901 - mail.force_extra_parameters is not PHP_INI_PERDIR _(5 votes)_
+- **Feat**: Look into introducing new crlf control INI
+  - https://github.com/php/php-src/issues/19188 - Mail: introduce new INI for line ending control
 - **Feat**: Look to restricing sendmail options
   - https://github.com/php/php-src/issues/12781 - Restrict additional command line flags by default in mail()
   - https://github.com/php/php-src/pull/12783 - Add blacklisted command line flags for sendline via mail()
@@ -243,8 +239,6 @@
 
 ### String
  
-- **Bug**: Fix implode() function signature (BC breaking)
-  - https://github.com/php/php-src/pull/11991 - Fix implode() function signature
 
 ### Time
 

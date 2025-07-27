@@ -4,10 +4,9 @@
 
 ### TLS
 
-- **Bug**: Check why stream_context_set_default does not set options for veryfying self signed cert
-  - https://bugs.php.net/bug.php?id=69319 - stream_context_set_default() options not set as default in streaming functions
-- **Bug**: Consider notice for unsupported method flag
-  - https://bugs.php.net/bug.php?id=81213 - Stream crypto methods SSLv2 and v3 switch to TLS1.0
+- **But**: Fix success error message on TLS stream accept failure
+  - https://github.com/php/php-src/issues/19245 - Success error message on TLS stream accept failure
+  - https://github.com/php/php-src/pull/19246 - Fix GH-19245: Success error message on TLS stream accept failure
 - **Bug**: The `SSL: Success` warning in failed connection does not make much sense
   - https://github.com/php/php-src/issues/9261#issuecomment-1218471408 - Problem with enabling crypto on stream socket connection
 - **Bug**: Check stream_socket_client async issue
@@ -21,17 +20,21 @@
 - **Feat**: Simplify and improve liveness checking - remove polling
   - https://github.com/php/php-src/issues/13489 - OpenSSL streams liveness check should be always non blocking
   - https://github.com/php/php-src/pull/8829  - Improve php_openssl_sockop_set_option logic for liveness poll skipping (not worth it)
+- **Feat**: Extend TLS 1.3 support - 0-RTT (early data), ciphrsuite options and possible more
+- **Feat**: Consider notice for unsupported method flag
+  - https://bugs.php.net/bug.php?id=81213 - Stream crypto methods SSLv2 and v3 switch to TLS1.0
 - **Feat**: Add channel binding support
   - https://github.com/php/php-src/issues/16766 - Add support for SCRAM-SHA-*-PLUS channel binding in PHP streams (e.g., tls-unique, tls-exporter)
 - **Feat**: Add option to not add SSL_OP_IGNORE_UNEXPECTED_EOF (opt in protection for truncation attack) - create a proper test with proxy and TCP FIN
   - https://github.com/php/php-src/issues/8369#issuecomment-1126940364 - note about that in the bug
 - **Feat**: Look into the way to identify current security level
   - https://github.com/php/php-src/issues/14201#issuecomment-2639712190 - Update tests to support RHEL legacy crypto policy
+- **Feat**: Extend setting of verification options
+  - https://github.com/php/php-src/issues/19134 - Add more INI options to control OpenSSL verification
 - **Feat**: Allow multiple peer fingerprints in the context
   - https://bugs.php.net/bug.php?id=81528 - Support multiple peer_fingerprint values per algorithm
 - **Feat**: Support TLS PSK
   - https://bugs.php.net/bug.php?id=79280 - Add support for TLS-PSK
-- **Feat**: Extend TLS 1.3 support - 0-RTT (early data), ciphrsuite options and possible more
 - **Feat**: Support OCSP stapling
 
 
@@ -172,6 +175,8 @@
 
 - **Bug**: Allow getting client certificate when provided
   - https://bugs.php.net/bug.php?id=80770 - It is not possible to get client peer certificate with stream_socket_server
+- **Bug**: Check why stream_context_set_default does not set options for veryfying self signed cert
+  - https://bugs.php.net/bug.php?id=69319 - stream_context_set_default() options not set as default in streaming functions
 
 ### 2025-05
 

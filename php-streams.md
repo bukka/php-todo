@@ -2,8 +2,8 @@
 
 ## Source issues
 
-- **Bug**: Look into proc_open breakage with user stream
-  - https://github.com/php/php-src/issues/17943 - Using stream wrappers breaks proc_open
+- **Bug**: Use strerror_r instead of strerror
+  - https://github.com/php/php-src/issues/19248 - Use strerror_r instead of strerror in stream and networking code
 - **Bug**: Make listen non blockign to prevent issues with not respecting timeout
   - https://github.com/php/php-src/issues/13220 - stream_socket_accept() timeout sometimes doesn't work?
 - **Bug**: Disable usage of mmap that is causing segfaults
@@ -58,6 +58,8 @@
   - https://github.com/php/php-src/pull/6926 - Allow to cast filtered streams to PHP_STREAM_AS_FD_FOR_SELECT
 - **Feat**: Issue with user stream filter after destruction
   - https://bugs.php.net/bug.php?id=75931 - Call stream filter constructor first and destructor last
+- **Feat**: Look into passing close_handle to the close user stream wrapper method
+  - https://github.com/php/php-src/issues/17943 - Using stream wrappers breaks proc_open
 - **Feat**: Support filters on STDOUT
   - https://bugs.php.net/bug.php?id=34666 - print and echo do not apply filters on STDOUT _(1 vote)_
 - **Feat**: Look to not closing STDIN and STDOUT
@@ -86,6 +88,8 @@
   - https://github.com/php/php-src/issues/8641 - STREAM_NOTIFY_COMPLETED over HTTP never emitted
 - **Feat**: Look to supporting upload progress notification for things like HTTP POST
   - https://bugs.php.net/bug.php?id=80124 - HTTP stream contexts missing upload progress notification _(1 vote)_
+- **Feat**: Allow using stream for HTTP stream wrapper content
+  - https://github.com/php/php-src/issues/19249 - http context - allow content to be a stream/resource
 - **Feat**: Support some additional methods for stream wrappers
   - https://bugs.php.net/bug.php?id=38025 - Missing stream wrapper methods _(12 votes)_
 - **Feat**: Consider adding method for checking if user is super user
