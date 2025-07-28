@@ -32,6 +32,8 @@
   - https://github.com/Imagick/imagick/issues/530 - imagickpixeliterator probably shouldn't segfault
 - **Bug**: Check usage of some Magick getter to make sure there are no memory leaks
   - https://github.com/Imagick/imagick/issues/506 - Check usage of these functions for mem-leaks
+- **Bug**: Check composite display and distort for memory leaks
+  - https://github.com/Imagick/imagick/issues/463 - Probable invalid memory read in composite display + distort
 - **Bug**: Fix reference leaks in subimageMatch and possibly elsewhere
   - https://github.com/Imagick/imagick/issues/725 - References can cause leaks
 - **Bug**: Look into unexpected ignoring of blur parameter
@@ -53,6 +55,11 @@
   - https://github.com/Imagick/imagick/issues/656 - Can't make sense of Imagick::clutImage result
 - **Bug**: Look into issue with HSL colorspace
   - https://github.com/Imagick/imagick/issues/511 - investigate HSL colorspace shenanigans.
+- **Bug**: Look into issue with InvalidColormapIndex
+  - https://github.com/Imagick/imagick/issues/439 - InvalidColormapIndex error not detectable
+  - https://bugs.php.net/bug.php?id=73263 - InvalidColormapIndex error not detectable
+- **Bug**: Investigate whether borderImage with transparent color got fixed.
+  - https://github.com/Imagick/imagick/issues/452 - borderImage with transparent color not working properly in imagick7
 - **Bug**: Check if Imagick::roundCornersImage works correctly
   - https://github.com/Imagick/imagick/issues/549 - php imagick roundCorners can't use how to resolve it
 - **Bug**: Look into shadowImage params effect
@@ -78,6 +85,10 @@
   - https://github.com/Imagick/imagick/issues/646 - Problem with PHP 8.3 and in-memory-stream.
 - **Bug**: Look into a better error handling for identifyFormat
   - https://github.com/Imagick/imagick/issues/628 - `identifyFormat("%[profile:icc]")` aborts execution
+- **Bug**: Look into failing test for getImageChannelRange
+  - https://github.com/Imagick/imagick/issues/406 - Testing minima is unstable
+- **Bug**: Look into issue with Imagick::getImageChannelStatistics() test
+  - https://github.com/Imagick/imagick/issues/417 - Imagick::getImageChannelStatistics() is not great
 - **Bug**: Look into ImageMagick update from v6 to v7 image negate related issue
   - https://github.com/Imagick/imagick/issues/676 - Imagick v6 to v7 upgrade
 - **Bug**: Investigate what could cause error in RenderMVGContent
@@ -94,6 +105,8 @@
   - https://github.com/Imagick/imagick/issues/544 - setFontWeight and setFontStyle not works
   - https://github.com/Imagick/imagick/issues/471 - setFontStyle looks broken
   - https://github.com/Imagick/imagick/issues/470 - setFontStretch looks broken still.
+- **Bug**: Look into issue with not detecting locale
+  - https://github.com/Imagick/imagick/issues/404 - Help wanted: how to detect locales that use commas for decimal separator
 - **Bug**: Check support for RTL (e.g. Arabic) languagues
   - https://github.com/Imagick/imagick/issues/550 - Imagick Arabic Text Direction Problem
   - https://github.com/Imagick/imagick/issues/712 - Long standing problem with RTL languages
@@ -118,8 +131,12 @@
   - https://github.com/Imagick/imagick/issues/480 - PHP script - Fatal error when try to convert PDF to JPG on XAMPP
 - **Bug**: Investigate PDF generation issue
   - https://github.com/Imagick/imagick/issues/537 - $imagick->getNumberImages(); always returns 41
+- **Bug**: Look into PDF transparency issue
+  - https://github.com/Imagick/imagick/issues/392 - Help wanted: test PDF with 'bad' transparency
 - **Feat**: Look into storing SVG extra properties in jpg or possibly other formats
   - https://github.com/Imagick/imagick/issues/545 - Importing clipping path to jpeg file
+- **Feat**: Add check for number of parameters to Imagick::sparseColorImage
+  - https://github.com/Imagick/imagick/issues/467 - Checking number of args in Imagick::sparseColorImage
 - **Feat**: Add method parameter for Imagick::spreadImage
   - https://github.com/Imagick/imagick/issues/483 - Imagick::spreadImage needs to allow PixelInterpolateMethod to be set.
 - **Feat**: Add sanity check to Imagick::polynomialImage
@@ -130,6 +147,10 @@
   - https://github.com/Imagick/imagick/issues/492 - setImageClipMask() in imagick v7? Where is it or alternative?
 - **Feat**: Investigate and add test for setImageMatteColor
   - https://github.com/Imagick/imagick/issues/484 - what does setImageMatteColor do?
+- **Feat**: Add test for Image profiles
+  - https://github.com/Imagick/imagick/issues/464 - Image profile needs testing.
+- **Feat**: Make use of specific image in tests
+  - https://github.com/Imagick/imagick/issues/402 - Nice test image
 - **Feat**: Look into better error message when pixel is outside of image
   - https://github.com/Imagick/imagick/issues/540 - setImagePixel has bizarre error message
 - **Feat**: Undeprecate ImagickDraw::setFillAlpha
@@ -137,10 +158,22 @@
 - **Feat**: Look into better handling missing fonts
   - https://github.com/Imagick/imagick/issues/543 - Bug(?) non-conforming drawing primitive definition `text' @ error/draw.c/RenderMVGContent/4469
   - https://github.com/Imagick/imagick/issues/468 - Indecipherable error message.
-- **Feat**: Update phpinfo details
-  - https://github.com/Imagick/imagick/issues/531 - Update info for phpinfo()
+- **Feat**: Improve fonts configuration and loading
+  - https://github.com/Imagick/imagick/issues/414 - Configuring fonts is terrible.
+- **Feat**: Check emoji fonts usage
+  - https://github.com/Imagick/imagick/issues/411 - emoji fonts need more explaining.
+- **Feat**: Add function for listing formats
+  - https://github.com/Imagick/imagick/issues/462 - Patterns should be listed.
 - **Feat**: Look into using enums
   - https://github.com/Imagick/imagick/issues/505 - Check enums as well as entries.
+- **Feat**: Update phpinfo details
+  - https://github.com/Imagick/imagick/issues/531 - Update info for phpinfo()
+- **Feat**: Check for delegated libraries issue during the build
+  - https://github.com/Imagick/imagick/issues/407 - reporting on known issues regarding delegate libraries might be good.
+- **Feat**: Add test for missing test files in pecl packages
+  - https://github.com/Imagick/imagick/issues/422 - Test via extracting package.
+- **Feat**: Check the PECL package test in the pipeline if there is anything to improve
+  - https://github.com/Imagick/imagick/issues/409 - package.xml error - we should compile through pecl to check package is valid.
 - **Faet**: Look into adding 32bit CI pipeline
   - https://github.com/Imagick/imagick/issues/533 - 32bit container for testing
 
@@ -159,8 +192,10 @@
   - https://github.com/Imagick/imagick/issues/599 - document --raqm
 - **Docs**: Document need for coalescing before getting geometry
   - https://github.com/Imagick/imagick/issues/539 - Imagick::getImageGeometry() returning wrong dimensions
+- **Docs**: Document return type of getImageAlphaChannel
+  - https://github.com/Imagick/imagick/issues/466 - getImageAlphaChannel should return a boolean instead of an integer - docs need updating
 - **Docs**: Document php_imagick_thumbnail_dimensions
-  - https://github.com/Imagick/imagick/issues/474 - Document php_imagick_thumbnail_dimensions
+  - https://github.com/Imagick/imagick/issues/474 - Document php_imagick_thumbnail_dimension
 - **Docs**: Consider adding some notes about upgrading to IM 7
   - https://github.com/Imagick/imagick/issues/529 - IM 7 upgrade notes
 - **Docs**: Add docs for building on Windows
