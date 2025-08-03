@@ -145,11 +145,6 @@
 
 ### Logs
 
-- **Feat**: access log - long lines support - using the same logic as zlog ideally
-  - https://github.com/php/php-src/pull/5634 - PR to discussiong it and removing unused MAX_LINE_LENGTH
-  - https://github.com/php/php-src/issues/12302 - CONF Var log_limit and fpm_log_write show error "the log buffer is full ..."
-  - https://github.com/php/php-src/pull/18415 - bump FPM_LOG_BUFFER from 1024 to 2048
-  - https://github.com/php/php-src/pull/18328 - Allow FPM_LOG_BUFFER to be adjusted in conf file, changed the buffer to be dynamically allocated
 - **Feat**: error log - master logging should be separated from child logs (special option for master log)
   - https://bugs.php.net/bug.php?id=69662 - PHP Startup errors are erroneously logged as master user in pool error log
   - https://bugs.php.net/bug.php?id=72357 - Pool logs created with master owner:group
@@ -351,6 +346,14 @@ Status fields
 
 
 ## Changes
+
+#### 2025-07
+
+- **Feat**: access log - long lines support - using the same logic as zlog ideally
+  - https://github.com/php/php-src/pull/5634 - PR to discussiong it and removing unused MAX_LINE_LENGTH
+  - https://github.com/php/php-src/issues/12302 - CONF Var log_limit and fpm_log_write show error "the log buffer is full ..."
+  - https://github.com/php/php-src/pull/18415 - bump FPM_LOG_BUFFER from 1024 to 2048
+  - https://github.com/php/php-src/pull/18328 - Allow FPM_LOG_BUFFER to be adjusted in conf file, changed the buffer to be dynamically allocated
 
 #### 2024-12
 

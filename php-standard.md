@@ -13,9 +13,6 @@
 
 ### File System
 
-- **Bug**: Get merged the chown fix for ZTS
-  - https://bugs.php.net/bug.php?id=68861 - chown does not work when php is compiling with ZTS _(10 votes)_
-  - https://github.com/php/php-src/pull/13876 - fix group/passwd api misuse if ZTS
 - **Bug**: Look to changing lchown land chgrp issue on ZTS
   - https://bugs.php.net/bug.php?id=74357 - lchown fails to change ownership of symlink with ZTS _(0 votes)_
 - **Bug**: Fix removing ACL and extended attrs during move_uploaded_file and rename
@@ -316,6 +313,12 @@
 
 - **Bug**: mail() should not return true if fails (Windows related)
   - https://bugs.php.net/bug.php?id=43327 - wrong return value from mail(), if sendmail_path is wrong _(8 votes)_
+
+### 2024-06
+
+- **Bug**: Get merged the chown fix for ZTS
+  - https://bugs.php.net/bug.php?id=68861 - chown does not work when php is compiling with ZTS _(10 votes)_
+  - https://github.com/php/php-src/pull/13876 - fix group/passwd api misuse if ZTS
 
 ### 2023-02
 
