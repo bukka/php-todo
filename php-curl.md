@@ -2,8 +2,6 @@
 
 ## Source issues
 
-- **Bug**: TLS - Look into Win IIS extend protection issue
-  - https://github.com/php/php-src/issues/14039 - php_curl does not work with IIS extended protection 
 - **Test**: TLS - Check failing curl_setopt_ssl.phpt on macOS
   - https://github.com/php/php-src/issues/12901 - curl_setopt_ssl.phpt is intermittently failing on macOS
 - **Test**: h2 - Check leaking caddy tests
@@ -38,6 +36,8 @@
   - https://github.com/php/php-src/issues/16929 - curl_getinfo($ch, CURLINFO_CONTENT_TYPE) returns false when Content-Type header is not set
 - **Feat**: Look into curl how the MacOS issue could be resolved in the library
   - https://github.com/php/php-src/issues/11818 - macOS now crashes fork() process instead of just warning output
+- **Feat**: TLS - Look into adding schannel support
+  - https://github.com/php/php-src/issues/14039 - php_curl does not work with IIS extended protection 
 
 ## Docs
 

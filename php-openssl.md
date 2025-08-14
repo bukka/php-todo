@@ -75,8 +75,6 @@
 - **Feat**: pkey - Skip all usage of DH if OpenSSL compiled with no-dh (only works with OpenSSL 3.0+)
 - **Feat**: pkey - Skip all usage of DSA if OpenSSL compiled with no-dsa (only works with OpenSSL 3.0+)
   - Also change CSR tests not to use it
-- **Feat**: pkey - Allow setting padding for openssl_verify
-  - https://bugs.php.net/bug.php?id=80495 - Enable to set padding in openssl_verify
 - **Feat**: pkey - Consider adding PKCS#8 export format support
   - https://bugs.php.net/bug.php?id=77602 - OpenSSL extension lacks PKCS#8 support
 - **Feat**: pkey - Support for additional keys with use of OQS
@@ -87,8 +85,6 @@
   - https://github.com/php/php-src/issues/16797 - Add "legacy" option to openssl_pkcs12_export
 - **Feat**: general - Review binary file mode settings (PKCS7_BINARY and CMS_BINARY)
   - passing flags does not make much sense in many cases
-- **Feat**: PKCS7 - Add constants for all PKCS7 flags
-  - https://bugs.php.net/bug.php?id=47728 - openssl_pkcs7_sign ignores new openssl flags
 - **Feat**: PKCS7 - New function to retrieve signer certificates (using PKCS7_get_signer_info)
   - https://bugs.php.net/bug.php?id=72249 - Add Support for PKCS7_get_signer_info
 - **Feat**: PKCS7 - Allow adding a signature with custom digest (using PKCS7_add_signature)
@@ -170,6 +166,14 @@
   - https://bugs.php.net/bug.php?id=79401 - --with-openssl no longer accepts a directory
 
 ## Changes
+
+### 2025-08
+
+- **Feat**: pkey - Allow setting padding for openssl_verify
+  - https://bugs.php.net/bug.php?id=80495 - Enable to set padding in openssl_verify
+- **Feat**: PKCS7 - Add constants for all PKCS7 flags
+  - https://bugs.php.net/bug.php?id=47728 - openssl_pkcs7_sign ignores new openssl flags
+
 
 ### 2025-07
 
