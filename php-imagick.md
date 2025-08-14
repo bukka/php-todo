@@ -8,12 +8,18 @@
   - https://github.com/Imagick/imagick/issues/737 - Test failure with IM 7.1.2 (regression ?)
 - **Bug**: CI build issue for ImageMagick-6.7.8-0
   - https://github.com/Imagick/imagick/issues/734 - ImageMagick-6.7.8-0 librsvg compilation issues
+- **Bug**: Look into printf format compiler warning on 32bit
+  - https://github.com/Imagick/imagick/pull/743 - Fix format specifier warning in importImagePixels
 - **Bug**: Investigate failures when `--enable-debug` is used
   - https://github.com/Imagick/imagick/issues/626 - Building against PHP with enabled debug breaks tests (and function)
 - **Bug**: Investigate parse error for `php -ri imagick`
   - https://github.com/Imagick/imagick/issues/694 - php -ri imagick fails with error
 - **Bug**: Look into the util/check_methods.php issue
   - https://github.com/Imagick/imagick/issues/488 - Detection of missing methods should be against build imagick extension. 
+- **Task**: Release 3.8.1
+- **Feat**: Look to the default change of value for imagick.skip_version_check on Linux
+  - https://github.com/Imagick/imagick/pull/740 - disable version check, keep it for Windows
+  - https://github.com/Imagick/imagick/issues/745 - php-legacy-imagick-3.8.0-1 compiled against v1809 but v1810 is loaded
 - **Feat**: Bump minimal PHP version to 7.2 and clean up
 - **Feat**: Bump minimal ImageMagic version to 6.7.8 and clean up
 - **Bug**: Look through code for potential incorrect types in ZPP
@@ -28,12 +34,16 @@
   - https://github.com/Imagick/imagick/issues/472 - Dithering doesn't appear to be working.
 - **Bug**: Investigate perf regression between PHP 7.2 and 8.2 when using distort
   - https://github.com/Imagick/imagick/issues/731 - Performance Regression with Imagick between PHP 7.2 and 8.2
+- **Bug**: Check composite display and distort for memory leaks
+  - https://github.com/Imagick/imagick/issues/463 - Probable invalid memory read in composite display + distort
+- **Bug**: Look into distort issue on 32bit and imagick 7.1.2
+  - https://github.com/Imagick/imagick/issues/744 - 32bit FAIL Test Imagick, distortImage [tests/060_Imagick_distortImage_Polar.phpt]
+- **Bug**: Look into wave image failure on Alpine
+  - https://github.com/Imagick/imagick/issues/385 - 166_Imagick_waveImage_basic test fail on x86
 - **Bug**: Look into imagickpixeliterator segfault
   - https://github.com/Imagick/imagick/issues/530 - imagickpixeliterator probably shouldn't segfault
 - **Bug**: Check usage of some Magick getter to make sure there are no memory leaks
   - https://github.com/Imagick/imagick/issues/506 - Check usage of these functions for mem-leaks
-- **Bug**: Check composite display and distort for memory leaks
-  - https://github.com/Imagick/imagick/issues/463 - Probable invalid memory read in composite display + distort
 - **Bug**: Fix reference leaks in subimageMatch and possibly elsewhere
   - https://github.com/Imagick/imagick/issues/725 - References can cause leaks
 - **Bug**: Look into unexpected ignoring of blur parameter
@@ -77,12 +87,16 @@
 - **Bug**: Check why compression quality is ignored for HEIC / AVIC
   - https://github.com/Imagick/imagick/issues/711 - AVIF/HEIC compression quality settings have no effect on output file size
   - https://github.com/Imagick/imagick/issues/696 - Highest compression for AVIF images and google pagespeed
+- **Bug**: Look into TIFF compression not working
+  - https://github.com/Imagick/imagick/issues/738 - TIFFs not respecting compression settings on Windows
 - **Bug**: Look into incorrect usage of preview image in NEF images
   - https://github.com/Imagick/imagick/issues/685 - PHP Imagick::readImageFile NEF filehandle detected as TIFF
 - **Bug**: Look into issue with reading base64 encoded image
   - https://github.com/Imagick/imagick/issues/620 - HTML canvas as base64 to PNG giving CRC error
 - **Bug**: Look into failure when loading memory stream in writeImageFile and readImageFile
   - https://github.com/Imagick/imagick/issues/646 - Problem with PHP 8.3 and in-memory-stream.
+- **Bug**: Look into stream fetched https images that are failing on MacOS for readImageBlog
+  - https://github.com/Imagick/imagick/issues/383 - Insufficient image data
 - **Bug**: Look into a better error handling for identifyFormat
   - https://github.com/Imagick/imagick/issues/628 - `identifyFormat("%[profile:icc]")` aborts execution
 - **Bug**: Look into failing test for getImageChannelRange
@@ -91,6 +105,8 @@
   - https://github.com/Imagick/imagick/issues/417 - Imagick::getImageChannelStatistics() is not great
 - **Bug**: Look into ImageMagick update from v6 to v7 image negate related issue
   - https://github.com/Imagick/imagick/issues/676 - Imagick v6 to v7 upgrade
+- **Bug**: Look into slow drawing of GIF images
+  - https://github.com/Imagick/imagick/issues/360 - Imagick is very slow when writing an image modified with ImageDraw in GIF format.
 - **Bug**: Investigate what could cause error in RenderMVGContent
   - https://github.com/Imagick/imagick/issues/703 - Non-conforming drawing primitive definition `9' @ error/draw.c/RenderMVGContent/4414
 - **Bug**: Look into segfaults in FrankenPHP static build
@@ -110,12 +126,17 @@
 - **Bug**: Check support for RTL (e.g. Arabic) languagues
   - https://github.com/Imagick/imagick/issues/550 - Imagick Arabic Text Direction Problem
   - https://github.com/Imagick/imagick/issues/712 - Long standing problem with RTL languages
+- **Bug**: Investigate crash when loading large grayscale images on Windows
+  - https://github.com/Imagick/imagick/issues/378 - CLI PHP crashes on shutdown after loading a larger grayscaled image on Windows
+- **Bug**: Look to PNG grayscale conversion issue
+  - https://github.com/Imagick/imagick/issues/673 - Prevent automatic conversion of PNG images to grayscale
 - **Bug**: Look to PNG to SVG conversion issues
   - https://github.com/Imagick/imagick/issues/622 - PNG -> SVG
 - **Bug**: Look into SVG to png/jpg conversion issues
   - https://github.com/Imagick/imagick/issues/551 - Results of svg->png given by php code and convert command differs
   - https://github.com/Imagick/imagick/issues/581 - SVG to PNG
   - https://github.com/Imagick/imagick/issues/614 - Convert SVG to JPG/PNG
+  - https://github.com/Imagick/imagick/issues/365 - PHP logo doesn't render correctly.
 - **Bug**: Look into SVG color issue
   - https://github.com/Imagick/imagick/issues/632 - Color bug in newest version
 - **Bug**: Look into options for procession SVG
@@ -129,10 +150,14 @@
 - **Bug**: Win - Try Ghostscript generation
   - https://github.com/Imagick/imagick/issues/713 - Ghostscript call by imagick doesn't work
   - https://github.com/Imagick/imagick/issues/480 - PHP script - Fatal error when try to convert PDF to JPG on XAMPP
+- **Bug**: MacOS Ghostscript generation fail
+  - https://github.com/Imagick/imagick/issues/382 - MacOs PDFDelegateFailed
 - **Bug**: Investigate PDF generation issue
   - https://github.com/Imagick/imagick/issues/537 - $imagick->getNumberImages(); always returns 41
 - **Bug**: Look into PDF transparency issue
   - https://github.com/Imagick/imagick/issues/392 - Help wanted: test PDF with 'bad' transparency
+- **Bug**: Look into PDF shell injection issue
+  - https://github.com/Imagick/imagick/issues/361 - ImageMagick - Shell injection via PDF password
 - **Feat**: Look into storing SVG extra properties in jpg or possibly other formats
   - https://github.com/Imagick/imagick/issues/545 - Importing clipping path to jpeg file
 - **Feat**: Add check for number of parameters to Imagick::sparseColorImage
@@ -162,6 +187,8 @@
   - https://github.com/Imagick/imagick/issues/414 - Configuring fonts is terrible.
 - **Feat**: Check emoji fonts usage
   - https://github.com/Imagick/imagick/issues/411 - emoji fonts need more explaining.
+- **Feat**: Look inot support for blur hashes
+  - https://github.com/Imagick/imagick/issues/353 - blur hashes are cool.
 - **Feat**: Add function for listing formats
   - https://github.com/Imagick/imagick/issues/462 - Patterns should be listed.
 - **Feat**: Look into using enums
@@ -170,10 +197,14 @@
   - https://github.com/Imagick/imagick/issues/531 - Update info for phpinfo()
 - **Feat**: Check for delegated libraries issue during the build
   - https://github.com/Imagick/imagick/issues/407 - reporting on known issues regarding delegate libraries might be good.
+- **Feat**: Look into refactoring of the stub generation to better handle IMAGICK_QUANTUM_TYPE hack
+  - https://github.com/Imagick/imagick/issues/742 - Generated stubs for ImagickPixel contain invalid PHP syntax: return type '4' and undefined IMAGICK_QUANTUM_TYPE
 - **Feat**: Add test for missing test files in pecl packages
   - https://github.com/Imagick/imagick/issues/422 - Test via extracting package.
 - **Feat**: Check the PECL package test in the pipeline if there is anything to improve
   - https://github.com/Imagick/imagick/issues/409 - package.xml error - we should compile through pecl to check package is valid.
+- **Feat**: Look into CI for Alpine
+  - https://github.com/Imagick/imagick/issues/328 - Explicitly don't support alpine? To be clear it works, but I don't want to spend time on it.
 - **Faet**: Look into adding 32bit CI pipeline
   - https://github.com/Imagick/imagick/issues/533 - 32bit container for testing
 
@@ -190,10 +221,18 @@
   - https://github.com/Imagick/imagick/issues/552 - Document delegate command line usage
 - **Docs**: Document usage of raqm for font layouts
   - https://github.com/Imagick/imagick/issues/599 - document --raqm
+- **Docs**: Document haldClutImage
+  - https://github.com/Imagick/imagick/issues/367 - haldClutImage needs documenting
+- **Docs**: Document image composition of RGB images into CMYK images
+  - https://github.com/Imagick/imagick/issues/366 - compositing RGB images into CMYK images needs documenting
+- **Docs**: Fix docs for isPixelSimilarQuantum
+  - https://github.com/Imagick/imagick/issues/345 - isPixelSimilarQuantum wrong param doc
 - **Docs**: Document need for coalescing before getting geometry
   - https://github.com/Imagick/imagick/issues/539 - Imagick::getImageGeometry() returning wrong dimensions
 - **Docs**: Document return type of getImageAlphaChannel
   - https://github.com/Imagick/imagick/issues/466 - getImageAlphaChannel should return a boolean instead of an integer - docs need updating
+- **Docs**: Document changes from image matte to opacity
+  - https://github.com/Imagick/imagick/issues/368 - Fully document the change of matte to opacity.
 - **Docs**: Document php_imagick_thumbnail_dimensions
   - https://github.com/Imagick/imagick/issues/474 - Document php_imagick_thumbnail_dimension
 - **Docs**: Consider adding some notes about upgrading to IM 7
