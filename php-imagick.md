@@ -17,6 +17,8 @@
 - **Bug**: Look into the util/check_methods.php issue
   - https://github.com/Imagick/imagick/issues/488 - Detection of missing methods should be against build imagick extension. 
 - **Task**: Release 3.8.1
+- **Bug**: Look into version check comparison issue for skipping
+  - https://github.com/Imagick/imagick/issues/342 - version check is borked.
 - **Feat**: Look to the default change of value for imagick.skip_version_check on Linux
   - https://github.com/Imagick/imagick/pull/740 - disable version check, keep it for Windows
   - https://github.com/Imagick/imagick/issues/745 - php-legacy-imagick-3.8.0-1 compiled against v1809 but v1810 is loaded
@@ -24,6 +26,8 @@
 - **Feat**: Bump minimal ImageMagic version to 6.7.8 and clean up
 - **Bug**: Look through code for potential incorrect types in ZPP
   - https://github.com/Imagick/imagick/issues/496 - Follow up on potential stack corruption
+- **Bug**: Look into better handling of timout when using RESOURCETYPE_TIME setResourceLimit - it might segfault
+  - https://github.com/Imagick/imagick/issues/333 - Gracefully handle time limit
 - **Bug**: Look into cleaning up temp files when FPM kill the process (more for policy options)
   - https://github.com/Imagick/imagick/issues/681 - Leaking temp files in PHP-FPM when max_execution_time interrupts the script
 - **Bug**: Look into backtick issue in the ImageMagick policy
@@ -32,6 +36,8 @@
   - https://github.com/Imagick/imagick/issues/599 - Windows test failing due to missing dither info
 - **Bug**: Look into dithering issue
   - https://github.com/Imagick/imagick/issues/472 - Dithering doesn't appear to be working.
+- **Bug**: Look into perf regression for quantizeImage image
+  - https://github.com/Imagick/imagick/issues/330 - quantizeImage 10x slower on when dither is disabled
 - **Bug**: Investigate perf regression between PHP 7.2 and 8.2 when using distort
   - https://github.com/Imagick/imagick/issues/731 - Performance Regression with Imagick between PHP 7.2 and 8.2
 - **Bug**: Check composite display and distort for memory leaks
@@ -53,10 +59,13 @@
   - https://github.com/Imagick/imagick/issues/482 - Imagick::annotateImage seems jaggy.
 - **Bug**: Fix caption in polariod image
   - https://github.com/Imagick/imagick/issues/521 - Imagick::polaroidImage - has a todo
+- **Bug**: Look into potential setImageAlpha when hdri enabled
+  - https://github.com/Imagick/imagick/issues/339 - 274_imagick_setImageAlpha.phpt test fails
 - **Bug**: Fix signature of setImageBiasQuantum
   - https://github.com/Imagick/imagick/issues/569 - setImageBiasQuantum has wrong signature
 - **Bug**: Look into signature issue in convolveImage
   - https://github.com/Imagick/imagick/issues/577 - Imagick::convolveImage signature changed on im7...
+  - https://github.com/Imagick/imagick/issues/341 - Imagick::convolveimage - what parameter does it take?
 - **Bug**: Look into issue with coalescing image (looks like ImageMagick issue potentially as it's related to its version)
   - https://github.com/Imagick/imagick/issues/647 - Call coalesceImages() turns image white
 - **Bug**: Look into how image CLUT works
@@ -89,6 +98,8 @@
   - https://github.com/Imagick/imagick/issues/696 - Highest compression for AVIF images and google pagespeed
 - **Bug**: Look into TIFF compression not working
   - https://github.com/Imagick/imagick/issues/738 - TIFFs not respecting compression settings on Windows
+- **Bug**: Look into failure when writing TIFF
+  - https://github.com/Imagick/imagick/issues/320 - IO error writing tag data on some TIFFs
 - **Bug**: Look into incorrect usage of preview image in NEF images
   - https://github.com/Imagick/imagick/issues/685 - PHP Imagick::readImageFile NEF filehandle detected as TIFF
 - **Bug**: Look into issue with reading base64 encoded image
@@ -105,6 +116,8 @@
   - https://github.com/Imagick/imagick/issues/417 - Imagick::getImageChannelStatistics() is not great
 - **Bug**: Look into ImageMagick update from v6 to v7 image negate related issue
   - https://github.com/Imagick/imagick/issues/676 - Imagick v6 to v7 upgrade
+- **Bug**: Look into issue with composing GIF from PNG images
+  - https://github.com/Imagick/imagick/issues/313 - Composite image ghosting
 - **Bug**: Look into slow drawing of GIF images
   - https://github.com/Imagick/imagick/issues/360 - Imagick is very slow when writing an image modified with ImageDraw in GIF format.
 - **Bug**: Investigate what could cause error in RenderMVGContent
@@ -137,6 +150,7 @@
   - https://github.com/Imagick/imagick/issues/581 - SVG to PNG
   - https://github.com/Imagick/imagick/issues/614 - Convert SVG to JPG/PNG
   - https://github.com/Imagick/imagick/issues/365 - PHP logo doesn't render correctly.
+  - https://github.com/Imagick/imagick/issues/332 - miss text tag when convert svg string to png
 - **Bug**: Look into SVG color issue
   - https://github.com/Imagick/imagick/issues/632 - Color bug in newest version
 - **Bug**: Look into options for procession SVG
@@ -150,10 +164,13 @@
 - **Bug**: Win - Try Ghostscript generation
   - https://github.com/Imagick/imagick/issues/713 - Ghostscript call by imagick doesn't work
   - https://github.com/Imagick/imagick/issues/480 - PHP script - Fatal error when try to convert PDF to JPG on XAMPP
+  - https://github.com/Imagick/imagick/issues/324 - Apache in XAMPP hang when converting PDF to PNG
 - **Bug**: MacOS Ghostscript generation fail
   - https://github.com/Imagick/imagick/issues/382 - MacOs PDFDelegateFailed
 - **Bug**: Investigate PDF generation issue
   - https://github.com/Imagick/imagick/issues/537 - $imagick->getNumberImages(); always returns 41
+- **Bug**: Look into crash when processing pdf during WordPress upload
+  - https://github.com/Imagick/imagick/issues/319 - Upload crashes on certain files
 - **Bug**: Look into PDF transparency issue
   - https://github.com/Imagick/imagick/issues/392 - Help wanted: test PDF with 'bad' transparency
 - **Bug**: Look into PDF shell injection issue
@@ -178,11 +195,17 @@
   - https://github.com/Imagick/imagick/issues/402 - Nice test image
 - **Feat**: Look into better error message when pixel is outside of image
   - https://github.com/Imagick/imagick/issues/540 - setImagePixel has bizarre error message
+- **Feat**: Look into improving other error message like for setImageFormat
+  - https://github.com/Imagick/imagick/issues/335 - Suggestion for better exception messages when something failed
 - **Feat**: Undeprecate ImagickDraw::setFillAlpha
   - https://github.com/Imagick/imagick/issues/469 - Undeprecate things
+- **Feat**: Look into adding more image methods
+  - https://github.com/Imagick/imagick/issues/338 - parse the rest of the stuff that was added...
 - **Feat**: Look into better handling missing fonts
   - https://github.com/Imagick/imagick/issues/543 - Bug(?) non-conforming drawing primitive definition `text' @ error/draw.c/RenderMVGContent/4469
   - https://github.com/Imagick/imagick/issues/468 - Indecipherable error message.
+- **Feat**: Look into setting default font behavior
+  - https://github.com/Imagick/imagick/issues/343 - Default font behaviour
 - **Feat**: Improve fonts configuration and loading
   - https://github.com/Imagick/imagick/issues/414 - Configuring fonts is terrible.
 - **Feat**: Check emoji fonts usage
