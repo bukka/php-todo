@@ -4,11 +4,6 @@
 
 ### TLS
 
-- **But**: Fix success error message on TLS stream accept failure
-  - https://github.com/php/php-src/issues/19245 - Success error message on TLS stream accept failure
-  - https://github.com/php/php-src/pull/19246 - Fix GH-19245: Success error message on TLS stream accept failure
-- **Bug**: The `SSL: Success` warning in failed connection does not make much sense
-  - https://github.com/php/php-src/issues/9261#issuecomment-1218471408 - Problem with enabling crypto on stream socket connection
 - **Bug**: Check stream_socket_client async issue
   - https://bugs.php.net/bug.php?id=49295 - stream_socket_client() fails on SSL+async
 - **Feat**: Refactore async code and provide info about WANT_READ and WANT_WRITE to PHP code
@@ -27,6 +22,8 @@
   - https://github.com/php/php-src/issues/16766 - Add support for SCRAM-SHA-*-PLUS channel binding in PHP streams (e.g., tls-unique, tls-exporter)
 - **Feat**: Add option to not add SSL_OP_IGNORE_UNEXPECTED_EOF (opt in protection for truncation attack) - create a proper test with proxy and TCP FIN
   - https://github.com/php/php-src/issues/8369#issuecomment-1126940364 - note about that in the bug
+- **Bug**: The `SSL: Success` warning in failed connection does not make much sense
+  - https://github.com/php/php-src/issues/9261#issuecomment-1218471408 - Problem with enabling crypto on stream socket connection
 - **Feat**: Look into the way to identify current security level
   - https://github.com/php/php-src/issues/14201#issuecomment-2639712190 - Update tests to support RHEL legacy crypto policy
 - **Feat**: Extend setting of verification options
@@ -173,6 +170,9 @@
   - https://bugs.php.net/bug.php?id=80495 - Enable to set padding in openssl_verify
 - **Feat**: PKCS7 - Add constants for all PKCS7 flags
   - https://bugs.php.net/bug.php?id=47728 - openssl_pkcs7_sign ignores new openssl flags
+- **But**: Fix success error message on TLS stream accept failure
+  - https://github.com/php/php-src/issues/19245 - Success error message on TLS stream accept failure
+  - https://github.com/php/php-src/pull/19246 - Fix GH-19245: Success error message on TLS stream accept failure
 
 
 ### 2025-07

@@ -109,9 +109,8 @@
 
 ### HTML
 
-- **Feat**: Entity / special chars encoding and decoding optimizations (wait for review changes and possibly do it)
+- **Feat**: HTML special chars encoding and decoding optimizations (wait for review changes and possibly do it)
   - https://github.com/php/php-src/pull/18126 - Optimization for htmlspecialchars function
-  - https://github.com/php/php-src/pull/18092 - Optimize PHP html_entity_decode function
 
 ### Image
 
@@ -308,6 +307,12 @@
   - https://bugs.php.net/bug.php?id=70088 - is_callable() doesn't check if a class/method syntax is valid
 
 ## Changes
+
+### 2025-07
+
+
+- **Feat**: Entity decoding optimizations (wait for review changes and possibly do it)
+  - https://github.com/php/php-src/pull/18092 - Optimize PHP html_entity_decode function
 
 ### 2025-06
 
