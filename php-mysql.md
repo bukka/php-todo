@@ -1,8 +1,6 @@
 # PHP MySQL related tasks
 
-### MySQLi issues
-
-2008-2019
+### MySQLi issues (2008-2019)
 
 - **Bug**: Verify connection stats enabling and usage
   - https://bugs.php.net/bug.php?id=61837 - Problem collecting stats with mysqlnd _(0 votes)_
@@ -69,10 +67,12 @@
 - **Feat**: Check dropping unused auth variables
   - https://github.com/php/php-src/pull/18023 - Drop unused variables
   - https://github.com/php/php-src/pull/18014 - ext/mysqlnd: fix passing wrong parameter after a893a49
+- **Feat**: Support ED25519 auth (or maybe just parsec)
+  - https://github.com/php/php-src/issues/14258 - Implement ED25519 auth for mysqlnd
 - **Feat**: Look into changes in protocol errors
   - https://github.com/php/php-src/pull/16421 - Fix mysqlnd protocol errors
-- **Feat**: Support ED25519 auth
-  - https://github.com/php/php-src/issues/14258 - Implement ED25519 auth for mysqlnd
+- **Feat**: Look into exposing gtid in OK packet
+  - https://github.com/php/php-src/issues/19782 - mysqlnd (+ mysqli etc.) - expose the gtid to PHP in the OkPacket
 
 ## PDO_MySQL
 
