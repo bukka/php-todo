@@ -6,6 +6,10 @@
   - https://github.com/Imagick/imagick/issues/631 - Invalid link inside README Examples Section
 - **Bug**: Image similarity issue with ImageMagick-7.1.2
   - https://github.com/Imagick/imagick/issues/737 - Test failure with IM 7.1.2 (regression ?)
+- **Bug**: Look into imagick loading breaking php-src tests - WordPress reported issue
+  - https://github.com/Imagick/imagick/issues/751 - latest imagemagick master make tests fail with php
+  - https://github.com/php/php-src/issues/19836 - imagemagick master make tests failures with php stable 8.4.12
+  - https://github.com/Imagick/imagick/issues/748 - default php version not loading while instal freshly wp local server
 - **Bug**: CI build issue for ImageMagick-6.7.8-0
   - https://github.com/Imagick/imagick/issues/734 - ImageMagick-6.7.8-0 librsvg compilation issues
 - **Bug**: Look into printf format compiler warning on 32bit
@@ -42,12 +46,14 @@
   - https://github.com/Imagick/imagick/issues/731 - Performance Regression with Imagick between PHP 7.2 and 8.2
 - **Bug**: Check composite display and distort for memory leaks
   - https://github.com/Imagick/imagick/issues/463 - Probable invalid memory read in composite display + distort
-- **Bug**: Look into distort issue on 32bit and imagick 7.1.2
-  - https://github.com/Imagick/imagick/issues/744 - 32bit FAIL Test Imagick, distortImage [tests/060_Imagick_distortImage_Polar.phpt]
+- **Bug**: Look into smush image combination issue
+  - https://github.com/Imagick/imagick/issues/298 - smushImages fails to combine images
 - **Bug**: Look into wave image failure on Alpine
   - https://github.com/Imagick/imagick/issues/385 - 166_Imagick_waveImage_basic test fail on x86
 - **Bug**: Look into imagickpixeliterator segfault
   - https://github.com/Imagick/imagick/issues/530 - imagickpixeliterator probably shouldn't segfault
+- **Bug**: Look into not working ImagickPixel clearing
+  - https://github.com/Imagick/imagick/issues/312 - ImagickPixel::clear() is not working
 - **Bug**: Check usage of some Magick getter to make sure there are no memory leaks
   - https://github.com/Imagick/imagick/issues/506 - Check usage of these functions for mem-leaks
 - **Bug**: Fix reference leaks in subimageMatch and possibly elsewhere
@@ -106,10 +112,14 @@
   - https://github.com/Imagick/imagick/issues/620 - HTML canvas as base64 to PNG giving CRC error
 - **Bug**: Look into failure when loading memory stream in writeImageFile and readImageFile
   - https://github.com/Imagick/imagick/issues/646 - Problem with PHP 8.3 and in-memory-stream.
+- **Bug**: Look into seeking issue when using readImageFile
+  - https://github.com/Imagick/imagick/issues/305 - readImageFile - Error seeking within stream
 - **Bug**: Look into stream fetched https images that are failing on MacOS for readImageBlog
   - https://github.com/Imagick/imagick/issues/383 - Insufficient image data
 - **Bug**: Look into a better error handling for identifyFormat
   - https://github.com/Imagick/imagick/issues/628 - `identifyFormat("%[profile:icc]")` aborts execution
+- **Bug**: Look into error in image profile
+  - https://github.com/Imagick/imagick/issues/303 - ::profileImage Doesn't seem to work 
 - **Bug**: Look into failing test for getImageChannelRange
   - https://github.com/Imagick/imagick/issues/406 - Testing minima is unstable
 - **Bug**: Look into issue with Imagick::getImageChannelStatistics() test
@@ -122,6 +132,8 @@
   - https://github.com/Imagick/imagick/issues/360 - Imagick is very slow when writing an image modified with ImageDraw in GIF format.
 - **Bug**: Investigate what could cause error in RenderMVGContent
   - https://github.com/Imagick/imagick/issues/703 - Non-conforming drawing primitive definition `9' @ error/draw.c/RenderMVGContent/4414
+- **Bug**: Look into issue with getting back watermark
+  - https://github.com/Imagick/imagick/issues/307 - a function for restoring the image back from steganoImage()
 - **Bug**: Look into segfaults in FrankenPHP static build
   - https://github.com/Imagick/imagick/issues/634 - Static embedded php build - Segmentation fault(s)
 - **Bug**: OMP - Investigate segfault in furier tranform image
@@ -134,6 +146,7 @@
   - https://github.com/Imagick/imagick/issues/544 - setFontWeight and setFontStyle not works
   - https://github.com/Imagick/imagick/issues/471 - setFontStyle looks broken
   - https://github.com/Imagick/imagick/issues/470 - setFontStretch looks broken still.
+  - https://github.com/Imagick/imagick/issues/310 - ImagickDraw::setFontStretch() not working
 - **Bug**: Look into issue with not detecting locale
   - https://github.com/Imagick/imagick/issues/404 - Help wanted: how to detect locales that use commas for decimal separator
 - **Bug**: Check support for RTL (e.g. Arabic) languagues
@@ -185,6 +198,8 @@
   - https://github.com/Imagick/imagick/issues/520 - Should add a sanity check add Imagick::polynomialImage
 - **Feat**: Better handling of newPseudoImage
   - https://github.com/Imagick/imagick/issues/570 - newPseudoImage multiple parameters
+- **Feat**: Look into new default for image crop
+  - https://github.com/Imagick/imagick/issues/304 - Wrong with calling Imagick::cropImage() for two times
 - **Feat**: Check alternative for setImageClipMask
   - https://github.com/Imagick/imagick/issues/492 - setImageClipMask() in imagick v7? Where is it or alternative?
 - **Feat**: Investigate and add test for setImageMatteColor
@@ -195,12 +210,18 @@
   - https://github.com/Imagick/imagick/issues/402 - Nice test image
 - **Feat**: Look into better error message when pixel is outside of image
   - https://github.com/Imagick/imagick/issues/540 - setImagePixel has bizarre error message
+- **Feat**: Look into disabling MSL (Magick Scripting Language) format
+  - https://github.com/Imagick/imagick/issues/294 - Disable MSL format
 - **Feat**: Look into improving other error message like for setImageFormat
   - https://github.com/Imagick/imagick/issues/335 - Suggestion for better exception messages when something failed
 - **Feat**: Undeprecate ImagickDraw::setFillAlpha
   - https://github.com/Imagick/imagick/issues/469 - Undeprecate things
 - **Feat**: Look into adding more image methods
   - https://github.com/Imagick/imagick/issues/338 - parse the rest of the stuff that was added...
+- **Feat**: Look into integrating connected componenents used with convert
+  - https://github.com/Imagick/imagick/issues/284 - Add MagickConnectedComponentsImage function
+- **Feat**: Look into getting the comments back
+  - https://github.com/Imagick/imagick/issues/309 - how to get the comment set with ImagickDraw::comment()
 - **Feat**: Look into better handling missing fonts
   - https://github.com/Imagick/imagick/issues/543 - Bug(?) non-conforming drawing primitive definition `text' @ error/draw.c/RenderMVGContent/4469
   - https://github.com/Imagick/imagick/issues/468 - Indecipherable error message.
@@ -212,8 +233,12 @@
   - https://github.com/Imagick/imagick/issues/411 - emoji fonts need more explaining.
 - **Feat**: Look inot support for blur hashes
   - https://github.com/Imagick/imagick/issues/353 - blur hashes are cool.
+- **Feat**: Check smoothing blur image
+  - https://github.com/Imagick/imagick/issues/292 - Is it possible to make blur without such "steps"
 - **Feat**: Add function for listing formats
   - https://github.com/Imagick/imagick/issues/462 - Patterns should be listed.
+- **Feat**: Look into better constant generation and handling
+  - https://github.com/Imagick/imagick/issues/287 - Constants and their supported versions need updating.
 - **Feat**: Look into using enums
   - https://github.com/Imagick/imagick/issues/505 - Check enums as well as entries.
 - **Feat**: Update phpinfo details
@@ -248,6 +273,8 @@
   - https://github.com/Imagick/imagick/issues/367 - haldClutImage needs documenting
 - **Docs**: Document image composition of RGB images into CMYK images
   - https://github.com/Imagick/imagick/issues/366 - compositing RGB images into CMYK images needs documenting
+- **Docs**: Document image transparency
+  - https://github.com/Imagick/imagick/issues/300 - OptimizeTransparency
 - **Docs**: Fix docs for isPixelSimilarQuantum
   - https://github.com/Imagick/imagick/issues/345 - isPixelSimilarQuantum wrong param doc
 - **Docs**: Document need for coalescing before getting geometry
