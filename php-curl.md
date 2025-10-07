@@ -29,15 +29,20 @@
 - **Bug**: file - check 3rd argument strange behaviour when empty and if it would be worth to change it
   - https://bugs.php.net/bug.php?id=79004 - CURLFile's 3rd argument doesn't honor emptystring
 - **Bug**: Check multiselect changes and inconsistencies in return values
-  - https://bugs.php.net/bug.php?id=77030 - curl_multi_select() return value is inconsistent
-- **Bug**: Check curl_errno return value after curl_multi_init
-  - https://bugs.php.net/bug.php?id=79318 - curl_errno() is always 0 if there was an error while used with curl_multi()
-- **Bug**: Check content type return value changes (BC)
   - https://github.com/php/php-src/issues/16929 - curl_getinfo($ch, CURLINFO_CONTENT_TYPE) returns false when Content-Type header is not set
 - **Feat**: Look into curl how the MacOS issue could be resolved in the library
+  - https://bugs.php.net/bug.php?id=79318 - curl_errno() is always 0 if there was an error while used with curl_multi()
+- **Bug**: Check curl_errno return value after curl_multi_init
   - https://github.com/php/php-src/issues/11818 - macOS now crashes fork() process instead of just warning output
+- **Bug**: Check content type return value changes (BC)
+  - https://bugs.php.net/bug.php?id=77030 - curl_multi_select() return value is inconsistent
+- **Feat**: Look into support for curl handles in polling
+  - https://github.com/php/php-src/issues/19576 - Add curl_multi_fdset to PHP cURL extension
+  - https://github.com/php/php-src/pull/19656 - [WIP] cURL Socket Functions
+- **Feat**: Look into adding support for default user-agent
+  - https://github.com/php/php-src/pull/6834 - add php.ini entry to set default user_agent for curl
 - **Feat**: TLS - Look into adding schannel support
-  - https://github.com/php/php-src/issues/14039 - php_curl does not work with IIS extended protection 
+  - https://github.com/php/php-src/issues/14039 - php_curl does not work with IIS extended protection
 
 ## Docs
 
