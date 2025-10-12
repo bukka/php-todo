@@ -28,6 +28,8 @@
 - **Feat**: unix - add option to rewrite fcgi path envs if chroot enabled
   - https://bugs.php.net/bug.php?id=62279 - PHP-FPM chroot never-solved problems (extends #55322)
   - https://bugs.php.net/bug.php?id=55322 - Apache : TRANSLATED_PATH doesn't consider chroot
+- **Feat**: unix - look into option to not change cwd (setting SAPI_OPTION_NO_CHDIR)
+  - https://github.com/php/php-src/issues/19584 - FPM vs CLI - getcwd() !== $_SERVER['DOCUMENT_ROOT'] and include_path
 - **Feat**: systemd - Add CapabilityBoundingSet
   - https://github.com/php/php-src/pull/4960 - Add CapabilityBoundingSet to systemd unit file (my PR)
 - **Feat**: systemd - Properly support PrivateTmp
@@ -71,6 +73,9 @@
 - **Bug**: socket - non portable socket binding on FreeBSD
   - https://bugs.php.net/bug.php?id=77501 - listen = 9000 only listens on one interface
   - https://bugs.php.net/bug.php?id=77482 - Wont bind to IPv4 if IPv6 enabled
+  - https://github.com/php/php-src/issues/19987 - Wont bind to IPv4 if IPv6 enabled
+- **Feat**: socket - allow specifying multiple listens
+  - https://github.com/php/php-src/issues/11593 - Multiple entries for PHP-FPMs listen directive
 - **Feat**: socket - check routing options for other platforms similar to above listen.rtable
   - https://github.com/php/php-src/pull/8470 - FPM add routing view global option (for FreeBSD for now).
 - **Feat**: socket - Add listen.rtable for OpenBSD

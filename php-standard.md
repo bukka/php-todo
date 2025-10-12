@@ -11,6 +11,11 @@
 - **Feat**: Look into recursive replace of item with empty data
   - https://github.com/php/php-src/issues/17377 - array_replace_recursive doesn't replace array filled with data by empty array
 
+### Crypt & Password
+
+- **Bug**: Look into password lenght limit handling on Rocky Linux release 9.5 
+  - https://github.com/php/php-src/issues/20024 - password_hash: Password hashing failed for unknown reason, for long passwords
+
 ### File System
 
 - **Bug**: Look to changing lchown land chgrp issue on ZTS
@@ -123,8 +128,6 @@
 
 - **Bug**: possible issue with preventing mail.force_extra_parameters to be set in PHP_INI_PERDIR
   - https://bugs.php.net/bug.php?id=71901 - mail.force_extra_parameters is not PHP_INI_PERDIR _(5 votes)_
-- **Feat**: Look into introducing new crlf control INI
-  - https://github.com/php/php-src/issues/19188 - Mail: introduce new INI for line ending control
 - **Feat**: Look to restricing sendmail options
   - https://github.com/php/php-src/issues/12781 - Restrict additional command line flags by default in mail()
   - https://github.com/php/php-src/pull/12783 - Add blacklisted command line flags for sendline via mail()
@@ -308,8 +311,12 @@
 
 ## Changes
 
-### 2025-07
+### 2025-10
 
+- **Feat**: Look into introducing new crlf control INI
+  - https://github.com/php/php-src/issues/19188 - Mail: introduce new INI for line ending control
+
+### 2025-07
 
 - **Feat**: Entity decoding optimizations (wait for review changes and possibly do it)
   - https://github.com/php/php-src/pull/18092 - Optimize PHP html_entity_decode function
