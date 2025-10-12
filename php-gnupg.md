@@ -2,13 +2,20 @@
 
 ## Source issues
 
+- **Feat**: core - Bump minimal PHP version to 7.2 and get rid of phpc
+- **Feat**: core - Replace resource with object
+- **Feat**: core - Use snake case for object method names
+- **Bug**: Fix "kye" typo in param names
+  - https://github.com/php-gnupg/php-gnupg/pull/58 - Fix "kye" typo in param names
+- **Feat**: CI - cover more gpgme and PHP versions
+- **Feat**: CI - add macos and arm runners
 - **Feat**: Add PIE support
   - https://github.com/php-gnupg/php-gnupg/issues/56 - Add support for PIE command
+- **Task**: Release 2.0
 - **Feat**: export - Add support for exporting multiple keys
   - https://github.com/php-gnupg/php-gnupg/issues/10 - Adding Support for exporting multiple Keys
 - **Feat**: export - Way to export message keys
   - https://github.com/php-gnupg/php-gnupg/pull/12 - Adding messagekeys($enctext) method which returns recipient info
-- **Feat**: core - Bump minimal PHP version to 7.2 and get rid of phpc
 - **Feat**: generate - Introduce support for generating / creating keys - preferrably using gpgme_op_createkey
 - **Feat**: keyinfo - Add `can_encrypt`, `can_sign`, `can_certify` and `can_authenticate` to the main key
 - **Feat**: keyinfo - Add user signatures
@@ -19,10 +26,6 @@
 - **Feat**: manipulate - Add support for key manupaltion - gpgme_op_setexpire, gpgme_op_setownertrust
 - **Feat**: errors - Introduce error constants for easier matching of error code from error info
 - **Feat**: gpg - Check if there is some way to identify issues caused by gpg configuration
-- **Feat**: core - Replace resource with object
-- **Feat**: core - Use snake case for object method names
-- **Feat**: CI - cover more gpgme and PHP versions
-- **Feat**: CI - add macos and arm runners
 - **Feat**: Build - static extension compilation
   - https://bugs.php.net/bug.php?id=73509 - static extension compilation problem
 - **Feat**: Build - Windows try to get gpg4win to work with PHP build (message to mailing list)
@@ -42,6 +45,7 @@
 
 ## Docs
 
+- Update docs for 2.0 changes
 - Add missing tests for following functions:
   - `gnupg_getprotocol`
   - `gnupg_clearsignkeys`
